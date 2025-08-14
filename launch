@@ -1,257 +1,1231 @@
-local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local parent = (gethui and gethui()) or game:GetService("CoreGui")
-local UILibrary = {}
-UILibrary.__index = UILibrary
-local function new(inst, props, children)
-    local obj = Instance.new(inst)
-    for k,v in pairs(props or {}) do
-        obj[k] = v
-    end
-    for _,c in ipairs(children or {}) do
-        c.Parent = obj
-    end
-    return obj
-end
-local function tween(obj, props, t, style, direction)
-    TweenService:Create(obj, TweenInfo.new(t or 0.18, style or Enum.EasingStyle.Quad, direction or Enum.EasingDirection.Out), props):Play()
-end
-local function round(v) return math.floor(v+0.5) end
-function UILibrary:CreateWindow(title, opts)
-    opts = opts or {}
-    local theme = opts.Theme or "Dark"
-    local gui = new("ScreenGui", {Name = opts.Name or "UltraUI", Parent = parent, ZIndexBehavior = Enum.ZIndexBehavior.Sibling, ResetOnSpawn = false})
-    local backdrop = new("Frame", {Parent = gui, AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.new(0.5,0.5), Size = UDim2.new(0,820,0,520), BackgroundTransparency = 0, BackgroundColor3 = theme == "Dark" and Color3.fromRGB(13,15,20) or Color3.fromRGB(245,248,252)})
-    new("UICorner", {Parent = backdrop, CornerRadius = UDim.new(0,16)})
-    new("UIStroke", {Parent = backdrop, Color = theme == "Dark" and Color3.fromRGB(48,58,85) or Color3.fromRGB(200,200,200), Thickness = 1, Transparency = 0.2})
-    local header = new("Frame", {Parent = backdrop, Size = UDim2.new(1,0,0,56), BackgroundTransparency = 0, BackgroundColor3 = theme == "Dark" and Color3.fromRGB(20,24,34) or Color3.fromRGB(255,255,255)})
-    new("UICorner", {Parent = header, CornerRadius = UDim.new(0,16)})
-    local titleLbl = new("TextLabel", {Parent = header, Position = UDim2.new(0,20,0,8), Size = UDim2.new(0,400,0,40), BackgroundTransparency = 1, Font = Enum.Font.GothamSemibold, Text = title or "Ultra UI", TextSize = 20, TextColor3 = theme == "Dark" and Color3.fromRGB(235,239,246) or Color3.fromRGB(18,18,18), TextXAlignment = Enum.TextXAlignment.Left})
-    local rightBar = new("Frame", {Parent = header, AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-18,0.5,0), Size = UDim2.new(0,160,0,40), BackgroundTransparency = 1})
-    local addTabBtn = new("TextButton", {Parent = rightBar, AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,0,0.5,0), Size = UDim2.new(0,38,0,30), BackgroundColor3 = theme == "Dark" and Color3.fromRGB(40,48,68) or Color3.fromRGB(230,230,235), AutoButtonColor = false, Text = "＋", Font = Enum.Font.GothamBold, TextSize = 18, TextColor3 = theme == "Dark" and Color3.fromRGB(235,239,246) or Color3.fromRGB(30,30,30)})
-    new("UICorner", {Parent = addTabBtn, CornerRadius = UDim.new(0,10)})
-    local tabsFrame = new("Frame", {Parent = backdrop, Position = UDim2.new(0,16,0,74), Size = UDim2.new(1,-32,0,44), BackgroundTransparency = 1})
-    new("UICorner", {Parent = tabsFrame, CornerRadius = UDim.new(0,12)})
-    local tabsList = new("ScrollingFrame", {Parent = tabsFrame, Size = UDim2.new(1,0,1,0), BackgroundTransparency = 1, ScrollBarThickness = 0, CanvasSize = UDim2.new(1,0,0,0), AutomaticCanvasSize = Enum.AutomaticSize.X})
-    local tabsLayout = new("UIListLayout", {Parent = tabsList, FillDirection = Enum.FillDirection.Horizontal, HorizontalAlignment = Enum.HorizontalAlignment.Left, VerticalAlignment = Enum.VerticalAlignment.Center, Padding = UDim.new(0,8)})
-    local pages = new("Frame", {Parent = backdrop, Position = UDim2.new(0,16,0,132), Size = UDim2.new(1,-32,1,-148), BackgroundTransparency = 1, ClipsDescendants = true})
-    local notifyHolder = new("Frame", {Parent = gui, AnchorPoint = Vector2.new(1,1), Position = UDim2.new(1,-18,1,-18), Size = UDim2.new(0,320,0,1), BackgroundTransparency = 1})
-    local dragging, dragStart, startPos = false, nil, nil
-    header.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then dragging = true; dragStart = i.Position; startPos = backdrop.Position end end)
-    header.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end end)
-    UserInputService.InputChanged:Connect(function(i) if dragging and i.UserInputType == Enum.UserInputType.MouseMovement then local d = i.Position - dragStart; backdrop.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y) end end)
-    local self = setmetatable({Gui = gui, Backdrop = backdrop, Tabs = {}, Pages = pages, TabsList = tabsList, Theme = theme, NotifyHolder = notifyHolder}, UILibrary)
-    function self:NewTab(name)
-        local id = #self.Tabs + 1
-        local btn = new("TextButton", {Parent = self.TabsList, Size = UDim2.new(0,160,0,36), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(30,36,50) or Color3.fromRGB(245,245,248), AutoButtonColor = false, Text = name or ("Tab "..id), Font = Enum.Font.Gotham, TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(210,218,238) or Color3.fromRGB(35,35,35)})
-        new("UICorner", {Parent = btn, CornerRadius = UDim.new(0,12)})
-        local closeBtn = new("TextButton", {Parent = btn, AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-8,0.5,0), Size = UDim2.new(0,28,0,24), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(44,52,70) or Color3.fromRGB(230,230,235), AutoButtonColor = false, Text = "✕", Font = Enum.Font.GothamBold, TextSize = 12, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(200,210,230) or Color3.fromRGB(90,90,90)})
-        new("UICorner", {Parent = closeBtn, CornerRadius = UDim.new(0,8)})
-        local page = new("Frame", {Parent = self.Pages, Size = UDim2.new(1,0,1,0), BackgroundTransparency = 1, Visible = false})
-        self.Tabs[#self.Tabs+1] = {Button = btn, Close = closeBtn, Page = page, Name = name}
-        local function select()
-            for _,t in ipairs(self.Tabs) do
-                t.Button.BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(30,36,50) or Color3.fromRGB(245,245,248)
-                t.Button.TextColor3 = self.Theme == "Dark" and Color3.fromRGB(210,218,238) or Color3.fromRGB(35,35,35)
-                t.Close.Visible = false
-                t.Page.Visible = false
+--[[
+  BULLY HUB PREMIUM v3.0 - TAM ÖZELLIKLI SÜRÜM
+  Tüm orijinal özellikler + Premium GUI
+  PC/Mobile uyumlu
+]]
+
+-- Oyun yüklenene kadar bekle
+repeat wait() until game.Loaded and game:GetService'Players'.LocalPlayer
+
+-- SERVİSLER VE DEĞİŞKENLER
+local plrs = game:GetService'Players'
+local plr = plrs.LocalPlayer
+local mouse = plr:GetMouse()
+local rs = game:GetService'RunService'
+local uis = game:GetService'UserInputService'
+local ts = game:GetService'TweenService'
+local vim = game:GetService'VirtualInputManager'
+local vec0 = Vector3.new()
+local cf0 = CFrame.new()
+local prop1000 = PhysicalProperties.new(1000,1000,0,1000,0)
+
+-- AYARLAR
+local Settings = {
+    ['Autofarm'] = false,
+    ['AutoPunch'] = false,
+    ['SuperPunch'] = false,
+    ['Virus'] = false,
+    ['AntiAnvil'] = false,
+    ['FakeAccs'] = false,
+    ['AntiSpinner'] = false,
+    ['AntiPunch'] = false,
+    ['AntiFling'] = false,
+    ['AntiVelocity'] = false,
+    ['LessPing'] = false,
+    ['NoClip'] = false,
+    ['GodMode'] = false
+}
+
+-- GLOBAL DEĞİŞKENLER
+local LoopFlingV1 = {}
+local LoopFlingV2 = {}
+local connections_AutoPunch = {}
+local connections_SuperPunch = {}
+local connections_V = {}
+local duping = false
+local punched = false
+local ping, points
+
+-- ANIMASYON
+local punch_anim = Instance.new('Animation')
+punch_anim.Name = 'FakePunch'
+punch_anim.AnimationId = 'rbxassetid://5193683418'
+
+-- OYUNCU BULMA FONKSİYONU
+local function findplr(Target)
+    if game:GetService'Players':FindFirstChild(Target) then
+        return game:GetService'Players':FindFirstChild(Target)
+    else
+        if Target ~= nil and Target ~= "" and Target ~= " " and Target then
+            local name = Target
+            local found = false
+            for _,v in pairs(game:GetService'Players':GetPlayers()) do 
+                if not found and (v.Name:lower():sub(1,#name) == name:lower() or v.DisplayName:lower():sub(1,#name) == name:lower()) then
+                    name = v
+                    found = true
+                end
             end
-            btn.BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(46,56,82) or Color3.fromRGB(235,235,238)
-            btn.TextColor3 = self.Theme == "Dark" and Color3.fromRGB(255,255,255) or Color3.fromRGB(12,12,12)
-            closeBtn.Visible = true
-            page.Visible = true
+            if name ~= nil and name ~= Target then
+                return name
+            end
         end
-        btn.MouseButton1Click:Connect(select)
-        closeBtn.MouseButton1Click:Connect(function() for i,t in ipairs(self.Tabs) do if t.Button == btn then t.Button:Destroy(); t.Page:Destroy(); table.remove(self.Tabs, i); break end end if #self.Tabs>0 then self.Tabs[1].Button.MouseButton1Click:Fire() end end)
-        if #self.Tabs == 1 then select() end
-        return {
-            AddToggle = function(_,label,default,callback)
-                local container = new("Frame",{Parent = page, Size = UDim2.new(1,0,0,44), BackgroundTransparency = 1})
-                local lbl = new("TextLabel",{Parent = container, Position = UDim2.new(0,8,0,8), Size = UDim2.new(0,220,0,28), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = label or "Toggle", TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(224,230,245) or Color3.fromRGB(28,28,28), TextXAlignment = Enum.TextXAlignment.Left})
-                local toggleBtn = new("TextButton",{Parent = container, AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-12,0.5,0), Size = UDim2.new(0,50,0,28), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(44,54,74) or Color3.fromRGB(240,240,245), AutoButtonColor = false, Text = "",})
-                new("UICorner",{Parent = toggleBtn, CornerRadius = UDim.new(0,12)})
-                local knob = new("Frame",{Parent = toggleBtn, Position = UDim2.new(default and 1 or 0, default and -22 or 4,0.5,-10), Size = UDim2.new(0,20,0,20), BackgroundColor3 = default and Color3.fromRGB(60,180,120) or Color3.fromRGB(220,220,220)})
-                new("UICorner",{Parent = knob, CornerRadius = UDim.new(0,10)})
-                local state = default or false
-                toggleBtn.MouseButton1Click:Connect(function()
-                    state = not state
-                    tween(knob, {Position = state and UDim2.new(1,-22,0.5,-10) or UDim2.new(0,4,0.5,-10)}, 0.17)
-                    tween(knob, {BackgroundColor3 = state and Color3.fromRGB(60,180,120) or Color3.fromRGB(220,220,220)}, 0.17)
-                    pcall(callback, state)
-                end)
-                if state then knob.Position = UDim2.new(1,-22,0.5,-10); knob.BackgroundColor3 = Color3.fromRGB(60,180,120) end
-                return container
-            end,
-            AddButton = function(_,label,callback)
-                local btn = new("TextButton",{Parent = page, Size = UDim2.new(0,160,0,36), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(48,58,86) or Color3.fromRGB(245,245,248), AutoButtonColor = false, Text = label or "Button", Font = Enum.Font.GothamBold, TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(236,240,246) or Color3.fromRGB(24,24,24)})
-                new("UICorner",{Parent = btn, CornerRadius = UDim.new(0,10)})
-                btn.MouseButton1Click:Connect(function() pcall(callback) end)
-                return btn
-            end,
-            AddLabel = function(_,text)
-                local lbl = new("TextLabel",{Parent = page, Size = UDim2.new(1,0,0,28), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = text or "", TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(210,218,238) or Color3.fromRGB(40,40,40), TextXAlignment = Enum.TextXAlignment.Left})
-                return lbl
-            end,
-            AddTextbox = function(_,placeholder,default,callback)
-                local box = new("TextBox",{Parent = page, Size = UDim2.new(1,0,0,36), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(18,20,28) or Color3.fromRGB(250,250,252), Font = Enum.Font.Code, Text = default or "", PlaceholderText = placeholder or "", TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(230,235,245) or Color3.fromRGB(24,24,24)})
-                new("UICorner",{Parent = box, CornerRadius = UDim.new(0,8)})
-                box.FocusLost:Connect(function(enter) pcall(callback, box.Text) end)
-                return box
-            end,
-            AddSlider = function(_,label,default,min,max,callback)
-                local container = new("Frame",{Parent = page, Size = UDim2.new(1,0,0,56), BackgroundTransparency = 1})
-                local lbl = new("TextLabel",{Parent = container, Position = UDim2.new(0,8,0,6), Size = UDim2.new(0,160,0,20), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = label or "Slider", TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(224,230,245) or Color3.fromRGB(28,28,28), TextXAlignment = Enum.TextXAlignment.Left})
-                local valLbl = new("TextLabel",{Parent = container, AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-12,0,6), Size = UDim2.new(0,80,0,20), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = tostring(default or min or 0), TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(200,210,230) or Color3.fromRGB(28,28,28), TextXAlignment = Enum.TextXAlignment.Right})
-                local bar = new("Frame",{Parent = container, Position = UDim2.new(0,8,0,30), Size = UDim2.new(1,-16,0,10), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(34,44,66) or Color3.fromRGB(235,235,240)})
-                new("UICorner",{Parent = bar, CornerRadius = UDim.new(0,8)})
-                local fill = new("Frame",{Parent = bar, Size = UDim2.new(0,0,1,0), BackgroundColor3 = Color3.fromRGB(90,160,255)})
-                new("UICorner",{Parent = fill, CornerRadius = UDim.new(0,8)})
-                local knob = new("Frame",{Parent = bar, AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.new(0,0,0.5,0), Size = UDim2.new(0,14,0,14), BackgroundColor3 = Color3.fromRGB(240,240,240)})
-                new("UICorner",{Parent = knob, CornerRadius = UDim.new(0,8)})
-                local minv, maxv, cur = min or 0, max or 100, default or min or 0
-                local function updateFromX(x)
-                    local abs = x - bar.AbsolutePosition.X
-                    local pct = math.clamp(abs / bar.AbsoluteSize.X, 0, 1)
-                    cur = minv + pct * (maxv - minv)
-                    fill.Size = UDim2.new(pct,0,1,0)
-                    knob.Position = UDim2.new(pct,0,0.5,0)
-                    valLbl.Text = tostring(round(cur))
-                    pcall(callback, cur)
+    end
+end
+
+-- RESPAWN FONKSİYONU
+local function respawn()
+    pcall(function()
+        local b = plr.PlayerGui.DeathMenu.Frame.Button.TextButton
+        b.Position = UDim2.new(0,0,0,0)
+        b.Size = UDim2.new(1,0,1,0)
+        b.Text = ''
+        b.BackgroundTransparency = 1
+        b.ZIndex = (2^31-1)
+        local s = Instance.new('ScreenGui',game:GetService('CoreGui'))
+        b.Parent = s
+        vim:SendMouseButtonEvent(b.AbsolutePosition.X+b.AbsoluteSize.X/2,b.AbsolutePosition.Y+b.AbsoluteSize.Y/2,0,true,game,0)
+        vim:SendMouseButtonEvent(b.AbsolutePosition.X+b.AbsoluteSize.X/2,b.AbsolutePosition.Y+b.AbsoluteSize.Y/2,0,false,game,0)
+        spawn(function()
+            wait()
+            s:Destroy()
+        end)
+    end)
+end
+
+-- PING VE POINTS GUI
+pcall(function()
+    if not game:GetService('CoreGui'):FindFirstChild('PingGui') then
+        local pinggui = Instance.new('ScreenGui',game:GetService('CoreGui'))
+        pinggui.Name = 'PingGui'
+        pinggui.ResetOnSpawn = false
+        ping = Instance.new('TextLabel',pinggui)
+        ping.Name = 'p'
+        ping.Text = 'Loading...'
+        ping.Size = UDim2.new(0,150,0,25)
+        ping.Position = UDim2.new(0,0,0.85,0)
+        Instance.new('UICorner',ping)
+        ping.BackgroundColor3 = Color3.fromRGB(0,255,0)
+        ping.BackgroundTransparency = 0.7
+        ping.TextScaled = true
+        ping.Visible = false
+    else
+        ping = game:GetService('CoreGui').PingGui.p
+    end
+end)
+
+pcall(function()
+    if not game:GetService('CoreGui'):FindFirstChild('PointsGui') then
+        local pointsgui = Instance.new('ScreenGui',game:GetService('CoreGui'))
+        pointsgui.Name = 'PointsGui'
+        pointsgui.ResetOnSpawn = false
+        points = Instance.new('TextLabel',pointsgui)
+        points.Name = 'p'
+        points.Text = 'Loading...'
+        points.Size = UDim2.new(0,150,0,25)
+        points.Position = UDim2.new(0,0,0.85,50)
+        Instance.new('UICorner',points)
+        points.BackgroundColor3 = Color3.fromRGB(0,255,0)
+        points.BackgroundTransparency = 0.7
+        points.TextScaled = true
+        points.Visible = false
+    else
+        points = game:GetService('CoreGui').PointsGui.p
+    end
+end)
+
+-- PING VE POINTS GÜNCELLEME
+spawn(function()
+    while true do wait()
+        pcall(function()
+            if ping then
+                local pingv = string.split(string.split(game.Stats.Network.ServerStatsItem['Data Ping']:GetValueString(), ' ')[1], '.')
+                ping.Text = 'Ping: '..pingv[1]
+            end
+        end)
+        pcall(function()
+            if points then
+                points.Text = 'Points: '..plr.leaderstats['Bully Points'].Value
+            end
+        end)
+    end
+end)
+
+-- KEYBOARD KONTROLÜ
+mouse.KeyDown:Connect(function(key)
+    if key == 'v' then
+        pcall(function()
+            if plr.Character.Picked.Value then
+                plr.Character.PuttingDown:FireServer()
+            end
+            plr.Character.Picking:FireServer(mouse.Target,Vector3.new(math.huge,-math.huge,math.huge))
+            wait(0.1)
+            plr.Character.PuttingDown:FireServer()
+        end)
+    elseif key == 'b' then
+        pcall(function()
+            if mouse.Target:FindFirstAncestorOfClass('Model') and mouse.Target:FindFirstAncestorOfClass('Model'):FindFirstChild('ArmAngleChange') then
+                mouse.Target:FindFirstAncestorOfClass('Model').ArmAngleChange:FireServer(CFrame.new(math.huge,math.huge,math.huge))
+           end
+        end)
+    elseif key == 'q' then
+        pcall(function()
+            if not plr.Character.Picked.Value then
+                plr.Character.Picking:FireServer(mouse.Target,mouse.Hit.p)
+            else
+                plr.Character.PuttingDown:FireServer()
+            end
+        end)
+    elseif key == ' ' then
+        pcall(function()
+            plr.Character:FindFirstChildOfClass('Humanoid').Jump = true
+        end)
+    elseif key == 'e' and Settings['SuperPunch'] then
+        punched = true
+        pcall(function()
+            plr.Character.Humanoid:LoadAnimation(punch_anim):Play()
+        end)
+        wait(0.3)
+        punched = false
+    end
+end)
+
+-- AUTO PUNCH FONKSİYONU
+function connect_AP()
+    table.insert(connections_AutoPunch,plr.Character.HumanoidRootPart.Touched:Connect(function(hit)
+        if plr.Character:FindFirstChild('Punch') and hit.Parent:FindFirstChildOfClass('Humanoid') and hit.Parent~=plr.Character then
+            local char = hit.Parent
+            pcall(function()
+                plr.Character.Punch:Activate()
+                firetouchinterest(plr.Character.RightHand,char.Head,0)
+                firetouchinterest(plr.Character.RightHand,char.Head,1)
+            end)
+        end
+    end))
+end
+
+-- SUPER PUNCH FONKSİYONU
+function connect_SP()
+    table.insert(connections_SuperPunch,plr.Character.RightHand.Touched:Connect(function(hit)
+        pcall(function()
+            if punched and hit.Parent:FindFirstChildOfClass('Humanoid') then
+                local char = hit.Parent
+                plr.Character.PuttingDown:FireServer()
+                plr.Character.Picking:FireServer(char.HumanoidRootPart,Vector3.new(math.huge,math.huge,math.huge))
+                char.ArmAngleChange:FireServer(CFrame.new(9e38,-9e38,9e38))
+                wait(0.1)
+                plr.Character.PuttingDown:FireServer()
+            elseif punched and hit:IsA('BasePart') and not hit.Anchored and not hit:IsDescendantOf(plr.Character) then
+                plr.Character.PuttingDown:FireServer()
+                plr.Character.Picking:FireServer(hit,Vector3.new(math.huge,math.huge,math.huge))
+                wait(0.1)
+                plr.Character.PuttingDown:FireServer()
+            end
+        end)
+    end))
+end
+
+-- VİRÜS FONKSİYONU
+function infect(v)
+    table.insert(connections_V,v.Touched:Connect(function(hit)
+        pcall(function()
+            if hit.Parent:FindFirstChildOfClass('Humanoid') then
+                local infected = hit.Parent
+                plr.Character.PuttingDown:FireServer()
+                plr.Character.Picking:FireServer(infected.HumanoidRootPart,Vector3.new(math.huge,math.huge,math.huge))
+                infected.ArmAngleChange:FireServer(CFrame.new(9e38,-9e38,9e38))
+                wait(0.1)
+                plr.Character.PuttingDown:FireServer()
+            end
+        end)
+    end))
+end
+
+-- KARAKTER EKLEME OLAYLARI
+plr.CharacterAdded:Connect(function()
+    if Settings['AutoPunch'] then
+        pcall(function()
+            for _,v in next,connections_AutoPunch do
+                if typeof(v) == 'RBXScriptConnection' then
+                    v:Disconnect()
                 end
-                local draggingS = false
-                knob.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then draggingS = true end end)
-                knob.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then draggingS = false end end)
-                bar.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then updateFromX(i.Position.X) end end)
-                UserInputService.InputChanged:Connect(function(i) if draggingS and i.UserInputType == Enum.UserInputType.MouseMovement then updateFromX(UserInputService:GetMouseLocation().X) end end)
-                updateFromX(bar.AbsolutePosition.X + (cur - minv)/(maxv - minv) * bar.AbsoluteSize.X)
-                return container
-            end,
-            AddDropdown = function(_,label,items,callback)
-                local container = new("Frame",{Parent = page, Size = UDim2.new(1,0,0,36), BackgroundTransparency = 1})
-                local lbl = new("TextLabel",{Parent = container, Position = UDim2.new(0,8,0,6), Size = UDim2.new(0,200,0,24), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = label or "Dropdown", TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(224,230,245) or Color3.fromRGB(28,28,28), TextXAlignment = Enum.TextXAlignment.Left})
-                local box = new("TextButton",{Parent = container, AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-12,0.5,0), Size = UDim2.new(0,220,0,28), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(24,30,40) or Color3.fromRGB(250,250,252), AutoButtonColor = false, Text = items[1] or "", Font = Enum.Font.Gotham, TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(220,228,240) or Color3.fromRGB(30,30,30)})
-                new("UICorner",{Parent = box, CornerRadius = UDim.new(0,8)})
-                local open = false
-                local list = new("Frame",{Parent = container, AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-12,1,6), Size = UDim2.new(0,220,0,0), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(18,20,28) or Color3.fromRGB(255,255,255), ClipsDescendants = true})
-                new("UICorner",{Parent = list, CornerRadius = UDim.new(0,8)})
-                local layout = new("UIListLayout",{Parent = list, Padding = UDim.new(0,2)})
-                for _,v in ipairs(items) do
-                    local it = new("TextButton",{Parent = list, Size = UDim2.new(1,0,0,32), BackgroundTransparency = 1, AutoButtonColor = false, Text = v, Font = Enum.Font.Gotham, TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(220,228,240) or Color3.fromRGB(28,28,28)})
-                    it.MouseButton1Click:Connect(function() box.Text = v; pcall(callback, v); tween(list, {Size = UDim2.new(0,220,0,0)}, 0.18); open = false end)
+            end
+        end)
+        repeat wait() until plr.Character:FindFirstChild('HumanoidRootPart')
+        connect_AP()
+    end
+    if Settings['SuperPunch'] then
+        pcall(function()
+            for _,v in next,connections_SuperPunch do
+                if typeof(v) == 'RBXScriptConnection' then
+                    v:Disconnect()
                 end
-                box.MouseButton1Click:Connect(function() if open then tween(list, {Size = UDim2.new(0,220,0,0)}, 0.18) else tween(list, {Size = UDim2.new(0,220,0,math.min(200,#items*34)} , 0.18) end open = not open end)
-                return container
-            end,
-            AddColorPicker = function(_,label,default,callback)
-                local container = new("Frame",{Parent = page, Size = UDim2.new(1,0,0,120), BackgroundTransparency = 1})
-                local lbl = new("TextLabel",{Parent = container, Position = UDim2.new(0,8,0,6), Size = UDim2.new(0,200,0,20), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = label or "Color", TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(224,230,245) or Color3.fromRGB(28,28,28), TextXAlignment = Enum.TextXAlignment.Left})
-                local preview = new("Frame",{Parent = container, AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-12,0.5,0), Size = UDim2.new(0,36,0,36), BackgroundColor3 = default or Color3.fromRGB(255,0,0)})
-                new("UICorner",{Parent = preview, CornerRadius = UDim.new(0,8)})
-                local picker = new("ImageButton",{Parent = container, Position = UDim2.new(0,8,0,32), Size = UDim2.new(0,240,0,72), BackgroundTransparency = 1, Image = "rbxassetid://4155801256"})
-                local open = false
-                local panel = new("Frame",{Parent = container, Position = UDim2.new(0,260,0,32), Size = UDim2.new(0,0,0,72), BackgroundTransparency = 1})
-                local function setColor(c)
-                    preview.BackgroundColor3 = c
-                    pcall(callback, c)
+            end
+        end)
+        repeat wait() until plr.Character:FindFirstChild('RightHand')
+        connect_SP()
+    end
+    if Settings['Virus'] then
+        pcall(function()
+            for _,v in next,connections_V do
+                if typeof(v) == 'RBXScriptConnection' then
+                    v:Disconnect()
                 end
-                picker.MouseButton1Click:Connect(function()
-                    if open then tween(panel, {Size = UDim2.new(0,0,0,72)}, 0.18) else tween(panel, {Size = UDim2.new(0,240,0,72)}, 0.18) end
-                    open = not open
-                end)
-                local hue = new("ImageButton",{Parent = panel, Position = UDim2.new(0,0,0,0), Size = UDim2.new(0,24,1,0), BackgroundTransparency = 1, Image = "rbxassetid://7743345715"})
-                local satval = new("ImageButton",{Parent = panel, Position = UDim2.new(0,26,0,0), Size = UDim2.new(0,208,1,0), BackgroundTransparency = 1, Image = "rbxassetid://7743345715"})
-                local draggingHue, draggingSV = false, false
-                hue.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then draggingHue = true end end)
-                hue.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then draggingHue = false end end)
-                satval.InputBegan:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then draggingSV = true end end)
-                satval.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.MouseButton1 then draggingSV = false end end)
-                local H,S,V = 0,1,1
-                local function updateFromMouse()
-                    local mp = UserInputService:GetMouseLocation()
-                    local hu = math.clamp((mp.Y - hue.AbsolutePosition.Y)/hue.AbsoluteSize.Y, 0, 1)
-                    H = 1 - hu
-                    local svx = math.clamp((mp.X - satval.AbsolutePosition.X)/satval.AbsoluteSize.X, 0, 1)
-                    local svy = math.clamp((mp.Y - satval.AbsolutePosition.Y)/satval.AbsoluteSize.Y, 0, 1)
-                    S = svx
-                    V = 1 - svy
-                    local function hsvToRgb(h,s,v)
-                        local i = math.floor(h*6)
-                        local f = h*6 - i
-                        local p = v*(1-s)
-                        local q = v*(1-f*s)
-                        local t = v*(1-(1-f)*s)
-                        local r,g,b
-                        i = i%6
-                        if i == 0 then r,g,b = v,t,p elseif i==1 then r,g,b=v,q,p elseif i==2 then r,g,b=t,v,p elseif i==3 then r,g,b=p,v,q elseif i==4 then r,g,b=p,t,v else r,g,b=v,p,q end
-                        return Color3.new(r,g,b)
+            end
+        end)
+        spawn(function()
+            pcall(function()
+                repeat wait() until plr.Character:FindFirstChild('HumanoidRootPart') and plr.Character:FindFirstChildOfClass('Humanoid')
+                for _,v in next,plr.Character:GetChildren() do
+                    if v:IsA('BasePart') then
+                        infect(v)
                     end
-                    setColor(hsvToRgb(H,S,V))
                 end
-                RunService.Heartbeat:Connect(function()
-                    if draggingHue or draggingSV then updateFromMouse() end
+            end)
+        end) 
+    end
+    
+    -- Anti-Spinner ayarları
+    if Settings['AntiSpinner'] then
+        pcall(function()
+            repeat wait() until plr.Character:FindFirstChild'HumanoidRootPart' and plr.Character:FindFirstChild'Head'
+            for _,v in next,plr.Character:GetChildren() do
+                if v:IsA'BasePart' then
+                    v.CustomPhysicalProperties = prop1000
+                end
+            end
+        end)
+    end
+    
+    -- Less Ping ayarları
+    if Settings['LessPing'] then
+        spawn(function()
+            pcall(function()
+                repeat rs.RenderStepped:wait() until plr.Character:FindFirstChild'BodyFollowMouse' and plr.Character:FindFirstChild'HeadWaist'
+                plr.Character.BodyFollowMouse.Disabled = true
+                plr.Character.HeadWaist:FireServer(CFrame.new(0,0.8,0),CFrame.new(0,0.2,0))
+            end)
+        end)
+    end
+end)
+
+-- PREMIUM GUI OLUŞTURMA
+local function CreatePremiumGUI()
+    local GUI = Instance.new("ScreenGui")
+    GUI.Name = "BullyPremiumHub"
+    GUI.ResetOnSpawn = false
+    GUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    GUI.Parent = game:GetService("CoreGui")
+
+    -- Ana Frame
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Size = UDim2.new(0, 450, 0, 550)
+    MainFrame.Position = UDim2.new(0.5, -225, 0.5, -275)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    MainFrame.BackgroundTransparency = 0.1
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Active = true
+    MainFrame.Draggable = true
+    MainFrame.Parent = GUI
+
+    -- Köşe yuvarlatma
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 12)
+    UICorner.Parent = MainFrame
+
+    -- Gölge efekti
+    local Shadow = Instance.new("Frame")
+    Shadow.Size = UDim2.new(1, 10, 1, 10)
+    Shadow.Position = UDim2.new(0, -5, 0, -5)
+    Shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Shadow.BackgroundTransparency = 0.8
+    Shadow.ZIndex = -1
+    Shadow.Parent = MainFrame
+    
+    local ShadowCorner = Instance.new("UICorner")
+    ShadowCorner.CornerRadius = UDim.new(0, 15)
+    ShadowCorner.Parent = Shadow
+
+    -- Başlık
+    local Title = Instance.new("TextLabel")
+    Title.Text = "🔥 BULLY HUB PREMIUM v3.0 🔥"
+    Title.Size = UDim2.new(1, 0, 0, 50)
+    Title.Position = UDim2.new(0, 0, 0, 0)
+    Title.BackgroundTransparency = 1
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.Font = Enum.Font.GothamBold
+    Title.TextSize = 18
+    Title.Parent = MainFrame
+
+    -- Alt başlık
+    local SubTitle = Instance.new("TextLabel")
+    SubTitle.Text = "Made by zweq"
+    SubTitle.Size = UDim2.new(1, 0, 0, 20)
+    SubTitle.Position = UDim2.new(0, 0, 0, 30)
+    SubTitle.BackgroundTransparency = 1
+    SubTitle.TextColor3 = Color3.fromRGB(150, 150, 150)
+    SubTitle.Font = Enum.Font.Gotham
+    SubTitle.TextSize = 12
+    SubTitle.Parent = MainFrame
+
+    -- Kapatma butonu
+    local CloseBtn = Instance.new("TextButton")
+    CloseBtn.Text = "✕"
+    CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+    CloseBtn.Position = UDim2.new(1, -35, 0, 5)
+    CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseBtn.Font = Enum.Font.GothamBold
+    CloseBtn.TextSize = 16
+    CloseBtn.Parent = MainFrame
+    
+    local CloseBtnCorner = Instance.new("UICorner")
+    CloseBtnCorner.CornerRadius = UDim.new(0, 8)
+    CloseBtnCorner.Parent = CloseBtn
+    
+    CloseBtn.MouseButton1Click:Connect(function()
+        GUI:Destroy()
+    end)
+
+    -- Animasyonlu çizgi
+    local Line = Instance.new("Frame")
+    Line.Size = UDim2.new(0.9, 0, 0, 3)
+    Line.Position = UDim2.new(0.05, 0, 0, 55)
+    Line.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    Line.BorderSizePixel = 0
+    Line.Parent = MainFrame
+
+    -- Animasyon efekti
+    spawn(function()
+        while GUI.Parent do
+            for i = 0, 1, 0.02 do
+                pcall(function()
+                    Line.BackgroundTransparency = i
                 end)
-                return container
-            end,
-            AddBind = function(_,label,key,callback)
-                local container = new("Frame",{Parent = page, Size = UDim2.new(1,0,0,36), BackgroundTransparency = 1})
-                local lbl = new("TextLabel",{Parent = container, Position = UDim2.new(0,8,0,6), Size = UDim2.new(0,200,0,24), BackgroundTransparency = 1, Font = Enum.Font.Gotham, Text = label or "Bind", TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(224,230,245) or Color3.fromRGB(28,28,28), TextXAlignment = Enum.TextXAlignment.Left})
-                local keyBtn = new("TextButton",{Parent = container, AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-12,0.5,0), Size = UDim2.new(0,120,0,28), BackgroundColor3 = self.Theme == "Dark" and Color3.fromRGB(24,30,40) or Color3.fromRGB(250,250,252), AutoButtonColor = false, Text = tostring(key or "None"), Font = Enum.Font.Gotham, TextSize = 14, TextColor3 = self.Theme == "Dark" and Color3.fromRGB(220,228,240) or Color3.fromRGB(30,30,30)})
-                new("UICorner",{Parent = keyBtn, CornerRadius = UDim.new(0,8)})
-                local waiting = false
-                keyBtn.MouseButton1Click:Connect(function()
-                    waiting = true
-                    keyBtn.Text = "Press..."
-                    local conn
-                    conn = UserInputService.InputBegan:Connect(function(i,gp)
-                        if gp then return end
-                        if i.UserInputType == Enum.UserInputType.Keyboard then
-                            key = i.KeyCode
-                            keyBtn.Text = tostring(key)
-                            waiting = false
-                            conn:Disconnect()
+                wait(0.02)
+            end
+            for i = 1, 0, -0.02 do
+                pcall(function()
+                    Line.BackgroundTransparency = i
+                end)
+                wait(0.02)
+            end
+        end
+    end)
+
+    -- Tablar
+    local TabButtons = {}
+    local TabFrames = {}
+    local Tabs = {"Main", "Combat", "Global", "Teleport", "Visual", "Settings"}
+
+    for i, tabName in ipairs(Tabs) do
+        local TabButton = Instance.new("TextButton")
+        TabButton.Text = tabName
+        TabButton.Size = UDim2.new(0.16, -5, 0, 35)
+        TabButton.Position = UDim2.new(0.166 * (i-1), 5, 0, 65)
+        TabButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+        TabButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+        TabButton.Font = Enum.Font.Gotham
+        TabButton.TextSize = 12
+        TabButton.Parent = MainFrame
+        
+        local TabCorner = Instance.new("UICorner")
+        TabCorner.CornerRadius = UDim.new(0, 8)
+        TabCorner.Parent = TabButton
+        
+        local TabFrame = Instance.new("ScrollingFrame")
+        TabFrame.Size = UDim2.new(1, -10, 1, -115)
+        TabFrame.Position = UDim2.new(0, 5, 0, 105)
+        TabFrame.BackgroundTransparency = 1
+        TabFrame.ScrollBarThickness = 5
+        TabFrame.ScrollBarImageColor3 = Color3.fromRGB(255, 50, 50)
+        TabFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+        TabFrame.Visible = false
+        TabFrame.Parent = MainFrame
+        
+        TabButtons[tabName] = TabButton
+        TabFrames[tabName] = TabFrame
+        
+        TabButton.MouseButton1Click:Connect(function()
+            for name, frame in pairs(TabFrames) do
+                frame.Visible = false
+                TabButtons[name].BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+                TabButtons[name].TextColor3 = Color3.fromRGB(200, 200, 200)
+            end
+            TabFrame.Visible = true
+            TabButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+            TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        end)
+    end
+    
+    -- İlk tab'ı aktif yap
+    TabFrames["Main"].Visible = true
+    TabButtons["Main"].BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    TabButtons["Main"].TextColor3 = Color3.fromRGB(255, 255, 255)
+
+    -- Buton sayacı
+    local ButtonCounts = {}
+    
+    -- Buton oluşturma fonksiyonu
+    local function CreateButton(parent, text, callback, tooltip, buttonType)
+        if not ButtonCounts[parent] then ButtonCounts[parent] = 0 end
+        
+        local Button = Instance.new("TextButton")
+        Button.Name = text
+        Button.Text = text
+        Button.Size = UDim2.new(0.48, 0, 0, 35)
+        
+        -- 2 sütunlu düzen
+        local xPos = (ButtonCounts[parent] % 2) * 0.51
+        local yPos = math.floor(ButtonCounts[parent] / 2) * 42 + 5
+        
+        Button.Position = UDim2.new(xPos, 5, 0, yPos)
+        Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Button.Font = Enum.Font.Gotham
+        Button.TextSize = 11
+        Button.Parent = parent
+        
+        local BtnCorner = Instance.new("UICorner")
+        BtnCorner.CornerRadius = UDim.new(0, 6)
+        BtnCorner.Parent = Button
+        
+        -- Canvas boyutunu güncelle
+        parent.CanvasSize = UDim2.new(0, 0, 0, yPos + 45)
+        
+        ButtonCounts[parent] = ButtonCounts[parent] + 1
+        
+        -- Hover efekti
+        Button.MouseEnter:Connect(function()
+            Button.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+            if tooltip then
+                Title.Text = tooltip
+            end
+        end)
+        
+        Button.MouseLeave:Connect(function()
+            local isActive = false
+            if buttonType == "toggle" then
+                isActive = Button.Text:find("ON") ~= nil
+            end
+            Button.BackgroundColor3 = isActive and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+            Title.Text = "🔥 BULLY HUB PREMIUM v3.0 🔥"
+        end)
+        
+        Button.MouseButton1Click:Connect(callback)
+        return Button
+    end
+    
+    -- TextBox oluşturma fonksiyonu
+    local function CreateTextBox(parent, placeholder, callback, tooltip)
+        if not ButtonCounts[parent] then ButtonCounts[parent] = 0 end
+        
+        local TextBox = Instance.new("TextBox")
+        TextBox.PlaceholderText = placeholder
+        TextBox.Text = ""
+        TextBox.Size = UDim2.new(0.48, 0, 0, 35)
+        
+        local xPos = (ButtonCounts[parent] % 2) * 0.51
+        local yPos = math.floor(ButtonCounts[parent] / 2) * 42 + 5
+        
+        TextBox.Position = UDim2.new(xPos, 5, 0, yPos)
+        TextBox.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+        TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextBox.Font = Enum.Font.Gotham
+        TextBox.TextSize = 11
+        TextBox.Parent = parent
+        
+        local TxtCorner = Instance.new("UICorner")
+        TxtCorner.CornerRadius = UDim.new(0, 6)
+        TxtCorner.Parent = TextBox
+        
+        parent.CanvasSize = UDim2.new(0, 0, 0, yPos + 45)
+        ButtonCounts[parent] = ButtonCounts[parent] + 1
+        
+        TextBox.FocusLost:Connect(function(enterPressed)
+            if callback then callback(TextBox.Text, enterPressed) end
+            TextBox.Text = ""
+        end)
+        
+        return TextBox
+    end
+
+    -- MAIN TAB ÖZELLİKLERİ
+    local antiFlingBtn = CreateButton(TabFrames["Main"], "Anti-Fling: OFF", function()
+        Settings.AntiFling = not Settings.AntiFling
+        antiFlingBtn.Text = "Anti-Fling: "..(Settings.AntiFling and "ON" or "OFF")
+        antiFlingBtn.BackgroundColor3 = Settings.AntiFling and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+    end, "Fling saldırılarını engeller", "toggle")
+
+    local antiVelocityBtn = CreateButton(TabFrames["Main"], "Anti-Velocity: OFF", function()
+        Settings.AntiVelocity = not Settings.AntiVelocity
+        antiVelocityBtn.Text = "Anti-Velocity: "..(Settings.AntiVelocity and "ON" or "OFF")
+        antiVelocityBtn.BackgroundColor3 = Settings.AntiVelocity and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+    end, "Hızlı hareket saldırılarını engeller", "toggle")
+
+    local antiAnvilBtn = CreateButton(TabFrames["Main"], "Anti-Anvil: OFF", function()
+        Settings.AntiAnvil = not Settings.AntiAnvil
+        antiAnvilBtn.Text = "Anti-Anvil: "..(Settings.AntiAnvil and "ON" or "OFF")
+        antiAnvilBtn.BackgroundColor3 = Settings.AntiAnvil and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+    end, "Örs saldırılarını fırlatır", "toggle")
+
+    local antiPunchBtn = CreateButton(TabFrames["Main"], "Anti-Punch: OFF", function()
+        Settings.AntiPunch = not Settings.AntiPunch
+        antiPunchBtn.Text = "Anti-Punch: "..(Settings.AntiPunch and "ON" or "OFF")
+        antiPunchBtn.BackgroundColor3 = Settings.AntiPunch and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+    end, "Yumruk saldırılarını engeller", "toggle")
+
+    local antiSpinnerBtn = CreateButton(TabFrames["Main"], "Anti-Spinner: OFF", function()
+        Settings.AntiSpinner = not Settings.AntiSpinner
+        antiSpinnerBtn.Text = "Anti-Spinner: "..(Settings.AntiSpinner and "ON" or "OFF")
+        antiSpinnerBtn.BackgroundColor3 = Settings.AntiSpinner and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+        if Settings.AntiSpinner then
+            pcall(function()
+                for _,v in next,plr.Character:GetChildren() do
+                    if v:IsA'BasePart' then
+                        v.CustomPhysicalProperties = prop1000
+                    end
+                end
+            end)
+        else
+            pcall(function()
+                for _,v in next,plr.Character:GetDescendants() do
+                    pcall(function()
+                        if v:IsA'BasePart' then
+                            v.CustomPhysicalProperties = PhysicalProperties.new(0.3,0.2,0,0.2,0.2)
                         end
                     end)
-                end)
-                UserInputService.InputBegan:Connect(function(i,gp) if gp then return end if i.UserInputType == Enum.UserInputType.Keyboard and i.KeyCode == key then pcall(callback) end end)
-                return container
+                end
+            end)
+        end
+    end, "Spinner saldırılarından korunur", "toggle")
+
+    CreateButton(TabFrames["Main"], "God Mode", function()
+        pcall(function()
+            for _,v in next,plr.Character:GetChildren() do
+                if v.Name == 'VelocityDamage' or v.Name == 'GetPicked' or v.Name == 'ArmAngleUpdate' then
+                    v:Destroy()
+                end
             end
-        }
+        end)
+        pcall(function()
+            local hum = plr.Character.Humanoid
+            local cl = hum:Clone()
+            cl.Parent = plr.Character
+            hum.Parent = nil
+            cl:GetPropertyChangedSignal('Health'):Connect(function()
+                if cl.Health<=0 then
+                    hum.Parent = plr.Character
+                    wait(1)
+                    hum:Destroy()
+                end
+            end)
+            workspace.CurrentCamera.CameraSubject = plr.Character
+        end)
+    end, "Ölümsüzlük sağlar (kel yapar)")
+
+    CreateButton(TabFrames["Main"], "Anti-Bring", function()
+        pcall(function()
+            plr.Character.RightHand:Destroy()
+        end)
+    end, "Getirilme saldırılarını engeller")
+
+    local fakeAccsBtn = CreateButton(TabFrames["Main"], "Fake Accs: OFF", function()
+        Settings.FakeAccs = not Settings.FakeAccs
+        fakeAccsBtn.Text = "Fake Accs: "..(Settings.FakeAccs and "ON" or "OFF")
+        fakeAccsBtn.BackgroundColor3 = Settings.FakeAccs and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+        if Settings.FakeAccs then
+            for _,v in next,plr.Character:GetChildren() do
+                if v:IsA'Accessory' and v:FindFirstChild'Handle' and v.Name ~= 'FakeAcc' then
+                    local clone = v:Clone()
+                    v:Destroy()
+                    clone.Name = 'FakeAcc'
+                    clone.Parent = plr.Character
+                end
+            end
+        end
+    end, "Sahte aksesuar koruması", "toggle")
+
+    -- FLING VE LOOP FLING TEXTBOXLARI
+    CreateTextBox(TabFrames["Main"], "Fling Player", function(text, enterPressed)
+        if enterPressed and text ~= "" then
+            pcall(function()
+                local tar = findplr(text)
+                if tar then
+                    local accs = tar.Character:FindFirstChildOfClass'Accessory'
+                    if accs then
+                        if accs:FindFirstChild'Handle' then
+                            plr.Character.Picking:FireServer(accs.Handle,Vector3.new(8.99999981e+37, -8.99999981e+37, 8.99999981e+37))
+                        elseif accs:IsA'BasePart' then
+                            plr.Character.Picking:FireServer(accs,Vector3.new(8.99999981e+37, -8.99999981e+37, 8.99999981e+37))
+                        end
+                        wait(0.1)
+                        plr.Character.PuttingDown:FireServer()
+                    else
+                        plr.Character.Picking:FireServer(tar.Character.HumanoidRootPart,Vector3.new(9e37,-9e37,9e37))
+                        wait(0.1)
+                        plr.Character.PuttingDown:FireServer()
+                    end
+                end
+            end)
+        end
+    end, "Oyuncu ismini yazıp Enter'a basın")
+
+    CreateTextBox(TabFrames["Main"], "Loop Fling V1", function(text, enterPressed)
+        if enterPressed and text ~= "" then
+            local tar = findplr(text)
+            if tar and not LoopFlingV1[tar.Name] then
+                LoopFlingV1[tar.Name] = tar
+            end
+        end
+    end, "Sürekli fling için oyuncu ismi")
+
+    CreateTextBox(TabFrames["Main"], "Fling V2", function(text, enterPressed)
+        if enterPressed and text ~= "" then
+            pcall(function()
+                findplr(text).Character.ArmAngleChange:FireServer(CFrame.new(math.huge,math.huge,math.huge))
+            end)
+        end
+    end, "İkinci fling yöntemi")
+
+    CreateTextBox(TabFrames["Main"], "Loop Fling V2", function(text, enterPressed)
+        if enterPressed and text ~= "" then
+            local tar = findplr(text)
+            if tar and not LoopFlingV2[tar.Name] then
+                LoopFlingV2[tar.Name] = tar
+            end
+        end
+    end, "İkinci sürekli fling yöntemi")
+
+    CreateButton(TabFrames["Main"], "Clear Loop Flings", function()
+        LoopFlingV1 = {}
+        LoopFlingV2 = {}
+    end, "Tüm sürekli flingleri durdurur")
+
+    -- COMBAT TAB ÖZELLİKLERİ
+    local autoPunchBtn = CreateButton(TabFrames["Combat"], "Auto Punch: OFF", function()
+        Settings.AutoPunch = not Settings.AutoPunch
+        autoPunchBtn.Text = "Auto Punch: "..(Settings.AutoPunch and "ON" or "OFF")
+        autoPunchBtn.BackgroundColor3 = Settings.AutoPunch and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+        if Settings.AutoPunch then
+            connect_AP()
+        else
+            pcall(function()
+                for _,v in next,connections_AutoPunch do
+                    if typeof(v) == 'RBXScriptConnection' then
+                        v:Disconnect()
+                    end
+                end
+            end)
+        end
+    end, "Otomatik yumruk - Punch aleti gerekli", "toggle")
+
+    local superPunchBtn = CreateButton(TabFrames["Combat"], "Super Punch: OFF", function()
+        Settings.SuperPunch = not Settings.SuperPunch
+        superPunchBtn.Text = "Super Punch: "..(Settings.SuperPunch and "ON" or "OFF")
+        superPunchBtn.BackgroundColor3 = Settings.SuperPunch and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+        if Settings.SuperPunch then
+            connect_SP()
+        else
+            pcall(function()
+                for _,v in next,connections_SuperPunch do
+                    if typeof(v) == 'RBXScriptConnection' then
+                        v:Disconnect()
+                    end
+                end
+            end)
+        end
+    end, "E tuşuna basarak süper yumruk", "toggle")
+
+    local virusBtn = CreateButton(TabFrames["Combat"], "Virus: OFF", function()
+        Settings.Virus = not Settings.Virus
+        virusBtn.Text = "Virus: "..(Settings.Virus and "ON" or "OFF")
+        virusBtn.BackgroundColor3 = Settings.Virus and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+        if Settings.Virus then
+            for _,v in next,plr.Character:GetChildren() do
+                if v:IsA'BasePart' then
+                    infect(v)
+                end
+            end
+        else
+            pcall(function()
+                for _,v in next,connections_V do
+                    if typeof(v) == 'RBXScriptConnection' then
+                        v:Disconnect()
+                    end
+                end
+            end)
+        end
+    end, "Dokunduğun herkesi fırlatır", "toggle")
+
+    local autofarmBtn = CreateButton(TabFrames["Combat"], "Autofarm: OFF", function()
+        Settings.Autofarm = not Settings.Autofarm
+        autofarmBtn.Text = "Autofarm: "..(Settings.Autofarm and "ON" or "OFF")
+        autofarmBtn.BackgroundColor3 = Settings.Autofarm and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+        if Settings.Autofarm then
+            spawn(function()
+                while Settings.Autofarm do
+                    pcall(function()
+                        local char = plr.Character
+                        repeat rs.RenderStepped:wait() until plr.PlayerGui.DeathMenu.Frame.Button:FindFirstChild'TextButton' and char:FindFirstChild'HumanoidRootPart' and (plr.Backpack:FindFirstChild'Punch' or char:FindFirstChild'Punch')
+                        local tool = plr.Backpack:FindFirstChild'Punch' or plr.Character:FindFirstChild'Punch'
+                        tool.Parent = plr.Character
+                        tool:Activate()
+                        plr.Character.RagdollEvent:FireServer()
+                        wait()
+                        firetouchinterest(char.RightHand,char.HumanoidRootPart,0)
+                        firetouchinterest(char.RightHand,char.HumanoidRootPart,1)
+                        respawn()
+                        spawn(function()
+                            pcall(function()
+                                wait(0.5)
+                                if char then
+                                    repeat respawn() wait(0.5) until not char or not char.Parent
+                                end
+                            end)
+                        end)
+                        plr.CharacterAdded:wait()
+                    end)
+                end
+            end)
+        end
+    end, "Otomatik puan farming", "toggle")
+
+    CreateTextBox(TabFrames["Combat"], "Trap Player", function(text, enterPressed)
+        if enterPressed and text ~= "" then
+            pcall(function()
+                local target = findplr(text)
+                if target and target.Character:FindFirstChild'GetPicked' and target.Character:FindFirstChild'HumanoidRootPart' then
+                    plr.Character.RightHand.Anchored = true
+                    plr.Character.HumanoidRootPart.Anchored = true
+                    plr.Character.Picking:FireServer(target.Character.HumanoidRootPart,target.Character.HumanoidRootPart.Position)
+                    plr.Character:WaitForChild('Stabler',5).Transparency = 0
+                    plr.Character.RightHand:Destroy()
+                    plr.Character.HumanoidRootPart.Anchored = false
+                end
+            end)
+        end
+    end, "Oyuncuyu respawn olana kadar hapser")
+
+    CreateTextBox(TabFrames["Combat"], "Dupe to Player", function(text, enterPressed)
+        if enterPressed and text ~= "" then
+            pcall(function()
+                local target = findplr(text)
+                duping = target
+                while target and duping==target and duping~=nil do 
+                    repeat wait() until plr.Character and plr.Character:FindFirstChildOfClass'Humanoid'
+                    wait(0.5)
+                    local hum = plr.Character.Humanoid
+                    local cl = hum:Clone()
+                    cl.Parent = plr.Character
+                    hum:Destroy()
+                    for _,v in next,plr.Backpack:GetChildren() do
+                        if v:FindFirstChild'Handle' then
+                            v.Parent = plr.Character
+                            for i = 1,5 do
+                                firetouchinterest(v.Handle,target.Character.HumanoidRootPart,0)
+                                firetouchinterest(v.Handle,target.Character.HumanoidRootPart,1)
+                            end
+                        end
+                    end
+                    respawn()
+                    plr.CharacterAdded:wait()
+                end
+            end)
+        end
+    end, "Araçları oyuncuya kopyalar (gamepass gerekli)")
+
+    CreateButton(TabFrames["Combat"], "Stop Duping", function()
+        duping = false
+    end, "Kopyalamayı durdurur")
+
+    CreateButton(TabFrames["Combat"], "Spam Bombs", function()
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'Bomb' then
+                v.Parent = plr.Character
+                v:Activate()
+                v.Parent = plr.Backpack
+            end
+        end
+    end, "Bomba spamı (kopyalanmış bombalar gerekli)")
+
+    CreateButton(TabFrames["Combat"], "Spam Anvils", function()
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'Anvil' then
+                v.Parent = plr.Character
+                v:Activate()
+                v.Parent = plr.Backpack
+            end
+        end
+    end, "Örs spamı (kopyalanmış örsler gerekli)")
+
+    -- GLOBAL TAB ÖZELLİKLERİ
+    CreateButton(TabFrames["Global"], "Crash Server", function()
+        pcall(function()
+            for _,v in next,workspace.Map:GetDescendants() do
+                if v:IsA'SpawnLocation' then
+                    plr.Character.PuttingDown:FireServer()
+                    wait(0.1)
+                    plr.Character.Picking:FireServer(v,Vector3.new(9e37,-9e37,9e37))
+                end
+            end
+        end)
+    end, "Sunucuyu çöktürmeye çalışır")
+
+    CreateButton(TabFrames["Global"], "Crash Others", function()
+        pcall(function()
+            if workspace:FindFirstChild'Map' and workspace.Map:FindFirstChildOfClass'Model' and workspace.Map:FindFirstChildOfClass'Model':FindFirstChild'Noob' then
+                if workspace.Map:FindFirstChildOfClass'Model'.Noob:FindFirstChild'Sword' then
+                    plr.Character.Picking:FireServer(workspace.Map:FindFirstChildOfClass'Model'.Noob.Sword,Vector3.new(math.huge,-math.huge,math.huge))
+                    wait(0.1)
+                    plr.Character.PuttingDown:FireServer()
+                elseif workspace.Map:FindFirstChildOfClass'Model'.Noob:FindFirstChild'Handle' then
+                    plr.Character.Picking:FireServer(workspace.Map:FindFirstChildOfClass'Model'.Noob.Handle,Vector3.new(math.huge,-math.huge,math.huge))
+                    wait(0.1)
+                    plr.Character.PuttingDown:FireServer()
+                end
+            end
+        end)
+    end, "Diğer oyuncuları çöktürmeye çalışır")
+
+    CreateButton(TabFrames["Global"], "Lag Others", function()
+        pcall(function()
+            for _,v in next,workspace.Map:GetDescendants() do
+                if v.Name == 'Donate' and v.Parts.Part1.Color == Color3.fromRGB(17,17,17) then
+                    plr.Character.Picking:FireServer(v.Detect,Vector3.new(math.huge,-math.huge,math.huge))
+                    wait(0.1)
+                    plr.Character.PuttingDown:FireServer()
+                elseif workspace:FindFirstChild'Map' and workspace.Map:FindFirstChildOfClass'Model' and workspace.Map:FindFirstChildOfClass'Model':FindFirstChild'Noob' and workspace.Map:FindFirstChildOfClass'Model'.Noob:FindFirstChild'Drink' then
+                    plr.Character.Picking:FireServer(workspace.Map:FindFirstChildOfClass'Model'.Noob.Drink,Vector3.new(math.huge,-math.huge,math.huge))
+                    wait(0.1)
+                    plr.Character.PuttingDown:FireServer()
+                end
+            end
+        end)
+    end, "Diğer oyuncuları laglatır")
+
+    -- TELEPORT TAB ÖZELLİKLERİ
+    CreateButton(TabFrames["Teleport"], "Safe Zone", function()
+        pcall(function()
+            if not workspace:FindFirstChild'SafeZone' then
+                local sp = Instance.new('Part',workspace)
+                sp.Name = 'SafeZone'
+                sp.Size = Vector3.new(500,3,500)
+                sp.CFrame = CFrame.new(2000,workspace.FallenPartsDestroyHeight+2,2000)
+                sp.Anchored = true
+            end
+            plr.Character.HumanoidRootPart.CFrame = CFrame.new(2000,workspace.FallenPartsDestroyHeight+10,2000)
+        end)
+    end, "Güvenli bölgeye ışınlanır")
+
+    CreateButton(TabFrames["Teleport"], "Teleport to Spawn", function()
+        pcall(function()
+            for _,v in next,workspace.Map:GetDescendants() do
+                if v:IsA'SpawnLocation' then
+                    plr.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,5,0)
+                end
+            end
+        end)
+    end, "Spawn noktasına ışınlanır")
+
+    local lessPingBtn = CreateButton(TabFrames["Teleport"], "Less Ping: OFF", function()
+        Settings.LessPing = not Settings.LessPing
+        lessPingBtn.Text = "Less Ping: "..(Settings.LessPing and "ON" or "OFF")
+        lessPingBtn.BackgroundColor3 = Settings.LessPing and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(45, 45, 45)
+        if Settings.LessPing then
+            pcall(function()
+                plr.Character.BodyFollowMouse.Disabled = true
+                plr.Character.HeadWaist:FireServer(CFrame.new(0,0.8,0),CFrame.new(0,0.2,0))
+            end)
+        else
+            pcall(function()
+                plr.Character.BodyFollowMouse.Disabled = false
+            end)
+        end
+    end, "İnternet hızını artırır", "toggle")
+
+    CreateButton(TabFrames["Teleport"], "Legs Fling", function()
+        pcall(function()
+            for _,v in next,plr.Character:GetChildren() do
+                if v:IsA'BasePart' and v.Name~='HumanoidRootPart' then
+                    v.Massless = true
+                end
+            end
+            pcall(function()
+                plr.Character.BodyFollowMouse.Disabled = true
+            end)
+            plr.Character.HeadWaist:FireServer(CFrame.new(0,9e37,-9e37),CFrame.new(0,-9e37,9e37))
+        end)
+    end, "Gövdeyi kaldırır ve ağır yapar")
+
+    CreateButton(TabFrames["Teleport"], "Big Jacket", function()
+        pcall(function()
+            local char = plr.Character
+            for _,v in next,char:GetChildren() do
+                if v:IsA'BasePart' and v.Name~='HumanoidRootPart' then
+                    v.Massless = true
+                end
+            end
+            pcall(function()
+                char.BodyFollowMouse.Disabled = true
+            end)
+            local old = Settings['AntiFling']
+            Settings['AntiFling'] = false
+            char.RagdollEvent:FireServer()
+            wait()
+            char.HeadWaist:FireServer(CFrame.new(0,0,9e37),CFrame.new(0,0,9e37))
+            wait()
+            char.HeadWaist:FireServer(CFrame.new(0,0,-9e37),CFrame.new(0,0,-9e37))
+            wait()
+            char.GetUpEvent:FireServer()
+            Settings['AntiFling'] = old
+            wait()
+            char.HeadWaist:FireServer(CFrame.new(0,0.8,0),CFrame.new(0,0.2,0))
+            char.Humanoid:ChangeState(Enum.HumanoidStateType.Running)
+            char.HumanoidRootPart.CFrame = char.HumanoidRootPart.CFrame+Vector3.new(0,5,0)
+        end)
+    end, "Büyük ceket efekti (layered clothing gerekli)")
+
+    -- VISUAL TAB ÖZELLİKLERİ
+    CreateButton(TabFrames["Visual"], "Show Ping", function()
+        pcall(function()
+            ping.Visible = not ping.Visible
+        end)
+    end, "Ping göstergesini aç/kapat")
+
+    CreateButton(TabFrames["Visual"], "Show Points", function()
+        pcall(function()
+            points.Visible = not points.Visible
+        end)
+    end, "Puan göstergesini aç/kapat")
+
+    CreateTextBox(TabFrames["Visual"], "Fake Accessory ID", function(text, enterPressed)
+        if enterPressed and text ~= "" then
+            pcall(function()
+                local hat_id = tonumber(text)
+                if hat_id then
+                    local hat = game:GetObjects('rbxassetid://'..hat_id)[1]
+                    plr.Character.Humanoid:AddAccessory(hat)
+                    local type = hat.Handle:FindFirstChildOfClass'Attachment'.Name
+                    local attachment = nil
+                    for _,v in next,plr.Character:GetDescendants() do
+                        if v.Name == type and v.Parent.Name ~= 'Handle' then
+                            attachment = v
+                        end
+                    end
+                    local weld = Instance.new('Weld',hat.Handle)
+                    weld.Name = 'AccessoryWeld'
+                    weld.Part0 = hat.Handle
+                    weld.Part1 = attachment.Parent
+                    weld.C1 = attachment.CFrame-hat.Handle:FindFirstChildOfClass'Attachment'.CFrame.p
+                end
+            end)
+        end
+    end, "Sahte aksesuar ID'si girin")
+
+    -- SETTINGS TAB ÖZELLİKLERİ
+    CreateButton(TabFrames["Settings"], "Refresh Character", function()
+        pcall(function()
+            local oldpos = plr.Character.HumanoidRootPart.CFrame
+            local camcf = workspace.CurrentCamera.CFrame
+            respawn()
+            plr.CharacterAdded:wait()
+            repeat rs.RenderStepped:wait() until plr.Character:FindFirstChild'HumanoidRootPart' and plr.Character:FindFirstChildOfClass'Humanoid'
+            for i = 1,10 do
+                ts:Create(plr.Character.HumanoidRootPart,TweenInfo.new(0),{CFrame=oldpos}):Play()
+            end
+            workspace.CurrentCamera.CFrame = camcf
+        end)
+    end, "Karakteri yeniler ve eski pozisyona döndürür")
+
+    CreateButton(TabFrames["Settings"], "Respawn", function()
+        respawn()
+    end, "Karakteri respawnlar")
+
+    CreateButton(TabFrames["Settings"], "Fix Map Objects", function()
+        pcall(function()
+            for _,v in next,workspace.Map:GetDescendants() do
+                if v.Name == 'Donate' then 
+                    for _,x in next,v:GetDescendants() do
+                        if x:IsA'BasePart' then
+                            x.Anchored = false
+                        end
+                    end
+                    break
+                end
+            end
+        end)
+        pcall(function()
+            for _,v in next,workspace.Map:FindFirstChildOfClass'Model'.Noob:GetDescendants() do
+                if v.Name == 'Sword' or v.Name == 'Drink' or v.Name == 'Handle' then
+                    v.Anchored = false
+                end
+            end
+        end)
+    end, "Harita objelerini düzeltir")
+
+    CreateButton(TabFrames["Settings"], "Toggle GUI", function()
+        GUI.Enabled = not GUI.Enabled
+    end, "GUI'yi aç/kapat")
+
+    return GUI
+end
+
+-- WORKSPACE OLAYLAR
+workspace.DescendantAdded:Connect(function(v)
+    pcall(function()
+        if Settings['AntiFling']  then
+            if v.Name=='Stabler' and v.Parent~=plr.Character then
+                v:Destroy()
+            end
+        end
+        if Settings['AntiSpinner'] and v:IsA('Model') and plrs:GetPlayerFromCharacter(v) and v~=plr.Character then
+            for _,x in next,v:GetChildren() do
+                if x:IsA('BasePart') then
+                    v.Massless = true
+                end
+            end
+        end
+        if v.Name == 'Donate' then 
+            for _,x in next,v:GetDescendants() do
+                if x:IsA'BasePart' then
+                    x.Anchored = false
+                end
+            end
+        end
+        if v.Name == 'Sword' or v.Name == 'Drink' or v.Name == 'Handle' then
+            v.Anchored = false
+        end
+    end)
+end)
+
+-- ANA DÖNGÜ
+spawn(function()
+    while true do rs.RenderStepped:wait()
+        if Settings['AntiVelocity'] then
+            pcall(function()
+                plr.Character.RagdollDetect:Destroy()
+            end)
+            pcall(function()
+                if plr.Character.HumanoidRootPart.Velocity.X>=30 or plr.Character.HumanoidRootPart.Velocity.X<=-30 or plr.Character.HumanoidRootPart.Velocity.Y>=100 or plr.Character.HumanoidRootPart.Velocity.Z>=30 or plr.Character.HumanoidRootPart.Velocity.Z<=-30 then
+                    plr.Character.HumanoidRootPart.Velocity = vec0
+                end
+                if plr.Character.HumanoidRootPart.RotVelocity.magnitude>100 then
+                    plr.Character.HumanoidRootPart.RotVelocity = vec0
+                end
+            end)
+        end
+        if Settings['AntiPunch'] then
+            pcall(function()
+                plr.Character.Ragdoll:Destroy()
+            end)
+        end
+        if Settings['FakeAccs'] then
+            for _,v in next,plr.Character:GetChildren() do
+                if v:IsA'Accessory' and v:FindFirstChild'Handle' and v.Name ~= 'FakeAcc' then
+                    local clone = v:Clone()
+                    v:Destroy()
+                    clone.Name = 'FakeAcc'
+                    clone.Parent = plr.Character
+                end
+            end
+        end
+        if Settings['AntiFling'] then
+            pcall(function()
+                if plr.Character.Ragdoll.Value then
+                    plr.Character.GetUpEvent:FireServer()
+                end
+            end)
+            for _,v in next,plr.Character:GetChildren() do
+                if v.Name == 'Stabler' or v.Name == 'VelocityDamage' or v.Name == 'GetPicked' or v.Name == 'ArmAngleUpdate' or v.Name == 'ArmAngle' then
+                    v:Destroy()
+                end
+            end
+        end
+        if Settings['AntiAnvil'] then
+            for _,v in next,plrs:GetPlayers() do
+                pcall(function()
+                    if v.Character:FindFirstChild'Anvil' then
+                        v.Character.Anvil.send:FireServer(v.Character.HumanoidRootPart.CFrame.p+Vector3.new(0,10,0))
+                    end
+                end)
+            end
+        end
     end
-    addTabBtn.MouseButton1Click:Connect(function() local t = self:NewTab("Tab "..(#self.Tabs+1)) end)
-    return self
+end)
+
+-- LOOP FLING DÖNGÜSÜ
+spawn(function()
+    while true do wait(0.1)
+        spawn(function()
+            pcall(function()
+                if LoopFlingV1~={} then
+                    for _,v in next,LoopFlingV1 do
+                        pcall(function()
+                            local accs = v.Character:FindFirstChildOfClass'Accessory'
+                            if accs then
+                                if accs:FindFirstChild'Handle' then
+                                    plr.Character.Picking:FireServer(accs.Handle,Vector3.new(8.99999981e+37, -8.99999981e+37, 8.99999981e+37))
+                                elseif accs:IsA'BasePart' then
+                                    plr.Character.Picking:FireServer(accs,Vector3.new(8.99999981e+37, -8.99999981e+37, 8.99999981e+37))
+                                end
+                                wait(0.1)
+                                plr.Character.PuttingDown:FireServer()
+                            else
+                                plr.Character.Picking:FireServer(v.Character.HumanoidRootPart,Vector3.new(8.99999981e+37, -8.99999981e+37, 8.99999981e+37))
+                                wait(0.1)
+                                plr.Character.PuttingDown:FireServer()
+                            end
+                        end)
+                    end
+                end
+            end)
+        end)
+        spawn(function()
+            pcall(function()
+                if LoopFlingV2~={} then
+                    for _,v in next,LoopFlingV2 do
+                        pcall(function()
+                            v.Character.ArmAngleChange:FireServer(CFrame.new(8.99999981e+37, -8.99999981e+37, 8.99999981e+37))
+                        end)
+                    end
+                end
+            end)
+        end)
+    end
+end)
+
+-- MAP OBJELERİNİ DÜZELTİR
+pcall(function()
+    for _,v in next,workspace.Map:GetDescendants() do
+        if v.Name == 'Donate' then 
+            for _,x in next,v:GetDescendants() do
+                if x:IsA'BasePart' then
+                    x.Anchored = false
+                end
+            end
+            break
+        end
+    end
+end)
+
+pcall(function()
+    for _,v in next,workspace.Map:FindFirstChildOfClass'Model'.Noob:GetDescendants() do
+        if v.Name == 'Sword' or v.Name == 'Drink' or v.Name == 'Handle' then
+            v.Anchored = false
+        end
+    end
+end)
+
+-- GUI BAŞLAT
+local mainGUI = CreatePremiumGUI()
+
+-- TOGGLE TUŞU (RightShift)
+if uis then
+    uis.InputBegan:Connect(function(input, gameProcessed)
+        if not gameProcessed and input.KeyCode == Enum.KeyCode.RightShift then
+            mainGUI.Enabled = not mainGUI.Enabled
+        end
+    end)
 end
-function UILibrary:Notify(text, duration)
-    local holder = Instance.new("Frame", self.NotifyHolder)
-    holder.Size = UDim2.new(1,0,0,0)
-    holder.BackgroundTransparency = 1
-    holder.LayoutOrder = os.clock()*1000
-    local card = Instance.new("Frame", holder)
-    card.AnchorPoint = Vector2.new(1,1)
-    card.Position = UDim2.new(1,0,1,12)
-    card.Size = UDim2.new(1,0,0,48)
-    card.BackgroundColor3 = Color3.fromRGB(25,31,45)
-    local uc = Instance.new("UICorner", card); uc.CornerRadius = UDim.new(0,12)
-    local stroke = Instance.new("UIStroke", card); stroke.Color = Color3.fromRGB(58,69,97); stroke.Transparency = 0.15
-    local lbl = Instance.new("TextLabel", card)
-    lbl.Position = UDim2.new(0,12,0,8)
-    lbl.Size = UDim2.new(1,-48,0,32)
-    lbl.BackgroundTransparency = 1
-    lbl.Font = Enum.Font.Gotham
-    lbl.Text = text or ""
-    lbl.TextSize = 14
-    lbl.TextColor3 = Color3.fromRGB(234,238,245)
-    local close = Instance.new("TextButton", card)
-    close.AnchorPoint = Vector2.new(1,0.5)
-    close.Position = UDim2.new(1,-12,0.5,0)
-    close.Size = UDim2.new(0,28,0,28)
-    close.BackgroundColor3 = Color3.fromRGB(42,49,66)
-    close.AutoButtonColor = false
-    close.Text = "✕"
-    local uc2 = Instance.new("UICorner", close); uc2.CornerRadius = UDim.new(0,8)
-    tween(card, {Position = UDim2.new(1,0,1,0)}, 0.22)
-    task.delay(duration or 2.6, function() tween(card, {Position = UDim2.new(1,0,1,12), BackgroundTransparency = 1}, 0.22); task.wait(0.24); holder:Destroy() end)
-    close.MouseButton1Click:Connect(function() holder:Destroy() end)
-end
-return UILibrary
+
+
