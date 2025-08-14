@@ -1,85 +1,82 @@
-local NoxUI = {}
+function TabFrame:AddBind(name, options)
+    local key = options.Bind
+    local callback = options.Script
+    local BindButton = Instance.new("TextButton")
+    BindButton.Size = UDim2.new(1, 0, 0, 40)
+    BindButton.Position = UDim2.new(0, 0, #TabFrame:GetChildren() * 0.1, 0)
+    BindButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    BindButton.Text = name .. " [" .. key .. "]"
+    BindButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    BindButton.Font = Enum.Font.GothamBold
+    BindButton.TextSize = 18
+    BindButton.Parent = TabFrame
 
-local library = {}
-library.ScreenGui = Instance.new("ScreenGui")
-library.ScreenGui.Name = "NoxUI"
-library.ScreenGui.ResetOnSpawn = false
-library.ScreenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+    local UICornerBind = Instance.new("UICorner")
+    UICornerBind.CornerRadius = UDim.new(0, 8)
+    UICornerBind.Parent = BindButton
 
-local function createUI(class, parent, properties)
-    local obj = Instance.new(class)
-    for prop, value in pairs(properties or {}) do
-        obj[prop] = value
-    end
-    obj.Parent = parent
-    return obj
-end
-
-local Page = {}
-Page.__index = Page
-
-function Page:AddButton(text, callback)
-    local button = createUI("TextButton", self.Frame, {
-        Text = text,
-        Size = UDim2.new(0, 280, 0, 50),
-        Position = UDim2.new(0, 10, 0, #self.Elements * 60 + 10),
-        BackgroundColor3 = Color3.fromRGB(70, 70, 70),
-        TextColor3 = Color3.fromRGB(255, 255, 255)
-    })
-    button.MouseButton1Click:Connect(function()
-        if callback then callback() end
+    local currentKey = key:upper()
+    UserInputService.InputBegan:Connect(function(input, gpe)
+        if not gpe and input.KeyCode.Name == currentKey then
+            if callback then callback() end
+        end
     end)
-    table.insert(self.Elements, button)
 end
 
-function Page:AddToggle(text, callback)
-    local index = #self.Elements
-    local toggle = createUI("TextButton", self.Frame, {
-        Text = text,
-        Size = UDim2.new(0, 280, 0, 50),
-        Position = UDim2.new(0, 10, 0, index * 60 + 10),
-        BackgroundColor3 = Color3.fromRGB(70, 70, 70),
-        TextColor3 = Color3.fromRGB(255, 255, 255)
-    })
-    local indicator = createUI("Frame", self.Frame, {
-        Size = UDim2.new(0, 280, 0, 10),
-        Position = toggle.Position + UDim2.new(0, 0, 1, 0),
-        BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    })
-    local toggled = false
-    toggle.MouseButton1Click:Connect(function()
-        toggled = not toggled
-        indicator.BackgroundColor3 = toggled and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-        if callback then callback(toggled) end
+function TabFrame:AddSlider(name, options)
+    local default = options.Default or options.Min or 0
+    local min = options.Min or 0
+    local max = options.Max or 100
+    local callback = options.Script
+
+    local SliderFrame = Instance.new("Frame")
+    SliderFrame.Size = UDim2.new(1, 0, 0, 40)
+    SliderFrame.Position = UDim2.new(0, 0, #TabFrame:GetChildren() * 0.1, 0)
+    SliderFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    SliderFrame.Parent = TabFrame
+
+    local SliderUICorner = Instance.new("UICorner")
+    SliderUICorner.CornerRadius = UDim.new(0, 8)
+    SliderUICorner.Parent = SliderFrame
+
+    local SliderLabel = Instance.new("TextLabel")
+    SliderLabel.Size = UDim2.new(0.3, 0, 1, 0)
+    SliderLabel.BackgroundTransparency = 1
+    SliderLabel.Text = name .. ": " .. default
+    SliderLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SliderLabel.Font = Enum.Font.GothamBold
+    SliderLabel.TextSize = 18
+    SliderLabel.Parent = SliderFrame
+
+    local SliderBar = Instance.new("Frame")
+    SliderBar.Size = UDim2.new(0.65 * ((default - min) / (max - min)), 0, 0.4, 0)
+    SliderBar.Position = UDim2.new(0.32, 0, 0.3, 0)
+    SliderBar.BackgroundColor3 = Color3.fromRGB(239, 68, 68)
+    SliderBar.Parent = SliderFrame
+
+    local SliderUICornerBar = Instance.new("UICorner")
+    SliderUICornerBar.CornerRadius = UDim.new(0, 6)
+    SliderUICornerBar.Parent = SliderBar
+
+    local dragging = false
+    SliderBar.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+        end
     end)
-    table.insert(self.Elements, toggle)
-end
 
-function Page:AddBox(placeholder, callback)
-    local index = #self.Elements
-    local box = createUI("TextBox", self.Frame, {
-        PlaceholderText = placeholder or "",
-        Size = UDim2.new(0, 280, 0, 50),
-        Position = UDim2.new(0, 10, 0, index * 60 + 10),
-        BackgroundColor3 = Color3.fromRGB(70, 70, 70),
-        TextColor3 = Color3.fromRGB(255, 255, 255)
-    })
-    box.FocusLost:Connect(function(enterPressed)
-        if enterPressed and callback then callback(box.Text) end
+    SliderBar.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
     end)
-    table.insert(self.Elements, box)
-end
 
-function NoxUI.addPage(name)
-    local pageFrame = createUI("Frame", library.ScreenGui, {
-        Name = name,
-        Size = UDim2.new(0, 300, 0, 400),
-        Position = UDim2.new(0.5, -150, 0.5, -200),
-        BackgroundColor3 = Color3.fromRGB(50, 50, 50),
-        BorderSizePixel = 0
-    })
-    local page = setmetatable({Frame = pageFrame, Elements = {}}, Page)
-    return page
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local relativePos = math.clamp((input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
+            local value = math.floor(min + (max - min) * relativePos)
+            SliderLabel.Text = name .. ": " .. value
+            if callback then callback(value) end
+        end
+    end)
 end
-
-return NoxUI
