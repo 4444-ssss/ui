@@ -1,4 +1,4 @@
-local library = {}
+local noxui = {}
 local uis = game:GetService("UserInputService")
 local ts = game:GetService("TweenService")
 local http = game:GetService("HttpService")
@@ -52,7 +52,7 @@ topbar.InputBegan:Connect(function(input)
 end)
 local tabButtons = {}
 local pages = {}
-function library:AddTab(name)
+function noxui:AddTab(name)
     local tabBtn = Instance.new("TextButton")
     tabBtn.Size = UDim2.new(0,80,1,0)
     tabBtn.BackgroundColor3 = currentTheme.top
@@ -62,22 +62,27 @@ function library:AddTab(name)
     tabBtn.TextSize = 16
     tabBtn.Parent = tabsFrame
     tabBtn.Position = UDim2.new(#tabButtons*0.18,0,0,0)
-    local page = Instance.new("Frame")
-    page.Size = UDim2.new(1,0,1,0)
-    page.BackgroundTransparency = 1
-    page.Visible = false
-    page.Parent = pagesFrame
+    local scrollPage = Instance.new("ScrollingFrame")
+    scrollPage.Size = UDim2.new(1,0,1,0)
+    scrollPage.BackgroundTransparency = 1
+    scrollPage.Visible = false
+    scrollPage.Parent = pagesFrame
+    scrollPage.ScrollBarThickness = 6
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = scrollPage
+    layout.Padding = UDim.new(0,5)
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
     tabBtn.MouseButton1Click:Connect(function()
         for _,pg in pairs(pages) do pg.Visible = false end
         for _,b in pairs(tabButtons) do b.BackgroundColor3 = currentTheme.top end
-        page.Visible = true
+        scrollPage.Visible = true
         tabBtn.BackgroundColor3 = currentTheme.bg
     end)
     table.insert(tabButtons,tabBtn)
-    table.insert(pages,page)
-    return page
+    table.insert(pages,scrollPage)
+    return scrollPage
 end
-function library:AddToggle(parent,text,default,callback)
+function noxui:AddToggle(parent,text,default,callback)
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(0,150,0,25)
     frame.BackgroundColor3 = currentTheme.bg
@@ -108,7 +113,7 @@ function library:AddToggle(parent,text,default,callback)
         end
     end)
 end
-function library:AddButton(parent,text,callback)
+function noxui:AddButton(parent,text,callback)
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0,150,0,25)
     btn.BackgroundColor3 = currentTheme.top
@@ -121,7 +126,7 @@ function library:AddButton(parent,text,callback)
         if callback then callback() end
     end)
 end
-function library:AddBox(parent,placeholder,callback)
+function noxui:AddBox(parent,placeholder,callback)
     local box = Instance.new("TextBox")
     box.Size = UDim2.new(0,150,0,25)
     box.BackgroundColor3 = currentTheme.bg
@@ -135,7 +140,7 @@ function library:AddBox(parent,placeholder,callback)
         if enter and callback then callback(box.Text) end
     end)
 end
-function library:AddDropdown(parent,text,options,callback)
+function noxui:AddDropdown(parent,text,options,callback)
     local drop = Instance.new("TextButton")
     drop.Size = UDim2.new(0,150,0,25)
     drop.BackgroundColor3 = currentTheme.top
@@ -151,6 +156,9 @@ function library:AddDropdown(parent,text,options,callback)
     listFrame.BackgroundColor3 = currentTheme.bg
     listFrame.Visible = false
     listFrame.Parent = drop
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = listFrame
+    layout.Padding = UDim.new(0,2)
     for _,opt in ipairs(options) do
         local optBtn = Instance.new("TextButton")
         optBtn.Size = UDim2.new(1,0,0,25)
@@ -172,18 +180,70 @@ function library:AddDropdown(parent,text,options,callback)
         listFrame.Visible = open
     end)
 end
-function library:SaveConfig(name,data)
+function noxui:SaveConfig(name,data)
     writefile(configFolder.."/"..name..".json",http:JSONEncode(data))
 end
-function library:LoadConfig(name)
+function noxui:LoadConfig(name)
     local path = configFolder.."/"..name..".json"
     if isfile(path) then
         return http:JSONDecode(readfile(path))
     end
 end
-function library:SetTheme(themeName)
+function noxui:SetTheme(themeName)
     if themes[themeName] then
         currentTheme = themes[themeName]
     end
 end
-return library
+
+local mainPage = noxui:AddTab("Main")
+local toolsPage = noxui:AddTab("Tools")
+local globalPage = noxui:AddTab("Global")
+local miscPage = noxui:AddTab("Misc")
+local keybindsPage = noxui:AddTab("Keybinds")
+local settingsPage = noxui:AddTab("Settings")
+
+noxui:AddToggle(mainPage, "AntiFling", false)
+noxui:AddToggle(mainPage, "AntiVelocity", false)
+noxui:AddToggle(mainPage, "AntiAnvil", false)
+noxui:AddButton(mainPage, "FakeAccs")
+noxui:AddToggle(mainPage, "AntiSpinner", false)
+noxui:AddBox(mainPage, "Fling")
+noxui:AddToggle(mainPage, "AntiRagdoll", false)
+noxui:AddButton(mainPage, "HackMovement")
+noxui:AddBox(mainPage, "LoopFling")
+noxui:AddBox(mainPage, "Fling v2")
+noxui:AddBox(mainPage, "LoopFling v2")
+noxui:AddButton(mainPage, "Clear Loop")
+noxui:AddToggle(mainPage, "AntiVoid", false)
+noxui:AddToggle(mainPage, "FlingAura", false)
+noxui:AddButton(mainPage, "AutoRespawn")
+noxui:AddToggle(mainPage, "Hidden v2", false)
+
+noxui:AddButton(toolsPage, "Tool 1")
+noxui:AddButton(toolsPage, "Tool 2")
+
+noxui:AddToggle(globalPage, "Global Toggle", true)
+
+noxui:AddBox(miscPage, "Enter text")
+noxui:AddDropdown(miscPage, "Select Option", {"Option 1","Option 2","Option 3"})
+
+noxui:AddBox(keybindsPage, "Bind key")
+
+noxui:AddDropdown(settingsPage, "Theme", {"Dark","Light"}, function(theme) noxui:SetTheme(theme) end)
+noxui:AddDropdown(settingsPage, "Toggle Indicator Position", {"Bottom","Top","Left","Right"}, function(pos) toggleIndicatorPos = pos end)
+noxui:AddBox(settingsPage, "Toggle Indicator Height", function(size)
+    local s = tonumber(size) or 2
+    toggleIndicatorSize = UDim2.new(1,0,0,s)
+end)
+noxui:AddButton(settingsPage, "Save Config", function()
+    local data = {theme="Dark",togglePos=toggleIndicatorPos,toggleSize=toggleIndicatorSize.Y.Offset}
+    noxui:SaveConfig("myconfig",data)
+end)
+noxui:AddButton(settingsPage, "Load Config", function()
+    local data = noxui:LoadConfig("myconfig")
+    if data then
+        noxui:SetTheme(data.theme)
+        toggleIndicatorPos = data.togglePos
+        toggleIndicatorSize = UDim2.new(1,0,0,data.toggleSize)
+    end
+end)
