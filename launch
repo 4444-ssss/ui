@@ -1,6 +1,39 @@
-
 if game.CoreGui:FindFirstChild("GUI") then
     game.CoreGui.GUI:Destroy()
+end
+
+local plrs = game:GetService("Players")
+local plr = plrs.LocalPlayer
+local charac = plr.Character or plr.CharacterAdded:Wait()
+local RunService = game:GetService("RunService")
+
+local function AddToggle(button, func)
+    local indicator = button:FindFirstChildWhichIsA("Frame")
+    if not indicator then return end
+    local toggled = false
+    button.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        if toggled then
+            indicator.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        else
+            indicator.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+        end
+        if func then func(toggled) end
+    end)
+end
+
+local function AddButton(button, func)
+    button.MouseButton1Click:Connect(function()
+        if func then func() end
+    end)
+end
+
+local function AddBox(box, func)
+    box.FocusLost:Connect(function(enterPressed)
+        if enterPressed and func then
+            func(box.Text)
+        end
+    end)
 end
 
 local GUI = Instance.new("ScreenGui")
@@ -94,13 +127,13 @@ Antifling.TextScaled = true
 Antifling.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Antifling.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke1 = Instance.new("UIStroke")
+UIStroke1.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = Antifling
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check1 = Instance.new("Frame")
+check1.Name = "check1"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -123,13 +156,13 @@ AntiRagdoll.TextScaled = true
 AntiRagdoll.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AntiRagdoll.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke2 = Instance.new("UIStroke")
+UIStroke2.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AntiRagdoll
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check2 = Instance.new("Frame")
+check2.Name = "check2"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -152,13 +185,13 @@ NoFallDmg.TextScaled = true
 NoFallDmg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 NoFallDmg.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke3 = Instance.new("UIStroke")
+UIStroke3.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = NoFallDmg
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check3 = Instance.new("Frame")
+check3.Name = "check3"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -181,13 +214,13 @@ AntiSpinner.TextScaled = true
 AntiSpinner.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AntiSpinner.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke4 = Instance.new("UIStroke")
+UIStroke4.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AntiSpinner
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check4 = Instance.new("Frame")
+check4.Name = "check4"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -214,13 +247,13 @@ AntiVoid.TextScaled = true
 AntiVoid.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AntiVoid.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke5 = Instance.new("UIStroke")
+UIStroke5.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AntiVoid
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check5 = Instance.new("Frame")
+check5.Name = "check5"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -243,13 +276,13 @@ AutoRespawn.TextScaled = true
 AutoRespawn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AutoRespawn.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke6 = Instance.new("UIStroke")
+UIStroke6.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AutoRespawn
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check6 = Instance.new("Frame")
+check6.Name = "check6"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -272,13 +305,13 @@ MovementHack.TextScaled = true
 MovementHack.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 MovementHack.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke7 = Instance.new("UIStroke")
+UIStroke7.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = MovementHack
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check7 = Instance.new("Frame")
+check7.Name = "check7"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -301,13 +334,13 @@ NoRagdollCD.TextScaled = true
 NoRagdollCD.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 NoRagdollCD.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke8 = Instance.new("UIStroke")
+UIStroke8.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = NoRagdollCD
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check8 = Instance.new("Frame")
+check8.Name = "check8"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -330,13 +363,13 @@ HiddenFling.TextScaled = true
 HiddenFling.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 HiddenFling.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke9 = Instance.new("UIStroke")
+UIStroke9.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = HiddenFling
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check9 = Instance.new("Frame")
+check9.Name = "check9"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -359,8 +392,8 @@ PermaGod.TextScaled = true
 PermaGod.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 PermaGod.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke10 = Instance.new("UIStroke")
+UIStroke10.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = PermaGod
 
@@ -382,8 +415,8 @@ Fling.TextScaled = true
 Fling.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 Fling.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke11 = Instance.new("UIStroke")
+UIStroke11.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = Fling
 
@@ -405,8 +438,8 @@ Flingv2.TextScaled = true
 Flingv2.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 Flingv2.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke12 = Instance.new("UIStroke")
+UIStroke12.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = Flingv2
 
@@ -428,8 +461,8 @@ LoopFling.TextScaled = true
 LoopFling.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 LoopFling.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke13 = Instance.new("UIStroke")
+UIStroke13.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = LoopFling
 
@@ -448,8 +481,8 @@ ClearLoop.TextScaled = true
 ClearLoop.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ClearLoop.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke14 = Instance.new("UIStroke")
+UIStroke14.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = ClearLoop
 
@@ -471,8 +504,8 @@ LoopFlingV2.TextScaled = true
 LoopFlingV2.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 LoopFlingV2.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke15 = Instance.new("UIStroke")
+UIStroke15.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = LoopFlingV2
 
@@ -492,13 +525,13 @@ InfinitePunch.TextScaled = true
 InfinitePunch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 InfinitePunch.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke16 = Instance.new("UIStroke")
+UIStroke16.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = InfinitePunch
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check10 = Instance.new("Frame")
+check10.Name = "check10"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -521,13 +554,13 @@ NoClip.TextScaled = true
 NoClip.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 NoClip.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke17 = Instance.new("UIStroke")
+UIStroke17.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = NoClip
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check11 = Instance.new("Frame")
+check11.Name = "check11"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -550,13 +583,13 @@ Virus.TextScaled = true
 Virus.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Virus.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke18 = Instance.new("UIStroke")
+UIStroke18.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = Virus
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check12 = Instance.new("Frame")
+check12.Name = "check12"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -582,8 +615,8 @@ SpingFling.TextScaled = true
 SpingFling.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 SpingFling.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke19 = Instance.new("UIStroke")
+UIStroke19.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = SpingFling
 
@@ -603,13 +636,13 @@ SuperPunch.TextScaled = true
 SuperPunch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SuperPunch.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke20 = Instance.new("UIStroke")
+UIStroke20.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = SuperPunch
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check13 = Instance.new("Frame")
+check13.Name = "check13"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -632,13 +665,13 @@ AutoPunch.TextScaled = true
 AutoPunch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AutoPunch.Parent = Main
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(52, 52, 52)
+local UIStroke21 = Instance.new("UIStroke")
+UIStroke21.Color = Color3.fromRGB(52, 52, 52)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AutoPunch
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check14 = Instance.new("Frame")
+check14.Name = "check14"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -672,13 +705,13 @@ AnvilKill.TextScaled = true
 AnvilKill.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AnvilKill.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke22 = Instance.new("UIStroke")
+UIStroke22.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AnvilKill
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check15 = Instance.new("Frame")
+check15.Name = "check15"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -701,13 +734,13 @@ AnvilOrbit.TextScaled = true
 AnvilOrbit.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AnvilOrbit.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke23 = Instance.new("UIStroke")
+UIStroke23.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AnvilOrbit
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check16 = Instance.new("Frame")
+check16.Name = "check16"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -730,13 +763,13 @@ AnvilKillAll.TextScaled = true
 AnvilKillAll.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AnvilKillAll.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke24 = Instance.new("UIStroke")
+UIStroke24.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AnvilKillAll
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check17 = Instance.new("Frame")
+check17.Name = "check17"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -762,8 +795,8 @@ SelectPlayer.TextScaled = true
 SelectPlayer.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 SelectPlayer.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke25 = Instance.new("UIStroke")
+UIStroke25.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = SelectPlayer
 
@@ -782,13 +815,13 @@ FlingAnvil.TextScaled = true
 FlingAnvil.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 FlingAnvil.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke26 = Instance.new("UIStroke")
+UIStroke26.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = FlingAnvil
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check18 = Instance.new("Frame")
+check18.Name = "check18"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -811,13 +844,13 @@ AnvilHidden.TextScaled = true
 AnvilHidden.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AnvilHidden.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke27 = Instance.new("UIStroke")
+UIStroke27.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AnvilHidden
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check19 = Instance.new("Frame")
+check19.Name = "check19"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -840,13 +873,13 @@ AutoThrow.TextScaled = true
 AutoThrow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AutoThrow.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke28 = Instance.new("UIStroke")
+UIStroke28.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AutoThrow
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check20 = Instance.new("Frame")
+check20.Name = "check20"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -869,8 +902,8 @@ ClearSelected.TextScaled = true
 ClearSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ClearSelected.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke29 = Instance.new("UIStroke")
+UIStroke29.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = ClearSelected
 
@@ -889,8 +922,8 @@ PunchSelected.TextScaled = true
 PunchSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 PunchSelected.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke30 = Instance.new("UIStroke")
+UIStroke30.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = PunchSelected
 
@@ -909,13 +942,13 @@ AutoPunchSelected.TextScaled = true
 AutoPunchSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AutoPunchSelected.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke31 = Instance.new("UIStroke")
+UIStroke31.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AutoPunchSelected
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check21 = Instance.new("Frame")
+check21.Name = "check21"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -938,13 +971,13 @@ SpamBomb.TextScaled = true
 SpamBomb.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SpamBomb.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke32 = Instance.new("UIStroke")
+UIStroke32.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = SpamBomb
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check22 = Instance.new("Frame")
+check22.Name = "check22"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -967,13 +1000,13 @@ BombFlingSelected.TextScaled = true
 BombFlingSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 BombFlingSelected.Parent = Tools
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke33 = Instance.new("UIStroke")
+UIStroke33.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = BombFlingSelected
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check23 = Instance.new("Frame")
+check23.Name = "check23"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1007,13 +1040,13 @@ MapBreak.TextScaled = true
 MapBreak.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 MapBreak.Parent = Global
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke34 = Instance.new("UIStroke")
+UIStroke34.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = MapBreak
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check24 = Instance.new("Frame")
+check24.Name = "check24"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1036,13 +1069,13 @@ LagServer.TextScaled = true
 LagServer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 LagServer.Parent = Global
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke35 = Instance.new("UIStroke")
+UIStroke35.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = LagServer
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check25 = Instance.new("Frame")
+check25.Name = "check25"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1065,13 +1098,13 @@ DamageSound.TextScaled = true
 DamageSound.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 DamageSound.Parent = Global
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke36 = Instance.new("UIStroke")
+UIStroke36.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = DamageSound
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check26 = Instance.new("Frame")
+check26.Name = "check26"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1094,13 +1127,13 @@ FlingEverything.TextScaled = true
 FlingEverything.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 FlingEverything.Parent = Global
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke37 = Instance.new("UIStroke")
+UIStroke37.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = FlingEverything
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check27 = Instance.new("Frame")
+check27.Name = "check27"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1123,13 +1156,13 @@ AutoBugMap.TextScaled = true
 AutoBugMap.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AutoBugMap.Parent = Global
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke38 = Instance.new("UIStroke")
+UIStroke38.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AutoBugMap
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check28 = Instance.new("Frame")
+check28.Name = "check28"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1163,13 +1196,13 @@ PickViewer.TextScaled = true
 PickViewer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 PickViewer.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke39 = Instance.new("UIStroke")
+UIStroke39.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = PickViewer
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check29 = Instance.new("Frame")
+check29.Name = "check29"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1192,13 +1225,13 @@ Invisible.TextScaled = true
 Invisible.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Invisible.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke40 = Instance.new("UIStroke")
+UIStroke40.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = Invisible
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check30 = Instance.new("Frame")
+check30.Name = "check30"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1221,13 +1254,13 @@ BetterAnvil.TextScaled = true
 BetterAnvil.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 BetterAnvil.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke41 = Instance.new("UIStroke")
+UIStroke41.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = BetterAnvil
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check31 = Instance.new("Frame")
+check31.Name = "check31"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1250,8 +1283,8 @@ BigJacket.TextScaled = true
 BigJacket.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 BigJacket.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke42 = Instance.new("UIStroke")
+UIStroke42.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = BigJacket
 
@@ -1270,8 +1303,8 @@ LegsFIing.TextScaled = true
 LegsFIing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 LegsFIing.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke43 = Instance.new("UIStroke")
+UIStroke43.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = LegsFIing
 
@@ -1290,13 +1323,13 @@ AutoSword.TextScaled = true
 AutoSword.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AutoSword.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke44 = Instance.new("UIStroke")
+UIStroke44.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AutoSword
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check32 = Instance.new("Frame")
+check32.Name = "check32"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1319,13 +1352,13 @@ AutoFarm.TextScaled = true
 AutoFarm.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AutoFarm.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke45 = Instance.new("UIStroke")
+UIStroke45.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AutoFarm
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check33 = Instance.new("Frame")
+check33.Name = "check33"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1348,13 +1381,13 @@ AntiV2All.TextScaled = true
 AntiV2All.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AntiV2All.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke46 = Instance.new("UIStroke")
+UIStroke46.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AntiV2All
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check34 = Instance.new("Frame")
+check34.Name = "check34"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1377,13 +1410,13 @@ LowPing.TextScaled = true
 LowPing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 LowPing.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke47 = Instance.new("UIStroke")
+UIStroke47.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = LowPing
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check35 = Instance.new("Frame")
+check35.Name = "check35"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1406,8 +1439,8 @@ SpawnPoint.TextScaled = true
 SpawnPoint.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SpawnPoint.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke48 = Instance.new("UIStroke")
+UIStroke48.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = SpawnPoint
 
@@ -1426,8 +1459,8 @@ SafeZone.TextScaled = true
 SafeZone.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SafeZone.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke49 = Instance.new("UIStroke")
+UIStroke49.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = SafeZone
 
@@ -1446,13 +1479,13 @@ AntiAnvil.TextScaled = true
 AntiAnvil.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AntiAnvil.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke50 = Instance.new("UIStroke")
+UIStroke50.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AntiAnvil
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check36 = Instance.new("Frame")
+check36.Name = "check36"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1475,13 +1508,13 @@ ToolController.TextScaled = true
 ToolController.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ToolController.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke51 = Instance.new("UIStroke")
+UIStroke51.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = ToolController
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check37 = Instance.new("Frame")
+check37.Name = "check37"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1507,8 +1540,8 @@ HatFIingTarget.TextScaled = true
 HatFIingTarget.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
 HatFIingTarget.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke52 = Instance.new("UIStroke")
+UIStroke52.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = HatFIingTarget
 
@@ -1527,13 +1560,13 @@ HatFling.TextScaled = true
 HatFling.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 HatFling.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke53 = Instance.new("UIStroke")
+UIStroke53.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = HatFling
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check38 = Instance.new("Frame")
+check38.Name = "check38"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1556,8 +1589,8 @@ BugTargetScreen.TextScaled = true
 BugTargetScreen.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 BugTargetScreen.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke54 = Instance.new("UIStroke")
+UIStroke54.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = BugTargetScreen
 
@@ -1576,8 +1609,8 @@ SwordFlingTarget.TextScaled = true
 SwordFlingTarget.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SwordFlingTarget.Parent = Misc
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke55 = Instance.new("UIStroke")
+UIStroke55.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = SwordFlingTarget
 
@@ -1607,13 +1640,13 @@ AnvilKillOptimazion.TextScaled = true
 AnvilKillOptimazion.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 AnvilKillOptimazion.Parent = Options
 
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(43, 43, 43)
+local UIStroke56 = Instance.new("UIStroke")
+UIStroke56.Color = Color3.fromRGB(43, 43, 43)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 UIStroke.Parent = AnvilKillOptimazion
 
-local check = Instance.new("Frame")
-check.Name = "check"
+local check39 = Instance.new("Frame")
+check39.Name = "check39"
 check.Position = UDim2.new(0, 0, 1, 0)
 check.BorderColor3 = Color3.fromRGB(0, 0, 0)
 check.Size = UDim2.new(0, 93, 0, 1)
@@ -1706,58 +1739,160 @@ OptionsButton.TextScaled = true
 OptionsButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 OptionsButton.Parent = HolderTabs
 
-local Tabs = {
-    Main = Main,
-    Tools = Tools,
-    Global = Global,
-    Misc = Misc,
-    Option = Option
-}
+local connections = {}
+local loopThread
 
-local function ShowTab(tabName)
-    for name, frame in pairs(Tabs) do
-        frame.Visible = (name == tabName)
+local function gw(o) return o:FindFirstChild("ConnectedWeld") end
+local function ic(w) return w and w.Part1 and w.Part1:IsDescendantOf(plr.Character) end
+local function d(o) local w = gw(o) if ic(w) then o:Destroy() end end
+local function mp(p) return p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" end
+local function mm(p) p.Massless = true end
+local function ma(c) for _,v in ipairs(c:GetDescendants()) do if mp(v) then mm(v) end end end
+local function ga(c) return c:FindFirstChild("ArmAngleChange") end
+local function cf()
+    return CFrame.new(0.999999583, 0.650959253, 0.0507530943,
+    0.994099438, 0.0974220186, 0.0476996154,
+    -0.0791255683, 0.952069402, -0.295470744,
+    -0.074198693, 0.289953023, 0.954160273)
+end
+local function sa(c) local e = ga(c) if e then e:FireServer(cf()) end end
+local function superReturn()
+    if charac and plr.Character == charac then
+        ma(charac)
+        sa(charac)
     end
 end
 
-AddButton(MainTab, function() ShowTab("Main") end)
-AddButton(ToolsTab, function() ShowTab("Tools") end)
-AddButton(GlobalTab, function() ShowTab("Global") end)
-AddButton(MiscTab, function() ShowTab("Misc") end)
-AddButton(OptionTab, function() ShowTab("Option") end)
-
-ShowTab("Main")
-
-
-local function AddToggle(button, func)
-    local indicator = button:FindFirstChild("check")
-    if not indicator then return end
-    local toggled = false
-    button.MouseButton1Click:Connect(function()
-        toggled = not toggled
-        if toggled then
-            indicator.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        else
-            indicator.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+local function enable()
+    table.insert(connections, workspace.DescendantAdded:Connect(function(o)
+        if o.Name == "Stabler" then
+            task.spawn(function()
+                if gw(o) or o:WaitForChild("ConnectedWeld", 10) then d(o) end
+            end)
         end
-        if func then func(toggled) end
-    end)
-end
-
-local function AddButton(button, func)
-    button.MouseButton1Click:Connect(function()
-        if func then func() end
-    end)
-end
-
-local function AddBox(box, func)
-    box.FocusLost:Connect(function(enterPressed)
-        if enterPressed and func then
-            func(box.Text)
+    end))
+    table.insert(connections, RunService.Heartbeat:Connect(superReturn))
+    table.insert(connections, RunService.RenderStepped:Connect(superReturn))
+    table.insert(connections, RunService.Stepped:Connect(superReturn))
+    loopThread = task.spawn(function()
+        while true do
+            superReturn()
+            task.wait()
         end
     end)
+    table.insert(connections, plr.CharacterAdded:Connect(function(nc)
+        charac = nc
+    end))
+end
+
+local function disable()
+    for _, con in ipairs(connections) do
+        if con.Disconnect then
+            con:Disconnect()
+        end
+    end
+    connections = {}
+    if loopThread then
+        task.cancel(loopThread)
+        loopThread = nil
+    end
 end
 
 AddToggle(Antifling, function(state)
-    print("true")
+    if state then
+        enable()
+    else
+        disable()
+    end
 end)
+
+local ragdollBackup
+local ragdollConnection
+
+AddToggle(AntiRagdoll, function(state)
+    if state then
+        if charac:FindFirstChild("Ragdoll") then
+            ragdollBackup = charac.Ragdoll:Clone()
+            charac.Ragdoll:Destroy()
+        end
+        ragdollConnection = charac.ChildAdded:Connect(function(child)
+            if state and child.Name == "Ragdoll" then
+                task.wait()
+                child:Destroy()
+            end
+        end)
+    else
+        if ragdollConnection then
+            ragdollConnection:Disconnect()
+            ragdollConnection = nil
+        end
+        if ragdollBackup and charac then
+            ragdollBackup.Parent = charac
+            ragdollBackup = nil
+        end
+    end
+end)
+
+local nfConnection
+
+AddToggle(NoFallDmg, function(state)
+    if state then
+        for _, v in next, charac:GetChildren() do
+            if v.Name == "Stabler" or v.Name == "VelocityDamage" then
+                v:Destroy()
+            end
+        end
+        nfConnection = charac.ChildAdded:Connect(function(child)
+            if child.Name == "Stabler" or child.Name == "VelocityDamage" then
+                task.wait()
+                child:Destroy()
+            end
+        end)
+    else
+        if nfConnection then
+            nfConnection:Disconnect()
+            nfConnection = nil
+        end
+    end
+end)
+
+local prop1000 = PhysicalProperties.new(1000, 1000, 0, 1000, 0)
+local spinnerConnection
+local originalProps = {}
+
+AddToggle(AntiSpinner, function(state)
+    if state then
+        repeat task.wait() until charac:FindFirstChild("HumanoidRootPart") and charac:FindFirstChild("Head")
+        for _, v in next, charac:GetChildren() do
+            if v:IsA("BasePart") then
+                originalProps[v] = v.CustomPhysicalProperties
+                v.CustomPhysicalProperties = prop1000
+            end
+        end
+        spinnerConnection = charac.ChildAdded:Connect(function(v)
+            if v:IsA("BasePart") then
+                originalProps[v] = v.CustomPhysicalProperties
+                v.CustomPhysicalProperties = prop1000
+            end
+        end)
+    else
+        if spinnerConnection then
+            spinnerConnection:Disconnect()
+            spinnerConnection = nil
+        end
+        for part, props in pairs(originalProps) do
+            if part and part:IsDescendantOf(charac) then
+                part.CustomPhysicalProperties = props
+            end
+        end
+        originalProps = {}
+    end
+end)
+
+
+AddButton(ClearLoop, function()
+end)
+
+AddBox(Fling, function(text)
+end)
+
