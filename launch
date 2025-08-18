@@ -1,107 +1,1763 @@
+
+if game.CoreGui:FindFirstChild("GUI") then
+    game.CoreGui.GUI:Destroy()
+end
+
 local GUI = Instance.new("ScreenGui")
-local Info = Instance.new("Frame")
-local gstrok1 = Instance.new("UIStroke")
-local plrprofile = Instance.new("ImageLabel")
-local UICorner = Instance.new("UICorner")
-local gstrok2 = Instance.new("UIStroke")
-local friendsinserver = Instance.new("TextLabel")
-local plrdisplay = Instance.new("TextLabel")
-local plrname = Instance.new("TextLabel")
-
-local plrs = game:GetService("Players")
-local plr = plrs.LocalPlayer
-
 GUI.Name = "GUI"
 GUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 GUI.Parent = game.StarterGui
 
-Info.Name = "Info"
-Info.Position = UDim2.new(0.759375, 0, 0.0312935, 0)
-Info.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Info.Size = UDim2.new(0, 208, 0, 76)
-Info.BorderSizePixel = 0
-Info.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-Info.Parent = GUI
+local Container = Instance.new("Frame")
+Container.Name = "Container"
+Container.Position = UDim2.new(0.28854167461395264, 0, 0.4433240592479706, 0)
+Container.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Container.Size = UDim2.new(0, 401, 0, 22)
+Container.BorderSizePixel = 0
+Container.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Container.Parent = GUI
 
-gstrok1.Thickness = 2
-gstrok1.Name = "gstrok"
-gstrok1.Color = Color3.fromRGB(13, 15, 171)
-gstrok1.Parent = Info
+local Line = Instance.new("Frame")
+Line.Name = "Line"
+Line.Position = UDim2.new(-0.0007351615931838751, 0, 0.9815715551376343, 0)
+Line.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Line.Size = UDim2.new(0, 401, 0, 1)
+Line.BorderSizePixel = 0
+Line.BackgroundColor3 = Color3.fromRGB(253, 27, 7)
+Line.Parent = Container
 
-plrprofile.BorderColor3 = Color3.fromRGB(0, 0, 0)
-plrprofile.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
-plrprofile.Name = "plrprofile"
-plrprofile.Position = UDim2.new(0.0288462, 0, 0.0657895, 0)
-plrprofile.Size = UDim2.new(0, 65, 0, 65)
-plrprofile.BorderSizePixel = 0
-plrprofile.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-plrprofile.Parent = Info
-
-UICorner.CornerRadius = UDim.new(0, 100)
-UICorner.Parent = plrprofile
-
-gstrok2.Thickness = 2
-gstrok2.Name = "gstrok"
-gstrok2.Color = Color3.fromRGB(13, 15, 171)
-gstrok2.Parent = plrprofile
-
-friendsinserver.TextWrapped = true
-friendsinserver.TextColor3 = Color3.fromRGB(255, 255, 255)
-friendsinserver.BorderColor3 = Color3.fromRGB(0, 0, 0)
-friendsinserver.Text = "Activity:"
-friendsinserver.Name = "friendsinserver"
-friendsinserver.Size = UDim2.new(0, 120, 0, 16)
-friendsinserver.Position = UDim2.new(1.16346, 0, 0.695142, 0)
-friendsinserver.BorderSizePixel = 0
-friendsinserver.BackgroundTransparency = 1
-friendsinserver.TextXAlignment = Enum.TextXAlignment.Left
-friendsinserver.TextSize = 14
-friendsinserver.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
-friendsinserver.TextScaled = true
-friendsinserver.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-friendsinserver.Parent = plrprofile
-
-plrdisplay.TextWrapped = true
-plrdisplay.TextColor3 = Color3.fromRGB(255, 255, 255)
-plrdisplay.BorderColor3 = Color3.fromRGB(0, 0, 0)
-plrdisplay.Text = "display"
-plrdisplay.Name = "plrdisplay"
-plrdisplay.Size = UDim2.new(0, 120, 0, 16)
-plrdisplay.Position = UDim2.new(1.16346, 0, 0.379352, 0)
-plrdisplay.BorderSizePixel = 0
-plrdisplay.BackgroundTransparency = 1
-plrdisplay.TextXAlignment = Enum.TextXAlignment.Left
-plrdisplay.TextSize = 14
-plrdisplay.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
-plrdisplay.TextScaled = true
-plrdisplay.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-plrdisplay.Parent = plrprofile
-
-plrname.TextWrapped = true
-plrname.TextColor3 = Color3.fromRGB(255, 255, 255)
-plrname.BorderColor3 = Color3.fromRGB(0, 0, 0)
-plrname.Text = "na"
-plrname.Name = "plrname"
-plrname.Size = UDim2.new(0, 120, 0, 16)
-plrname.Position = UDim2.new(1.16346, 0, 0.0504048, 0)
-plrname.BorderSizePixel = 0
-plrname.BackgroundTransparency = 1
-plrname.TextXAlignment = Enum.TextXAlignment.Left
-plrname.TextSize = 14
-plrname.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
-plrname.TextScaled = true
-plrname.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-plrname.Parent = plrprofile
-
-plrname.Text = plr.Name
-plrdisplay.Text = plr.DisplayName
-plrprofile.Image = plrs:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
-friendsinserver.Text = "Activity: " .. #plrs:GetPlayers() .. " players"
-
-plrs.PlayerAdded:Connect(function()
-    friendsinserver.Text = "Activity: " .. #plrs:GetPlayers() .. " players"
+task.spawn(function()
+    while true do
+        Line.BackgroundColor3 = Color3.fromRGB(math.random(255), math.random(255), math.random(255))
+        task.wait(0.5)
+    end
 end)
 
-plrs.PlayerRemoving:Connect(function()
-    friendsinserver.Text = "Activity: " .. #plrs:GetPlayers() .. " players"
+local title = Instance.new("TextLabel")
+title.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+title.TextColor3 = Color3.fromRGB(218, 218, 218)
+title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+title.Text = "Made by RealN0xz (N0x) Version. 2.1"
+title.Name = "title"
+title.Size = UDim2.new(0, 401, 0, 21)
+title.Position = UDim2.new(0, 0, 6.935813416930614e-07, 0)
+title.BackgroundTransparency = 1
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.BorderSizePixel = 0
+title.TextWrapped = true
+title.TextSize = 25
+title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+title.Parent = Container
+
+local Contain = Instance.new("Frame")
+Contain.Name = "Contain"
+Contain.BackgroundTransparency = 1
+Contain.Position = UDim2.new(-0.0007351615931838751, 0, 1.0270274877548218, 0)
+Contain.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Contain.Size = UDim2.new(0, 401, 0, 244)
+Contain.BorderSizePixel = 0
+Contain.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Contain.Parent = Container
+
+local TabHolder = Instance.new("Frame")
+TabHolder.Name = "TabHolder"
+TabHolder.BackgroundTransparency = 1
+TabHolder.Position = UDim2.new(0, 0, 0, 1)
+TabHolder.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TabHolder.Size = UDim2.new(0, 401, 0, 211)
+TabHolder.BorderSizePixel = 0
+TabHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TabHolder.Parent = Contain
+
+local Main = Instance.new("Frame")
+Main.Name = "Main"
+Main.BackgroundTransparency = 0.30000001192092896
+Main.Position = UDim2.new(0, 0, -0.004739625845104456, 0)
+Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main.Size = UDim2.new(0, 401, 0, 212)
+Main.BorderSizePixel = 0
+Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Main.Parent = TabHolder
+
+local Antifling = Instance.new("TextButton")
+Antifling.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Antifling.TextColor3 = Color3.fromRGB(255, 255, 255)
+Antifling.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Antifling.Text = "AntiFIing"
+Antifling.BorderSizePixel = 0
+Antifling.Size = UDim2.new(0, 93, 0, 20)
+Antifling.Name = "Antifling"
+Antifling.Position = UDim2.new(0.012000000104308128, 0, 0.02800000086426735, 0)
+Antifling.TextWrapped = true
+Antifling.TextSize = 21
+Antifling.TextScaled = true
+Antifling.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Antifling.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = Antifling
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = Antifling
+
+local AntiRagdoll = Instance.new("TextButton")
+AntiRagdoll.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AntiRagdoll.TextColor3 = Color3.fromRGB(255, 255, 255)
+AntiRagdoll.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AntiRagdoll.Text = "AntiRagdoll"
+AntiRagdoll.BorderSizePixel = 0
+AntiRagdoll.Size = UDim2.new(0, 93, 0, 20)
+AntiRagdoll.Name = "AntiRagdoll"
+AntiRagdoll.Position = UDim2.new(0.25999999046325684, 0, 0.02800000086426735, 0)
+AntiRagdoll.TextWrapped = true
+AntiRagdoll.TextSize = 21
+AntiRagdoll.TextScaled = true
+AntiRagdoll.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AntiRagdoll.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AntiRagdoll
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AntiRagdoll
+
+local NoFallDmg = Instance.new("TextButton")
+NoFallDmg.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+NoFallDmg.TextColor3 = Color3.fromRGB(255, 255, 255)
+NoFallDmg.BorderColor3 = Color3.fromRGB(0, 0, 0)
+NoFallDmg.Text = "NoFallDamage"
+NoFallDmg.BorderSizePixel = 0
+NoFallDmg.Size = UDim2.new(0, 93, 0, 20)
+NoFallDmg.Name = "NoFallDmg"
+NoFallDmg.Position = UDim2.new(0.5070000290870667, 0, 0.02800000086426735, 0)
+NoFallDmg.TextWrapped = true
+NoFallDmg.TextSize = 21
+NoFallDmg.TextScaled = true
+NoFallDmg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+NoFallDmg.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = NoFallDmg
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = NoFallDmg
+
+local AntiSpinner = Instance.new("TextButton")
+AntiSpinner.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AntiSpinner.TextColor3 = Color3.fromRGB(255, 255, 255)
+AntiSpinner.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AntiSpinner.Text = "AntiSpinner"
+AntiSpinner.BorderSizePixel = 0
+AntiSpinner.Size = UDim2.new(0, 93, 0, 20)
+AntiSpinner.Name = "AntiSpinner"
+AntiSpinner.Position = UDim2.new(0.7609999775886536, 0, 0.02800000086426735, 0)
+AntiSpinner.TextWrapped = true
+AntiSpinner.TextSize = 21
+AntiSpinner.TextScaled = true
+AntiSpinner.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AntiSpinner.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AntiSpinner
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AntiSpinner
+
+local UIPadding = Instance.new("UIPadding")
+UIPadding.PaddingBottom = UDim.new(0, 15)
+UIPadding.Parent = Main
+
+local AntiVoid = Instance.new("TextButton")
+AntiVoid.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AntiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
+AntiVoid.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AntiVoid.Text = "AntiVoid"
+AntiVoid.BorderSizePixel = 0
+AntiVoid.Size = UDim2.new(0, 93, 0, 20)
+AntiVoid.Name = "AntiVoid"
+AntiVoid.Position = UDim2.new(0.5070000290870667, 0, 0.1650557965040207, 0)
+AntiVoid.TextWrapped = true
+AntiVoid.TextSize = 21
+AntiVoid.TextScaled = true
+AntiVoid.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AntiVoid.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AntiVoid
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AntiVoid
+
+local AutoRespawn = Instance.new("TextButton")
+AutoRespawn.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AutoRespawn.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoRespawn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoRespawn.Text = "AutoRespawn"
+AutoRespawn.BorderSizePixel = 0
+AutoRespawn.Size = UDim2.new(0, 93, 0, 20)
+AutoRespawn.Name = "AutoRespawn"
+AutoRespawn.Position = UDim2.new(0.012000028975307941, 0, 0.1650557965040207, 0)
+AutoRespawn.TextWrapped = true
+AutoRespawn.TextSize = 21
+AutoRespawn.TextScaled = true
+AutoRespawn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoRespawn.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AutoRespawn
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AutoRespawn
+
+local MovementHack = Instance.new("TextButton")
+MovementHack.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+MovementHack.TextColor3 = Color3.fromRGB(255, 255, 255)
+MovementHack.BorderColor3 = Color3.fromRGB(0, 0, 0)
+MovementHack.Text = "MovementHack"
+MovementHack.BorderSizePixel = 0
+MovementHack.Size = UDim2.new(0, 93, 0, 20)
+MovementHack.Name = "MovementHack"
+MovementHack.Position = UDim2.new(0.2600000202655792, 0, 0.1650557965040207, 0)
+MovementHack.TextWrapped = true
+MovementHack.TextSize = 21
+MovementHack.TextScaled = true
+MovementHack.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MovementHack.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = MovementHack
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = MovementHack
+
+local NoRagdollCD = Instance.new("TextButton")
+NoRagdollCD.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+NoRagdollCD.TextColor3 = Color3.fromRGB(255, 255, 255)
+NoRagdollCD.BorderColor3 = Color3.fromRGB(0, 0, 0)
+NoRagdollCD.Text = "NoRagdollCD"
+NoRagdollCD.BorderSizePixel = 0
+NoRagdollCD.Size = UDim2.new(0, 93, 0, 20)
+NoRagdollCD.Name = "NoRagdollCD"
+NoRagdollCD.Position = UDim2.new(0.7610000371932983, 0, 0.1650557965040207, 0)
+NoRagdollCD.TextWrapped = true
+NoRagdollCD.TextSize = 21
+NoRagdollCD.TextScaled = true
+NoRagdollCD.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+NoRagdollCD.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = NoRagdollCD
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = NoRagdollCD
+
+local HiddenFling = Instance.new("TextButton")
+HiddenFling.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+HiddenFling.TextColor3 = Color3.fromRGB(255, 255, 255)
+HiddenFling.BorderColor3 = Color3.fromRGB(0, 0, 0)
+HiddenFling.Text = "HiddenFIing"
+HiddenFling.BorderSizePixel = 0
+HiddenFling.Size = UDim2.new(0, 93, 0, 20)
+HiddenFling.Name = "HiddenFling"
+HiddenFling.Position = UDim2.new(0.012000028975307941, 0, 0.3122639060020447, 0)
+HiddenFling.TextWrapped = true
+HiddenFling.TextSize = 21
+HiddenFling.TextScaled = true
+HiddenFling.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+HiddenFling.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = HiddenFling
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = HiddenFling
+
+local PermaGod = Instance.new("TextButton")
+PermaGod.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+PermaGod.TextColor3 = Color3.fromRGB(255, 255, 255)
+PermaGod.BorderColor3 = Color3.fromRGB(0, 0, 0)
+PermaGod.Text = "PermaGod"
+PermaGod.BorderSizePixel = 0
+PermaGod.Size = UDim2.new(0, 93, 0, 20)
+PermaGod.Name = "PermaGod"
+PermaGod.Position = UDim2.new(0.012000000104308128, 0, 0.734000027179718, 0)
+PermaGod.TextWrapped = true
+PermaGod.TextSize = 21
+PermaGod.TextScaled = true
+PermaGod.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+PermaGod.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = PermaGod
+
+local Fling = Instance.new("TextBox")
+Fling.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Fling.Name = "Fling"
+Fling.TextColor3 = Color3.fromRGB(107, 107, 107)
+Fling.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Fling.Text = ""
+Fling.Size = UDim2.new(0, 93, 0, 20)
+Fling.Position = UDim2.new(0.26049378514289856, 0, 0.312152236700058, 0)
+Fling.BorderSizePixel = 0
+Fling.TextSize = 14
+Fling.BackgroundTransparency = 0.20000000298023224
+Fling.PlaceholderColor3 = Color3.fromRGB(173, 173, 173)
+Fling.TextWrapped = true
+Fling.PlaceholderText = "FIing"
+Fling.TextScaled = true
+Fling.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+Fling.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = Fling
+
+local Flingv2 = Instance.new("TextBox")
+Flingv2.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Flingv2.Name = "Flingv2"
+Flingv2.TextColor3 = Color3.fromRGB(107, 107, 107)
+Flingv2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Flingv2.Text = ""
+Flingv2.Size = UDim2.new(0, 93, 0, 20)
+Flingv2.Position = UDim2.new(0.507493793964386, 0, 0.312152236700058, 0)
+Flingv2.BorderSizePixel = 0
+Flingv2.TextSize = 14
+Flingv2.BackgroundTransparency = 0.20000000298023224
+Flingv2.PlaceholderColor3 = Color3.fromRGB(173, 173, 173)
+Flingv2.TextWrapped = true
+Flingv2.PlaceholderText = "FIingV2"
+Flingv2.TextScaled = true
+Flingv2.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+Flingv2.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = Flingv2
+
+local LoopFling = Instance.new("TextBox")
+LoopFling.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LoopFling.Name = "LoopFling"
+LoopFling.TextColor3 = Color3.fromRGB(107, 107, 107)
+LoopFling.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LoopFling.Text = ""
+LoopFling.Size = UDim2.new(0, 93, 0, 20)
+LoopFling.Position = UDim2.new(0.7614938020706177, 0, 0.312152236700058, 0)
+LoopFling.BorderSizePixel = 0
+LoopFling.TextSize = 14
+LoopFling.BackgroundTransparency = 0.20000000298023224
+LoopFling.PlaceholderColor3 = Color3.fromRGB(173, 173, 173)
+LoopFling.TextWrapped = true
+LoopFling.PlaceholderText = "LoopFIing"
+LoopFling.TextScaled = true
+LoopFling.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+LoopFling.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = LoopFling
+
+local ClearLoop = Instance.new("TextButton")
+ClearLoop.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+ClearLoop.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClearLoop.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ClearLoop.Text = "ClearLoop"
+ClearLoop.BorderSizePixel = 0
+ClearLoop.Size = UDim2.new(0, 93, 0, 20)
+ClearLoop.Name = "ClearLoop"
+ClearLoop.Position = UDim2.new(0.25999999046325684, 0, 0.45399999618530273, 0)
+ClearLoop.TextWrapped = true
+ClearLoop.TextSize = 21
+ClearLoop.TextScaled = true
+ClearLoop.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ClearLoop.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = ClearLoop
+
+local LoopFlingV2 = Instance.new("TextBox")
+LoopFlingV2.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LoopFlingV2.Name = "LoopFlingV2"
+LoopFlingV2.TextColor3 = Color3.fromRGB(107, 107, 107)
+LoopFlingV2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LoopFlingV2.Text = ""
+LoopFlingV2.Size = UDim2.new(0, 93, 0, 20)
+LoopFlingV2.Position = UDim2.new(0.012000000104308128, 0, 0.45399999618530273, 0)
+LoopFlingV2.BorderSizePixel = 0
+LoopFlingV2.TextSize = 14
+LoopFlingV2.BackgroundTransparency = 0.20000000298023224
+LoopFlingV2.PlaceholderColor3 = Color3.fromRGB(173, 173, 173)
+LoopFlingV2.TextWrapped = true
+LoopFlingV2.PlaceholderText = "LoopFIingV2"
+LoopFlingV2.TextScaled = true
+LoopFlingV2.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+LoopFlingV2.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = LoopFlingV2
+
+local InfinitePunch = Instance.new("TextButton")
+InfinitePunch.TextWrapped = true
+InfinitePunch.TextColor3 = Color3.fromRGB(255, 255, 255)
+InfinitePunch.BorderColor3 = Color3.fromRGB(0, 0, 0)
+InfinitePunch.Text = "InfinitePunch"
+InfinitePunch.BorderSizePixel = 0
+InfinitePunch.Size = UDim2.new(0, 93, 0, 20)
+InfinitePunch.RichText = true
+InfinitePunch.Name = "InfinitePunch"
+InfinitePunch.Position = UDim2.new(0.5070000290870667, 0, 0.45399999618530273, 0)
+InfinitePunch.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+InfinitePunch.TextSize = 21
+InfinitePunch.TextScaled = true
+InfinitePunch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+InfinitePunch.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = InfinitePunch
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = InfinitePunch
+
+local NoClip = Instance.new("TextButton")
+NoClip.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+NoClip.TextColor3 = Color3.fromRGB(255, 255, 255)
+NoClip.BorderColor3 = Color3.fromRGB(0, 0, 0)
+NoClip.Text = "NoClip"
+NoClip.BorderSizePixel = 0
+NoClip.Size = UDim2.new(0, 93, 0, 20)
+NoClip.Name = "NoClip"
+NoClip.Position = UDim2.new(0.7609999775886536, 0, 0.45399999618530273, 0)
+NoClip.TextWrapped = true
+NoClip.TextSize = 21
+NoClip.TextScaled = true
+NoClip.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+NoClip.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = NoClip
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = NoClip
+
+local Virus = Instance.new("TextButton")
+Virus.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Virus.TextColor3 = Color3.fromRGB(255, 255, 255)
+Virus.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Virus.Text = "Virus"
+Virus.BorderSizePixel = 0
+Virus.Size = UDim2.new(0, 93, 0, 20)
+Virus.Name = "Virus"
+Virus.Position = UDim2.new(0.7609999775886536, 0, 0.5960000157356262, 0)
+Virus.TextWrapped = true
+Virus.TextSize = 21
+Virus.TextScaled = true
+Virus.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Virus.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = Virus
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = Virus
+
+local SpingFling = Instance.new("TextBox")
+SpingFling.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SpingFling.Name = "SpingFling"
+SpingFling.TextColor3 = Color3.fromRGB(107, 107, 107)
+SpingFling.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SpingFling.Text = ""
+SpingFling.Size = UDim2.new(0, 93, 0, 20)
+SpingFling.Position = UDim2.new(0.012000028975307941, 0, 0.5961319208145142, 0)
+SpingFling.BorderSizePixel = 0
+SpingFling.TextSize = 14
+SpingFling.BackgroundTransparency = 0.20000000298023224
+SpingFling.PlaceholderColor3 = Color3.fromRGB(173, 173, 173)
+SpingFling.TextWrapped = true
+SpingFling.PlaceholderText = "SpinFIing"
+SpingFling.TextScaled = true
+SpingFling.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+SpingFling.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = SpingFling
+
+local SuperPunch = Instance.new("TextButton")
+SuperPunch.TextWrapped = true
+SuperPunch.TextColor3 = Color3.fromRGB(255, 255, 255)
+SuperPunch.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SuperPunch.Text = "SuperPunch"
+SuperPunch.BorderSizePixel = 0
+SuperPunch.Size = UDim2.new(0, 93, 0, 20)
+SuperPunch.RichText = true
+SuperPunch.Name = "SuperPunch"
+SuperPunch.Position = UDim2.new(0.5070000290870667, 0, 0.5960000157356262, 0)
+SuperPunch.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SuperPunch.TextSize = 21
+SuperPunch.TextScaled = true
+SuperPunch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SuperPunch.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = SuperPunch
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = SuperPunch
+
+local AutoPunch = Instance.new("TextButton")
+AutoPunch.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AutoPunch.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoPunch.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoPunch.Text = "AutoPunch"
+AutoPunch.BorderSizePixel = 0
+AutoPunch.Size = UDim2.new(0, 93, 0, 20)
+AutoPunch.Name = "AutoPunch"
+AutoPunch.Position = UDim2.new(0.25999999046325684, 0, 0.5960000157356262, 0)
+AutoPunch.TextWrapped = true
+AutoPunch.TextSize = 21
+AutoPunch.TextScaled = true
+AutoPunch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoPunch.Parent = Main
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(52, 52, 52)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AutoPunch
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AutoPunch
+
+local Tools = Instance.new("Frame")
+Tools.Visible = false
+Tools.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Tools.BackgroundTransparency = 0.30000001192092896
+Tools.Position = UDim2.new(0, 0, -0.004739625845104456, 0)
+Tools.Name = "Tools"
+Tools.Size = UDim2.new(0, 401, 0, 212)
+Tools.BorderSizePixel = 0
+Tools.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Tools.Parent = TabHolder
+
+local AnvilKill = Instance.new("TextButton")
+AnvilKill.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AnvilKill.TextColor3 = Color3.fromRGB(255, 255, 255)
+AnvilKill.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AnvilKill.Text = "AnvilKill"
+AnvilKill.BorderSizePixel = 0
+AnvilKill.Size = UDim2.new(0, 93, 0, 20)
+AnvilKill.Name = "AnvilKill"
+AnvilKill.Position = UDim2.new(0.25750625133514404, 0, 0.037433985620737076, 0)
+AnvilKill.TextWrapped = true
+AnvilKill.TextSize = 21
+AnvilKill.TextScaled = true
+AnvilKill.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AnvilKill.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AnvilKill
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AnvilKill
+
+local AnvilOrbit = Instance.new("TextButton")
+AnvilOrbit.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AnvilOrbit.TextColor3 = Color3.fromRGB(255, 255, 255)
+AnvilOrbit.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AnvilOrbit.Text = "AnvilOrbit"
+AnvilOrbit.BorderSizePixel = 0
+AnvilOrbit.Size = UDim2.new(0, 93, 0, 20)
+AnvilOrbit.Name = "AnvilOrbit"
+AnvilOrbit.Position = UDim2.new(0.7585062384605408, 0, 0.037433985620737076, 0)
+AnvilOrbit.TextWrapped = true
+AnvilOrbit.TextSize = 21
+AnvilOrbit.TextScaled = true
+AnvilOrbit.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AnvilOrbit.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AnvilOrbit
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AnvilOrbit
+
+local AnvilKillAll = Instance.new("TextButton")
+AnvilKillAll.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AnvilKillAll.TextColor3 = Color3.fromRGB(255, 255, 255)
+AnvilKillAll.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AnvilKillAll.Text = "AnvilKillAll"
+AnvilKillAll.BorderSizePixel = 0
+AnvilKillAll.Size = UDim2.new(0, 93, 0, 20)
+AnvilKillAll.Name = "AnvilKillAll"
+AnvilKillAll.Position = UDim2.new(0.5059999823570251, 0, 0.03700000047683716, 0)
+AnvilKillAll.TextWrapped = true
+AnvilKillAll.TextSize = 21
+AnvilKillAll.TextScaled = true
+AnvilKillAll.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AnvilKillAll.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AnvilKillAll
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AnvilKillAll
+
+local SelectPlayer = Instance.new("TextBox")
+SelectPlayer.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SelectPlayer.Name = "SelectPlayer"
+SelectPlayer.TextColor3 = Color3.fromRGB(107, 107, 107)
+SelectPlayer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SelectPlayer.Text = ""
+SelectPlayer.Size = UDim2.new(0, 93, 0, 20)
+SelectPlayer.Position = UDim2.new(0.012000000104308128, 0, 0.03700000047683716, 0)
+SelectPlayer.BorderSizePixel = 0
+SelectPlayer.TextSize = 14
+SelectPlayer.BackgroundTransparency = 0.20000000298023224
+SelectPlayer.PlaceholderColor3 = Color3.fromRGB(173, 173, 173)
+SelectPlayer.TextWrapped = true
+SelectPlayer.PlaceholderText = "SelectPlayer"
+SelectPlayer.TextScaled = true
+SelectPlayer.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+SelectPlayer.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = SelectPlayer
+
+local FlingAnvil = Instance.new("TextButton")
+FlingAnvil.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+FlingAnvil.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlingAnvil.BorderColor3 = Color3.fromRGB(0, 0, 0)
+FlingAnvil.Text = "Fling Anvil"
+FlingAnvil.BorderSizePixel = 0
+FlingAnvil.Size = UDim2.new(0, 93, 0, 20)
+FlingAnvil.Name = "FlingAnvil"
+FlingAnvil.Position = UDim2.new(0.012000000104308128, 0, 0.16500000655651093, 0)
+FlingAnvil.TextWrapped = true
+FlingAnvil.TextSize = 21
+FlingAnvil.TextScaled = true
+FlingAnvil.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+FlingAnvil.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = FlingAnvil
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = FlingAnvil
+
+local AnvilHidden = Instance.new("TextButton")
+AnvilHidden.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AnvilHidden.TextColor3 = Color3.fromRGB(255, 255, 255)
+AnvilHidden.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AnvilHidden.Text = "Hide Anvil"
+AnvilHidden.BorderSizePixel = 0
+AnvilHidden.Size = UDim2.new(0, 93, 0, 20)
+AnvilHidden.Name = "AnvilHidden"
+AnvilHidden.Position = UDim2.new(0.25750625133514404, 0, 0.1650000512599945, 0)
+AnvilHidden.TextWrapped = true
+AnvilHidden.TextSize = 21
+AnvilHidden.TextScaled = true
+AnvilHidden.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AnvilHidden.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AnvilHidden
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AnvilHidden
+
+local AutoThrow = Instance.new("TextButton")
+AutoThrow.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AutoThrow.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoThrow.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoThrow.Text = "AutoThrow"
+AutoThrow.BorderSizePixel = 0
+AutoThrow.Size = UDim2.new(0, 93, 0, 20)
+AutoThrow.Name = "AutoThrow"
+AutoThrow.Position = UDim2.new(0.5059999823570251, 0, 0.16500000655651093, 0)
+AutoThrow.TextWrapped = true
+AutoThrow.TextSize = 21
+AutoThrow.TextScaled = true
+AutoThrow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoThrow.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AutoThrow
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AutoThrow
+
+local ClearSelected = Instance.new("TextButton")
+ClearSelected.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+ClearSelected.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClearSelected.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ClearSelected.Text = "ClearSelected"
+ClearSelected.BorderSizePixel = 0
+ClearSelected.Size = UDim2.new(0, 93, 0, 20)
+ClearSelected.Name = "ClearSelected"
+ClearSelected.Position = UDim2.new(0.7590000033378601, 0, 0.16599999368190765, 0)
+ClearSelected.TextWrapped = true
+ClearSelected.TextSize = 21
+ClearSelected.TextScaled = true
+ClearSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ClearSelected.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = ClearSelected
+
+local PunchSelected = Instance.new("TextButton")
+PunchSelected.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+PunchSelected.TextColor3 = Color3.fromRGB(255, 255, 255)
+PunchSelected.BorderColor3 = Color3.fromRGB(0, 0, 0)
+PunchSelected.Text = "PunchSelected"
+PunchSelected.BorderSizePixel = 0
+PunchSelected.Size = UDim2.new(0, 93, 0, 20)
+PunchSelected.Name = "PunchSelected"
+PunchSelected.Position = UDim2.new(0.012000028975307941, 0, 0.2935659885406494, 0)
+PunchSelected.TextWrapped = true
+PunchSelected.TextSize = 21
+PunchSelected.TextScaled = true
+PunchSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+PunchSelected.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = PunchSelected
+
+local AutoPunchSelected = Instance.new("TextButton")
+AutoPunchSelected.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AutoPunchSelected.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoPunchSelected.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoPunchSelected.Text = "AutoPunchSelected"
+AutoPunchSelected.BorderSizePixel = 0
+AutoPunchSelected.Size = UDim2.new(0, 93, 0, 20)
+AutoPunchSelected.Name = "AutoPunchSelected"
+AutoPunchSelected.Position = UDim2.new(0.257999986410141, 0, 0.2939999997615814, 0)
+AutoPunchSelected.TextWrapped = true
+AutoPunchSelected.TextSize = 21
+AutoPunchSelected.TextScaled = true
+AutoPunchSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoPunchSelected.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AutoPunchSelected
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AutoPunchSelected
+
+local SpamBomb = Instance.new("TextButton")
+SpamBomb.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SpamBomb.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpamBomb.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SpamBomb.Text = "Spam Bomb"
+SpamBomb.BorderSizePixel = 0
+SpamBomb.Size = UDim2.new(0, 93, 0, 20)
+SpamBomb.Name = "SpamBomb"
+SpamBomb.Position = UDim2.new(0.5059999823570251, 0, 0.2939999997615814, 0)
+SpamBomb.TextWrapped = true
+SpamBomb.TextSize = 21
+SpamBomb.TextScaled = true
+SpamBomb.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SpamBomb.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = SpamBomb
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = SpamBomb
+
+local BombFlingSelected = Instance.new("TextButton")
+BombFlingSelected.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+BombFlingSelected.TextColor3 = Color3.fromRGB(255, 255, 255)
+BombFlingSelected.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BombFlingSelected.Text = "BombFIingSelected"
+BombFlingSelected.BorderSizePixel = 0
+BombFlingSelected.Size = UDim2.new(0, 93, 0, 20)
+BombFlingSelected.Name = "BombFlingSelected"
+BombFlingSelected.Position = UDim2.new(0.7590000033378601, 0, 0.2939999997615814, 0)
+BombFlingSelected.TextWrapped = true
+BombFlingSelected.TextSize = 21
+BombFlingSelected.TextScaled = true
+BombFlingSelected.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BombFlingSelected.Parent = Tools
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = BombFlingSelected
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = BombFlingSelected
+
+local Global = Instance.new("Frame")
+Global.Visible = false
+Global.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Global.BackgroundTransparency = 0.30000001192092896
+Global.Position = UDim2.new(0, 0, -0.004739625845104456, 0)
+Global.Name = "Global"
+Global.Size = UDim2.new(0, 401, 0, 212)
+Global.BorderSizePixel = 0
+Global.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Global.Parent = TabHolder
+
+local MapBreak = Instance.new("TextButton")
+MapBreak.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+MapBreak.TextColor3 = Color3.fromRGB(255, 255, 255)
+MapBreak.BorderColor3 = Color3.fromRGB(0, 0, 0)
+MapBreak.Text = "BreakMap"
+MapBreak.BorderSizePixel = 0
+MapBreak.Size = UDim2.new(0, 93, 0, 20)
+MapBreak.Name = "MapBreak"
+MapBreak.Position = UDim2.new(0.012000000104308128, 0, 0.03700000047683716, 0)
+MapBreak.TextWrapped = true
+MapBreak.TextSize = 21
+MapBreak.TextScaled = true
+MapBreak.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MapBreak.Parent = Global
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = MapBreak
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = MapBreak
+
+local LagServer = Instance.new("TextButton")
+LagServer.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LagServer.TextColor3 = Color3.fromRGB(255, 255, 255)
+LagServer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LagServer.Text = "LagServer"
+LagServer.BorderSizePixel = 0
+LagServer.Size = UDim2.new(0, 93, 0, 20)
+LagServer.Name = "LagServer"
+LagServer.Position = UDim2.new(0.257999986410141, 0, 0.03700000047683716, 0)
+LagServer.TextWrapped = true
+LagServer.TextSize = 21
+LagServer.TextScaled = true
+LagServer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+LagServer.Parent = Global
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = LagServer
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = LagServer
+
+local DamageSound = Instance.new("TextButton")
+DamageSound.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+DamageSound.TextColor3 = Color3.fromRGB(255, 255, 255)
+DamageSound.BorderColor3 = Color3.fromRGB(0, 0, 0)
+DamageSound.Text = "DamageSound"
+DamageSound.BorderSizePixel = 0
+DamageSound.Size = UDim2.new(0, 93, 0, 20)
+DamageSound.Name = "DamageSound"
+DamageSound.Position = UDim2.new(0.5059999823570251, 0, 0.03700000047683716, 0)
+DamageSound.TextWrapped = true
+DamageSound.TextSize = 21
+DamageSound.TextScaled = true
+DamageSound.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+DamageSound.Parent = Global
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = DamageSound
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = DamageSound
+
+local FlingEverything = Instance.new("TextButton")
+FlingEverything.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+FlingEverything.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlingEverything.BorderColor3 = Color3.fromRGB(0, 0, 0)
+FlingEverything.Text = "FIingMapItems"
+FlingEverything.BorderSizePixel = 0
+FlingEverything.Size = UDim2.new(0, 93, 0, 20)
+FlingEverything.Name = "FlingEverything"
+FlingEverything.Position = UDim2.new(0.7590000033378601, 0, 0.03700000047683716, 0)
+FlingEverything.TextWrapped = true
+FlingEverything.TextSize = 21
+FlingEverything.TextScaled = true
+FlingEverything.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+FlingEverything.Parent = Global
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = FlingEverything
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = FlingEverything
+
+local AutoBugMap = Instance.new("TextButton")
+AutoBugMap.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AutoBugMap.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoBugMap.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoBugMap.Text = "AutoBugMap"
+AutoBugMap.BorderSizePixel = 0
+AutoBugMap.Size = UDim2.new(0, 93, 0, 20)
+AutoBugMap.Name = "AutoBugMap"
+AutoBugMap.Position = UDim2.new(0.012000000104308128, 0, 0.16500000655651093, 0)
+AutoBugMap.TextWrapped = true
+AutoBugMap.TextSize = 21
+AutoBugMap.TextScaled = true
+AutoBugMap.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoBugMap.Parent = Global
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AutoBugMap
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AutoBugMap
+
+local Misc = Instance.new("Frame")
+Misc.Visible = false
+Misc.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Misc.BackgroundTransparency = 0.30000001192092896
+Misc.Position = UDim2.new(0, 0, -0.004739625845104456, 0)
+Misc.Name = "Misc"
+Misc.Size = UDim2.new(0, 401, 0, 212)
+Misc.BorderSizePixel = 0
+Misc.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Misc.Parent = TabHolder
+
+local PickViewer = Instance.new("TextButton")
+PickViewer.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+PickViewer.TextColor3 = Color3.fromRGB(255, 255, 255)
+PickViewer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+PickViewer.Text = "PickViewer"
+PickViewer.BorderSizePixel = 0
+PickViewer.Size = UDim2.new(0, 93, 0, 20)
+PickViewer.Name = "PickViewer"
+PickViewer.Position = UDim2.new(0.012000000104308128, 0, 0.16500000655651093, 0)
+PickViewer.TextWrapped = true
+PickViewer.TextSize = 21
+PickViewer.TextScaled = true
+PickViewer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+PickViewer.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = PickViewer
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = PickViewer
+
+local Invisible = Instance.new("TextButton")
+Invisible.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Invisible.TextColor3 = Color3.fromRGB(255, 255, 255)
+Invisible.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Invisible.Text = "Invisible"
+Invisible.BorderSizePixel = 0
+Invisible.Size = UDim2.new(0, 93, 0, 20)
+Invisible.Name = "Invisible"
+Invisible.Position = UDim2.new(0.7590000033378601, 0, 0.03700000047683716, 0)
+Invisible.TextWrapped = true
+Invisible.TextSize = 21
+Invisible.TextScaled = true
+Invisible.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Invisible.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = Invisible
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = Invisible
+
+local BetterAnvil = Instance.new("TextButton")
+BetterAnvil.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+BetterAnvil.TextColor3 = Color3.fromRGB(255, 255, 255)
+BetterAnvil.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BetterAnvil.Text = "BetterAnvil"
+BetterAnvil.BorderSizePixel = 0
+BetterAnvil.Size = UDim2.new(0, 93, 0, 20)
+BetterAnvil.Name = "BetterAnvil"
+BetterAnvil.Position = UDim2.new(0.5059999823570251, 0, 0.03700000047683716, 0)
+BetterAnvil.TextWrapped = true
+BetterAnvil.TextSize = 21
+BetterAnvil.TextScaled = true
+BetterAnvil.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BetterAnvil.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = BetterAnvil
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = BetterAnvil
+
+local BigJacket = Instance.new("TextButton")
+BigJacket.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+BigJacket.TextColor3 = Color3.fromRGB(255, 255, 255)
+BigJacket.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BigJacket.Text = "BigJacket"
+BigJacket.BorderSizePixel = 0
+BigJacket.Size = UDim2.new(0, 93, 0, 20)
+BigJacket.Name = "BigJacket"
+BigJacket.Position = UDim2.new(0.012000000104308128, 0, 0.03700000047683716, 0)
+BigJacket.TextWrapped = true
+BigJacket.TextSize = 21
+BigJacket.TextScaled = true
+BigJacket.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BigJacket.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = BigJacket
+
+local LegsFIing = Instance.new("TextButton")
+LegsFIing.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LegsFIing.TextColor3 = Color3.fromRGB(255, 255, 255)
+LegsFIing.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LegsFIing.Text = "Legs FIing"
+LegsFIing.BorderSizePixel = 0
+LegsFIing.Size = UDim2.new(0, 93, 0, 20)
+LegsFIing.Name = "LegsFIing"
+LegsFIing.Position = UDim2.new(0.257999986410141, 0, 0.03700000047683716, 0)
+LegsFIing.TextWrapped = true
+LegsFIing.TextSize = 21
+LegsFIing.TextScaled = true
+LegsFIing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+LegsFIing.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = LegsFIing
+
+local AutoSword = Instance.new("TextButton")
+AutoSword.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AutoSword.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoSword.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoSword.Text = "AutoSword"
+AutoSword.BorderSizePixel = 0
+AutoSword.Size = UDim2.new(0, 93, 0, 20)
+AutoSword.Name = "AutoSword"
+AutoSword.Position = UDim2.new(0.257999986410141, 0, 0.16500000655651093, 0)
+AutoSword.TextWrapped = true
+AutoSword.TextSize = 21
+AutoSword.TextScaled = true
+AutoSword.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoSword.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AutoSword
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AutoSword
+
+local AutoFarm = Instance.new("TextButton")
+AutoFarm.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AutoFarm.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoFarm.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoFarm.Text = "AutoFarm"
+AutoFarm.BorderSizePixel = 0
+AutoFarm.Size = UDim2.new(0, 93, 0, 20)
+AutoFarm.Name = "AutoFarm"
+AutoFarm.Position = UDim2.new(0.5059999823570251, 0, 0.16500000655651093, 0)
+AutoFarm.TextWrapped = true
+AutoFarm.TextSize = 21
+AutoFarm.TextScaled = true
+AutoFarm.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AutoFarm.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AutoFarm
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AutoFarm
+
+local AntiV2All = Instance.new("TextButton")
+AntiV2All.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AntiV2All.TextColor3 = Color3.fromRGB(255, 255, 255)
+AntiV2All.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AntiV2All.Text = "AntiV2All"
+AntiV2All.BorderSizePixel = 0
+AntiV2All.Size = UDim2.new(0, 93, 0, 20)
+AntiV2All.Name = "AntiV2All"
+AntiV2All.Position = UDim2.new(0.012000028975307941, 0, 0.2951887547969818, 0)
+AntiV2All.TextWrapped = true
+AntiV2All.TextSize = 21
+AntiV2All.TextScaled = true
+AntiV2All.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AntiV2All.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AntiV2All
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AntiV2All
+
+local LowPing = Instance.new("TextButton")
+LowPing.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LowPing.TextColor3 = Color3.fromRGB(255, 255, 255)
+LowPing.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LowPing.Text = "LowPing"
+LowPing.BorderSizePixel = 0
+LowPing.Size = UDim2.new(0, 93, 0, 20)
+LowPing.Name = "LowPing"
+LowPing.Position = UDim2.new(0.7590000033378601, 0, 0.16500000655651093, 0)
+LowPing.TextWrapped = true
+LowPing.TextSize = 21
+LowPing.TextScaled = true
+LowPing.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+LowPing.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = LowPing
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = LowPing
+
+local SpawnPoint = Instance.new("TextButton")
+SpawnPoint.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SpawnPoint.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpawnPoint.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SpawnPoint.Text = "Spawn"
+SpawnPoint.BorderSizePixel = 0
+SpawnPoint.Size = UDim2.new(0, 93, 0, 20)
+SpawnPoint.Name = "SpawnPoint"
+SpawnPoint.Position = UDim2.new(0.5059999823570251, 0, 0.29499998688697815, 0)
+SpawnPoint.TextWrapped = true
+SpawnPoint.TextSize = 21
+SpawnPoint.TextScaled = true
+SpawnPoint.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SpawnPoint.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = SpawnPoint
+
+local SafeZone = Instance.new("TextButton")
+SafeZone.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SafeZone.TextColor3 = Color3.fromRGB(255, 255, 255)
+SafeZone.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SafeZone.Text = "SafeZone"
+SafeZone.BorderSizePixel = 0
+SafeZone.Size = UDim2.new(0, 93, 0, 20)
+SafeZone.Name = "SafeZone"
+SafeZone.Position = UDim2.new(0.7590000033378601, 0, 0.29499998688697815, 0)
+SafeZone.TextWrapped = true
+SafeZone.TextSize = 21
+SafeZone.TextScaled = true
+SafeZone.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SafeZone.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = SafeZone
+
+local AntiAnvil = Instance.new("TextButton")
+AntiAnvil.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AntiAnvil.TextColor3 = Color3.fromRGB(255, 255, 255)
+AntiAnvil.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AntiAnvil.Text = "AntiAnvil"
+AntiAnvil.BorderSizePixel = 0
+AntiAnvil.Size = UDim2.new(0, 93, 0, 20)
+AntiAnvil.Name = "AntiAnvil"
+AntiAnvil.Position = UDim2.new(0.257999986410141, 0, 0.29499998688697815, 0)
+AntiAnvil.TextWrapped = true
+AntiAnvil.TextSize = 21
+AntiAnvil.TextScaled = true
+AntiAnvil.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AntiAnvil.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AntiAnvil
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AntiAnvil
+
+local ToolController = Instance.new("TextButton")
+ToolController.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+ToolController.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToolController.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToolController.Text = "ToolController"
+ToolController.BorderSizePixel = 0
+ToolController.Size = UDim2.new(0, 93, 0, 20)
+ToolController.Name = "ToolController"
+ToolController.Position = UDim2.new(0.012000000104308128, 0, 0.42500001192092896, 0)
+ToolController.TextWrapped = true
+ToolController.TextSize = 21
+ToolController.TextScaled = true
+ToolController.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ToolController.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = ToolController
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = ToolController
+
+local HatFIingTarget = Instance.new("TextBox")
+HatFIingTarget.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+HatFIingTarget.Name = "HatFIingTarget"
+HatFIingTarget.TextColor3 = Color3.fromRGB(107, 107, 107)
+HatFIingTarget.BorderColor3 = Color3.fromRGB(0, 0, 0)
+HatFIingTarget.Text = ""
+HatFIingTarget.Size = UDim2.new(0, 93, 0, 20)
+HatFIingTarget.Position = UDim2.new(0.257999986410141, 0, 0.42500001192092896, 0)
+HatFIingTarget.BorderSizePixel = 0
+HatFIingTarget.TextSize = 14
+HatFIingTarget.BackgroundTransparency = 0.20000000298023224
+HatFIingTarget.PlaceholderColor3 = Color3.fromRGB(173, 173, 173)
+HatFIingTarget.TextWrapped = true
+HatFIingTarget.PlaceholderText = "TargetPlayer"
+HatFIingTarget.TextScaled = true
+HatFIingTarget.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+HatFIingTarget.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = HatFIingTarget
+
+local HatFling = Instance.new("TextButton")
+HatFling.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+HatFling.TextColor3 = Color3.fromRGB(255, 255, 255)
+HatFling.BorderColor3 = Color3.fromRGB(0, 0, 0)
+HatFling.Text = "HatFIingTarget"
+HatFling.BorderSizePixel = 0
+HatFling.Size = UDim2.new(0, 93, 0, 20)
+HatFling.Name = "HatFling"
+HatFling.Position = UDim2.new(0.5057656168937683, 0, 0.42500004172325134, 0)
+HatFling.TextWrapped = true
+HatFling.TextSize = 21
+HatFling.TextScaled = true
+HatFling.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+HatFling.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = HatFling
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = HatFling
+
+local BugTargetScreen = Instance.new("TextButton")
+BugTargetScreen.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+BugTargetScreen.TextColor3 = Color3.fromRGB(255, 255, 255)
+BugTargetScreen.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BugTargetScreen.Text = "BugTargetsScreen"
+BugTargetScreen.BorderSizePixel = 0
+BugTargetScreen.Size = UDim2.new(0, 93, 0, 20)
+BugTargetScreen.Name = "BugTargetScreen"
+BugTargetScreen.Position = UDim2.new(0.7590000033378601, 0, 0.42500001192092896, 0)
+BugTargetScreen.TextWrapped = true
+BugTargetScreen.TextSize = 21
+BugTargetScreen.TextScaled = true
+BugTargetScreen.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BugTargetScreen.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = BugTargetScreen
+
+local SwordFlingTarget = Instance.new("TextButton")
+SwordFlingTarget.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SwordFlingTarget.TextColor3 = Color3.fromRGB(255, 255, 255)
+SwordFlingTarget.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SwordFlingTarget.Text = "SwordFIingTarget"
+SwordFlingTarget.BorderSizePixel = 0
+SwordFlingTarget.Size = UDim2.new(0, 93, 0, 20)
+SwordFlingTarget.Name = "SwordFlingTarget"
+SwordFlingTarget.Position = UDim2.new(0.012000000104308128, 0, 0.5569999814033508, 0)
+SwordFlingTarget.TextWrapped = true
+SwordFlingTarget.TextSize = 21
+SwordFlingTarget.TextScaled = true
+SwordFlingTarget.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+SwordFlingTarget.Parent = Misc
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = SwordFlingTarget
+
+local Options = Instance.new("Frame")
+Options.Visible = false
+Options.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Options.BackgroundTransparency = 0.30000001192092896
+Options.Position = UDim2.new(0, 0, -0.004739625845104456, 0)
+Options.Name = "Options"
+Options.Size = UDim2.new(0, 401, 0, 212)
+Options.BorderSizePixel = 0
+Options.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Options.Parent = TabHolder
+
+local AnvilKillOptimazion = Instance.new("TextButton")
+AnvilKillOptimazion.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AnvilKillOptimazion.TextColor3 = Color3.fromRGB(255, 255, 255)
+AnvilKillOptimazion.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AnvilKillOptimazion.Text = "AnvilKillOptimizion"
+AnvilKillOptimazion.BorderSizePixel = 0
+AnvilKillOptimazion.Size = UDim2.new(0, 93, 0, 20)
+AnvilKillOptimazion.Name = "AnvilKillOptimazion"
+AnvilKillOptimazion.Position = UDim2.new(0.012000000104308128, 0, 0.03700000047683716, 0)
+AnvilKillOptimazion.TextWrapped = true
+AnvilKillOptimazion.TextSize = 21
+AnvilKillOptimazion.TextScaled = true
+AnvilKillOptimazion.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AnvilKillOptimazion.Parent = Options
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(43, 43, 43)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AnvilKillOptimazion
+
+local check = Instance.new("Frame")
+check.Name = "check"
+check.Position = UDim2.new(0, 0, 1, 0)
+check.BorderColor3 = Color3.fromRGB(0, 0, 0)
+check.Size = UDim2.new(0, 93, 0, 1)
+check.BorderSizePixel = 0
+check.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+check.Parent = AnvilKillOptimazion
+
+local HolderTabs = Instance.new("Frame")
+HolderTabs.Name = "HolderTabs"
+HolderTabs.BackgroundTransparency = 1
+HolderTabs.Position = UDim2.new(0, 0, 0.8693877458572388, 0)
+HolderTabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
+HolderTabs.Size = UDim2.new(0, 401, 0, 26)
+HolderTabs.BorderSizePixel = 0
+HolderTabs.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+HolderTabs.Parent = Contain
+
+local MainButton = Instance.new("TextButton")
+MainButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+MainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MainButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+MainButton.Text = "Main"
+MainButton.BorderSizePixel = 0
+MainButton.Size = UDim2.new(0, 81, 0, 26)
+MainButton.Name = "MainButton"
+MainButton.Position = UDim2.new(0, 0, -0.04326923191547394, 0)
+MainButton.TextWrapped = true
+MainButton.TextSize = 14
+MainButton.TextScaled = true
+MainButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainButton.Parent = HolderTabs
+
+local ToolsButton = Instance.new("TextButton")
+ToolsButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+ToolsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToolsButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToolsButton.Text = "Tools"
+ToolsButton.BorderSizePixel = 0
+ToolsButton.Size = UDim2.new(0, 80, 0, 26)
+ToolsButton.Name = "ToolsButton"
+ToolsButton.Position = UDim2.new(0.20199501514434814, 0, -0.04326923191547394, 0)
+ToolsButton.TextWrapped = true
+ToolsButton.TextSize = 14
+ToolsButton.TextScaled = true
+ToolsButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ToolsButton.Parent = HolderTabs
+
+local GlobalTab = Instance.new("TextButton")
+GlobalTab.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+GlobalTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+GlobalTab.BorderColor3 = Color3.fromRGB(0, 0, 0)
+GlobalTab.Text = "Global"
+GlobalTab.BorderSizePixel = 0
+GlobalTab.Size = UDim2.new(0, 80, 0, 26)
+GlobalTab.Name = "GlobalTab"
+GlobalTab.Position = UDim2.new(0.4014962613582611, 0, -0.04326923191547394, 0)
+GlobalTab.TextWrapped = true
+GlobalTab.TextSize = 14
+GlobalTab.TextScaled = true
+GlobalTab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+GlobalTab.Parent = HolderTabs
+
+local MiscButton = Instance.new("TextButton")
+MiscButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+MiscButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MiscButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+MiscButton.Text = "Misc"
+MiscButton.BorderSizePixel = 0
+MiscButton.Size = UDim2.new(0, 80, 0, 26)
+MiscButton.Name = "MiscButton"
+MiscButton.Position = UDim2.new(0.6009975075721741, 0, -0.04326923191547394, 0)
+MiscButton.TextWrapped = true
+MiscButton.TextSize = 14
+MiscButton.TextScaled = true
+MiscButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MiscButton.Parent = HolderTabs
+
+local OptionsButton = Instance.new("TextButton")
+OptionsButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+OptionsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+OptionsButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+OptionsButton.Text = "Options"
+OptionsButton.BorderSizePixel = 0
+OptionsButton.Size = UDim2.new(0, 80, 0, 26)
+OptionsButton.Name = "OptionsButton"
+OptionsButton.Position = UDim2.new(0.8004987239837646, 0, -0.04326923191547394, 0)
+OptionsButton.TextWrapped = true
+OptionsButton.TextSize = 14
+OptionsButton.TextScaled = true
+OptionsButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+OptionsButton.Parent = HolderTabs
+
+local Tabs = {
+    Main = Main,
+    Tools = Tools,
+    Global = Global,
+    Misc = Misc,
+    Option = Option
+}
+
+local function ShowTab(tabName)
+    for name, frame in pairs(Tabs) do
+        frame.Visible = (name == tabName)
+    end
+end
+
+AddButton(MainTab, function() ShowTab("Main") end)
+AddButton(ToolsTab, function() ShowTab("Tools") end)
+AddButton(GlobalTab, function() ShowTab("Global") end)
+AddButton(MiscTab, function() ShowTab("Misc") end)
+AddButton(OptionTab, function() ShowTab("Option") end)
+
+ShowTab("Main")
+
+
+local function AddToggle(button, func)
+    local indicator = button:FindFirstChild("check")
+    if not indicator then return end
+    local toggled = false
+    button.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        if toggled then
+            indicator.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        else
+            indicator.BackgroundColor3 = Color3.fromRGB(177, 0, 0)
+        end
+        if func then func(toggled) end
+    end)
+end
+
+local function AddButton(button, func)
+    button.MouseButton1Click:Connect(function()
+        if func then func() end
+    end)
+end
+
+local function AddBox(box, func)
+    box.FocusLost:Connect(function(enterPressed)
+        if enterPressed and func then
+            func(box.Text)
+        end
+    end)
+end
+
+AddToggle(Antifling, function(state)
+    print("true")
 end)
