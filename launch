@@ -261,12 +261,13 @@ Settings.Text = "REMOTES"
 
 -- ===== Info Panel (Blue/White/Black Theme) =====
 
+-- Info Button
 local InfoToggle = Instance.new("TextButton")
 InfoToggle.Name = "InfoToggle"
 InfoToggle.Parent = ButtonsFrame
 InfoToggle.BackgroundColor3 = Color3.fromRGB(25,25,25)
 InfoToggle.BorderColor3 = Color3.fromRGB(0,90,160)
-InfoToggle.Position = UDim2.new(1, -220, 0.5, -10)
+InfoToggle.Position = UDim2.new(0, 910, 0.5, -10) -- placed after "Total" and "Settings"
 InfoToggle.Size = UDim2.new(0, 100, 0, 20)
 InfoToggle.ZIndex = 3
 InfoToggle.Font = Enum.Font.SourceSansBold
@@ -274,6 +275,7 @@ InfoToggle.FontSize = Enum.FontSize.Size14
 InfoToggle.Text = "INFO"
 InfoToggle.TextColor3 = Color3.fromRGB(0,120,215)
 InfoToggle.TextSize = 14
+
 
 local InfoPanel = Instance.new("Frame")
 InfoPanel.Name = "InfoPanel"
