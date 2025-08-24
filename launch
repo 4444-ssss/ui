@@ -1026,6 +1026,7 @@ local game_namecall = game_meta.__namecall
 local namecall_dump = {}
 local current_rmt = nil
 local g_caller = nil
+local currentSelectedCaller = nil
 local f_return = nil
 local Step = game:GetService("RunService").Stepped
 
@@ -1097,6 +1098,7 @@ local log_remote = function(table)
 	B.MouseButton1Down:Connect(function()
 		dump_script(table.script)
 		g_caller = table.caller
+	currentSelectedCaller = table.caller
 		f_return = table.freturn == nil and table.object.Name .. " is not RemoteFunction" or table.freturn
 	end)
 end
@@ -1128,7 +1130,8 @@ GetReturn.MouseButton1Down:Connect(function()
 end)
 
 Decompile.MouseButton1Down:Connect(function()
-	local source = decompile(g_caller)
+	local target = currentSelectedCaller or g_caller
+	local source = decompile(target)
 	dump_script(
 		type(source) == "boolean" and (function() Source.Visible = false SetRemotes.Visible = false SetRemotesTab.Visible = false lvl6Frame.Visible = true dump_script("Failed to decompile...") 
 			return "" 
@@ -1421,3 +1424,132 @@ end)
 filterEOn = (FilterE and (FilterE.TextColor3.r > 0.5 or FilterE.BorderColor3.r > 0.5)) or false
 filterFOn = (FilterF and (FilterF.TextColor3.r > 0.5 or FilterF.BorderColor3.r > 0.5)) or false
 -- === End Fix ===
+
+
+
+-- ========= Strong Decompile Enhancements =========
+-- Tries multiple approaches and produces a detailed report when normal decompile fails.
+-- Adds a helper to dump metadata, hashes, and optional neighbor modules.
+
+local function get_if_exists(name)
+    local ok, fn = pcall(function() return getfenv()[name] end)
+    if ok and type(fn) == "function" then return fn end
+    return nil
+end
+
+local function try_getsenv(inst)
+    local ok, res = pcall(function() return getsenv and getsenv(inst) end)
+    return ok and res or nil
+end
+
+local function try_getscripthash(inst)
+    local ok, res = pcall(function() return getscripthash and getscripthash(inst) end)
+    return (ok and res) or "N/A"
+end
+
+local function try_getbytecode(inst)
+    local ok, res = pcall(function() return getscriptbytecode and getscriptbytecode(inst) end)
+    if ok and type(res) == "string" then
+        return ("<bytecode length: %d bytes>"):format(#res)
+    end
+    return "N/A"
+end
+
+local function try_read_source(inst)
+    local ok, src = pcall(function() return inst and inst.Source end)
+    if ok and type(src)=="string" and #src>0 then
+        return src
+    end
+    return nil
+end
+
+local function smart_path(inst)
+    local ok, full = pcall(function() return inst:GetFullName() end)
+    return ok and full or tostring(inst)
+end
+
+local function header_block(inst, title)
+    local lines = {}
+    table.insert(lines, ("-- %s"):format(title or "Decompile Report"))
+    table.insert(lines, ("-- Class: %s"):format(inst and inst.ClassName or "N/A"))
+    table.insert(lines, ("-- Path:  %s"):format(inst and smart_path(inst) or "N/A"))
+    table.insert(lines, ("-- Hash:  %s"):format(inst and try_getscripthash(inst) or "N/A"))
+    table.insert(lines, ("-- Bytecode: %s"):format(inst and try_getbytecode(inst) or "N/A"))
+    return table.concat(lines, "\n")
+end
+
+local function strong_decompile(inst)
+    if not inst then return "-- No target selected for decompile." end
+    -- 1) Try normal decompile
+    local src
+    do
+        local ok, res = pcall(function() return decompile and decompile(inst) end)
+        if ok and type(res)=="string" and #res>0 and not res:find("^false$") then
+            src = res
+        end
+    end
+    if src then
+        return header_block(inst, "Decompile Success") .. "\n\n" .. tostring(src)
+    end
+    -- 2) Try reading .Source (when allowed)
+    local raw = try_read_source(inst)
+    if raw then
+        return header_block(inst, "Source Property (raw)") .. "\n\n" .. raw
+    end
+    -- 3) Try to gather environment keys as hints
+    local env = try_getsenv(inst)
+    local env_dump = {}
+    if type(env)=="table" then
+        table.insert(env_dump, "-- Environment keys (partial):")
+        local n=0
+        for k,_ in pairs(env) do
+            n = n + 1
+            table.insert(env_dump, ("--   %s"):format(tostring(k)))
+            if n>80 then table.insert(env_dump, "--   ..."); break end
+        end
+    else
+        table.insert(env_dump, "-- Environment not available")
+    end
+    -- 4) Final fallback: structured report
+    return header_block(inst, "Decompile Fallback Report") .. "\n\n" .. table.concat(env_dump, "\n") .. "\n-- No readable source available."
+end
+
+-- Bonus: try neighboring ModuleScripts if the main caller fails
+local function strong_decompile_plus(inst)
+    local report = strong_decompile(inst)
+    -- If success already, return
+    if not report:find("Fallback Report") and not report:find("Source Property") then
+        return report
+    end
+    -- Also scan siblings for ModuleScripts to give extra context
+    local ok, siblings = pcall(function() return inst and inst.Parent and inst.Parent:GetChildren() end)
+    if ok and siblings then
+        local extra = {"\n-- == Neighbor Modules =="}
+        local count = 0
+        for _,child in ipairs(siblings) do
+            if child.ClassName == "ModuleScript" then
+                count = count + 1
+                table.insert(extra, ("\n%s\n%s"):format(header_block(child, "Neighbor Module"), strong_decompile(child)))
+                if count >= 5 then break end
+            end
+        end
+        if count > 0 then
+            report = report .. "\n" .. table.concat(extra, "\n")
+        end
+    end
+    return report
+end
+
+-- Wire up the Decompile button to the stronger path
+do
+    local originalConnect = Decompile.MouseButton1Down
+    if originalConnect then
+        Decompile.MouseButton1Down:Connect(function()
+            local target = currentSelectedCaller or g_caller
+            local src = strong_decompile_plus(target)
+            dump_script(src)
+        end)
+    end
+end
+
+-- ========= End Strong Decompile Enhancements =========
