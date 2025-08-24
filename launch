@@ -1249,127 +1249,118 @@ local function tintTree(root, t)
 end
 
 local THEMES = {
-{name='Nox Blue',bg=Color3.fromRGB(20,20,20),bg2=Color3.fromRGB(25,25,25),ribbon=Color3.fromRGB(0,120,215),border=Color3.fromRGB(62,62,62),text=Color3.fromRGB(255,255,255),muted=Color3.fromRGB(180,180,180),accent=Color3.fromRGB(0,120,215)},
-{name='Graphite',bg=Color3.fromRGB(18,18,18),bg2=Color3.fromRGB(24,24,24),ribbon=Color3.fromRGB(50,50,50),border=Color3.fromRGB(70,70,70),text=Color3.fromRGB(230,230,230),muted=Color3.fromRGB(170,170,170),accent=Color3.fromRGB(120,120,120)},
-{name='Obsidian',bg=Color3.fromRGB(12,12,12),bg2=Color3.fromRGB(20,20,20),ribbon=Color3.fromRGB(30,30,30),border=Color3.fromRGB(55,55,55),text=Color3.fromRGB(235,235,235),muted=Color3.fromRGB(150,150,150),accent=Color3.fromRGB(200,200,200)},
-{name='Theme 1',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,67,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,38)},
-{name='Theme 2',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,76,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,49,38)},
-{name='Theme 3',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,84,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,60,38)},
-{name='Theme 4',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,92,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,71,38)},
-{name='Theme 5',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,101,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,82,38)},
-{name='Theme 6',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,109,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,93,38)},
-{name='Theme 7',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,117,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,104,38)},
-{name='Theme 8',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,126,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,116,38)},
-{name='Theme 9',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,134,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,127,38)},
-{name='Theme 10',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,142,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,138,38)},
-{name='Theme 11',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,151,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,149,38)},
-{name='Theme 12',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,159,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,160,38)},
-{name='Theme 13',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,167,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,171,38)},
-{name='Theme 14',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,176,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,182,38)},
-{name='Theme 15',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,184,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,193,38)},
-{name='Theme 16',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,192,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,204,38)},
-{name='Theme 17',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,201,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,216,38)},
-{name='Theme 18',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,209,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,227,38)},
-{name='Theme 19',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(215,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,238,38)},
-{name='Theme 20',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(207,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,249,38)},
-{name='Theme 21',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(199,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(249,255,38)},
-{name='Theme 22',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(190,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(238,255,38)},
-{name='Theme 23',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(182,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(227,255,38)},
-{name='Theme 24',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(174,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(216,255,38)},
-{name='Theme 25',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(165,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(204,255,38)},
-{name='Theme 26',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(157,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(193,255,38)},
-{name='Theme 27',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(149,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(182,255,38)},
-{name='Theme 28',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(140,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(171,255,38)},
-{name='Theme 29',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(132,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(160,255,38)},
-{name='Theme 30',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(124,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(149,255,38)},
-{name='Theme 31',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(115,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(138,255,38)},
-{name='Theme 32',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(107,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(127,255,38)},
-{name='Theme 33',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(98,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(116,255,38)},
-{name='Theme 34',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(90,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(104,255,38)},
-{name='Theme 35',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(82,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(93,255,38)},
-{name='Theme 36',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(73,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(82,255,38)},
-{name='Theme 37',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(65,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(71,255,38)},
-{name='Theme 38',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(57,216,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(60,255,38)},
-{name='Theme 39',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,59),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(49,255,38)},
-{name='Theme 40',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,67),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,38)},
-{name='Theme 41',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,76),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,49)},
-{name='Theme 42',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,84),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,60)},
-{name='Theme 43',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,92),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,71)},
-{name='Theme 44',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,101),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,82)},
-{name='Theme 45',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,109),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,93)},
-{name='Theme 46',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,117),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,104)},
-{name='Theme 47',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,126),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,116)},
-{name='Theme 48',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,134),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,127)},
-{name='Theme 49',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,142),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,138)},
-{name='Theme 50',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,151),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,149)},
-{name='Theme 51',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,159),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,160)},
-{name='Theme 52',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,167),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,171)},
-{name='Theme 53',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,176),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,182)},
-{name='Theme 54',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,184),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,193)},
-{name='Theme 55',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,192),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,204)},
-{name='Theme 56',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,201),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,216)},
-{name='Theme 57',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,216,209),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,227)},
-{name='Theme 58',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,215,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,238)},
-{name='Theme 59',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,207,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,255,249)},
-{name='Theme 60',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,199,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,249,255)},
-{name='Theme 61',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,190,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,238,255)},
-{name='Theme 62',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,182,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,227,255)},
-{name='Theme 63',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,174,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,216,255)},
-{name='Theme 64',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,165,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,204,255)},
-{name='Theme 65',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,157,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,193,255)},
-{name='Theme 66',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,149,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,182,255)},
-{name='Theme 67',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,140,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,171,255)},
-{name='Theme 68',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,132,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,160,255)},
-{name='Theme 69',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,124,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,149,255)},
-{name='Theme 70',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,115,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,138,255)},
-{name='Theme 71',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,107,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,127,255)},
-{name='Theme 72',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,98,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,116,255)},
-{name='Theme 73',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,90,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,104,255)},
-{name='Theme 74',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,82,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,93,255)},
-{name='Theme 75',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,73,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,82,255)},
-{name='Theme 76',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,65,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,71,255)},
-{name='Theme 77',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(54,57,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,60,255)},
-{name='Theme 78',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(59,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,49,255)},
-{name='Theme 79',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(67,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(38,38,255)},
-{name='Theme 80',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(76,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(49,38,255)},
-{name='Theme 81',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(84,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(60,38,255)},
-{name='Theme 82',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(92,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(71,38,255)},
-{name='Theme 83',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(101,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(82,38,255)},
-{name='Theme 84',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(109,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(93,38,255)},
-{name='Theme 85',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(117,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(104,38,255)},
-{name='Theme 86',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(126,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(116,38,255)},
-{name='Theme 87',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(134,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(127,38,255)},
-{name='Theme 88',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(142,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(138,38,255)},
-{name='Theme 89',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(151,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(149,38,255)},
-{name='Theme 90',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(159,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(160,38,255)},
-{name='Theme 91',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(167,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(171,38,255)},
-{name='Theme 92',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(176,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(182,38,255)},
-{name='Theme 93',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(184,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(193,38,255)},
-{name='Theme 94',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(192,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(204,38,255)},
-{name='Theme 95',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(201,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(216,38,255)},
-{name='Theme 96',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(209,54,216),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(227,38,255)},
-{name='Theme 97',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,215),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(238,38,255)},
-{name='Theme 98',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,207),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(249,38,255)},
-{name='Theme 99',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,199),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,249)},
-{name='Theme 100',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,190),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,238)},
-{name='Theme 101',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,182),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,227)},
-{name='Theme 102',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,174),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,216)},
-{name='Theme 103',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,165),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,204)},
-{name='Theme 104',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,157),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,193)},
-{name='Theme 105',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,149),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,182)},
-{name='Theme 106',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,140),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,171)},
-{name='Theme 107',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,132),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,160)},
-{name='Theme 108',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,124),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,149)},
-{name='Theme 109',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,115),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,138)},
-{name='Theme 110',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,107),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,127)},
-{name='Theme 111',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,98),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,116)},
-{name='Theme 112',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,90),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,104)},
-{name='Theme 113',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,82),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,93)},
-{name='Theme 114',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,73),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,82)},
-{name='Theme 115',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,65),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,71)},
-{name='Theme 116',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,54,57),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,60)},
-{name='Theme 117',bg=Color3.fromRGB(18,18,20),bg2=Color3.fromRGB(24,24,28),ribbon=Color3.fromRGB(216,59,54),border=Color3.fromRGB(80,85,95),text=Color3.fromRGB(235,240,245),muted=Color3.fromRGB(200,205,210),accent=Color3.fromRGB(255,38,49)},
+    {name='Obsidian',bg=Color3.fromRGB(12,12,12),bg2=Color3.fromRGB(20,20,20),ribbon=Color3.fromRGB(30,30,30),border=Color3.fromRGB(55,55,55),text=Color3.fromRGB(235,235,235),muted=Color3.fromRGB(160,160,160),accent=Color3.fromRGB(200,200,200)},
+    {name='Ocean',bg=Color3.fromRGB(8,14,20),bg2=Color3.fromRGB(14,22,30),ribbon=Color3.fromRGB(0,96,160),border=Color3.fromRGB(40,72,96),text=Color3.fromRGB(225,240,255),muted=Color3.fromRGB(170,190,210),accent=Color3.fromRGB(0,140,220)},
+    {name='Midnight',bg=Color3.fromRGB(16,16,24),bg2=Color3.fromRGB(22,22,34),ribbon=Color3.fromRGB(64,0,128),border=Color3.fromRGB(72,72,96),text=Color3.fromRGB(235,235,250),muted=Color3.fromRGB(180,180,205),accent=Color3.fromRGB(128,64,255)},
+    {name='Slate',bg=Color3.fromRGB(18,18,18),bg2=Color3.fromRGB(26,26,26),ribbon=Color3.fromRGB(64,64,64),border=Color3.fromRGB(80,80,80),text=Color3.fromRGB(230,230,230),muted=Color3.fromRGB(170,170,170),accent=Color3.fromRGB(140,140,140)},
+    {name='Solar Night',bg=Color3.fromRGB(0,43,54),bg2=Color3.fromRGB(7,54,66),ribbon=Color3.fromRGB(38,139,210),border=Color3.fromRGB(88,110,117),text=Color3.fromRGB(253,246,227),muted=Color3.fromRGB(238,232,213),accent=Color3.fromRGB(42,161,152)},
+    {name='Neon',bg=Color3.fromRGB(10,10,14),bg2=Color3.fromRGB(16,16,24),ribbon=Color3.fromRGB(255,0,128),border=Color3.fromRGB(60,30,60),text=Color3.fromRGB(255,255,255),muted=Color3.fromRGB(200,200,220),accent=Color3.fromRGB(0,255,180)},
+    {name='Forest',bg=Color3.fromRGB(10,16,12),bg2=Color3.fromRGB(16,24,18),ribbon=Color3.fromRGB(20,120,80),border=Color3.fromRGB(40,72,56),text=Color3.fromRGB(230,245,235),muted=Color3.fromRGB(180,205,190),accent=Color3.fromRGB(60,200,120)},
+    {name='Crimson',bg=Color3.fromRGB(20,10,12),bg2=Color3.fromRGB(28,14,18),ribbon=Color3.fromRGB(160,24,48),border=Color3.fromRGB(84,30,40),text=Color3.fromRGB(255,230,235),muted=Color3.fromRGB(210,170,180),accent=Color3.fromRGB(220,60,90)},
+    {name='Amethyst',bg=Color3.fromRGB(14,10,20),bg2=Color3.fromRGB(22,16,30),ribbon=Color3.fromRGB(120,60,200),border=Color3.fromRGB(70,50,110),text=Color3.fromRGB(245,235,255),muted=Color3.fromRGB(205,190,220),accent=Color3.fromRGB(170,110,255)},
+    {name='Arctic',bg=Color3.fromRGB(16,20,24),bg2=Color3.fromRGB(22,28,34),ribbon=Color3.fromRGB(0,130,200),border=Color3.fromRGB(58,78,98),text=Color3.fromRGB(235,245,255),muted=Color3.fromRGB(190,205,220),accent=Color3.fromRGB(80,180,255)},
+    {name='Coffee',bg=Color3.fromRGB(22,18,14),bg2=Color3.fromRGB(30,24,20),ribbon=Color3.fromRGB(120,72,40),border=Color3.fromRGB(90,70,56),text=Color3.fromRGB(245,236,225),muted=Color3.fromRGB(210,195,180),accent=Color3.fromRGB(190,120,70)},
+    {name='Sunset',bg=Color3.fromRGB(18,12,12),bg2=Color3.fromRGB(26,16,16),ribbon=Color3.fromRGB(255,111,97),border=Color3.fromRGB(100,60,60),text=Color3.fromRGB(255,240,235),muted=Color3.fromRGB(210,185,180),accent=Color3.fromRGB(255,159,67)},
+    {name='Cyberpunk',bg=Color3.fromRGB(12,10,16),bg2=Color3.fromRGB(18,14,24),ribbon=Color3.fromRGB(0,180,255),border=Color3.fromRGB(50,60,90),text=Color3.fromRGB(240,250,255),muted=Color3.fromRGB(190,210,220),accent=Color3.fromRGB(255,0,170)},
+    {name='Pastel',bg=Color3.fromRGB(22,22,22),bg2=Color3.fromRGB(28,28,28),ribbon=Color3.fromRGB(160,160,255),border=Color3.fromRGB(96,96,120),text=Color3.fromRGB(245,245,245),muted=Color3.fromRGB(210,210,230),accent=Color3.fromRGB(180,255,220)},
+    {name='Rainbow',bg=Color3.fromRGB(16,16,16),bg2=Color3.fromRGB(22,22,22),ribbon=Color3.fromRGB(255,0,0),border=Color3.fromRGB(70,70,70),text=Color3.fromRGB(245,245,245),muted=Color3.fromRGB(190,190,190),accent=Color3.fromRGB(255,0,0)}
 }
+-- Theme application + selector (15 presets, Rainbow animates accent/ribbon)
+local _rainbowConn
+local _rainbowActive = false
+local _currentTheme = 1
+
+local function hsvToColor3(h)
+    return Color3.fromHSV(h % 1, 0.9, 1)
+end
+
+local function applyTheme(idx)
+    idx = math.clamp(idx,1,#THEMES)
+    _currentTheme = idx
+    local t = THEMES[idx]
+    if _rainbowConn then _rainbowConn:Disconnect() _rainbowConn=nil end
+    _rainbowActive = (t.name=='Rainbow')
+
+    -- static paint first
+    pcall(function()
+        BG.BackgroundColor3 = t.bg
+        Ribbon.BackgroundColor3 = t.ribbon
+        Title.BackgroundColor3 = t.ribbon
+        Hide.BackgroundColor3 = t.ribbon
+        FullScreen.BackgroundColor3 = t.ribbon
+    end)
+    tintTree(BG,t)
+
+    if _rainbowActive then
+        _rainbowConn = game:GetService("RunService").Heartbeat:Connect(function()
+            local h = (tick()%6)/6
+            local c = hsvToColor3(h)
+            pcall(function()
+                Ribbon.BackgroundColor3 = c
+                Title.BackgroundColor3 = c
+                Hide.BackgroundColor3 = c
+                FullScreen.BackgroundColor3 = c
+                EnableSpy.TextColor3 = c
+                CryptStrings.TextColor3 = c
+                for _,v in ipairs(BG:GetDescendants()) do
+                    if v:IsA("TextLabel") or v:IsA("TextButton") then
+                        if v.Name=="Enabled" or v.Name=="EnableSpy" then v.TextColor3=c end
+                    end
+                    if v:IsA("Frame") and v.Name=="Ribbon" then v.BackgroundColor3=c end
+                end
+            end)
+        end)
+    end
+end
+
+-- Tiny dropdown near THEME button
+local ThemeList = Instance.new("ScrollingFrame")
+ThemeList.Name="ThemeList"
+ThemeList.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ThemeList.CanvasSize = UDim2.new()
+ThemeList.ScrollBarThickness = 4
+ThemeList.Visible=false
+ThemeList.ZIndex=60
+ThemeList.Parent = BG
+ThemeList.Size = UDim2.new(0,180,0,240)
+ThemeList.Position = UDim2.new(0, ThemeBtn.AbsolutePosition.X - BG.AbsolutePosition.X, 0, 55)
+
+local UIList = Instance.new("UIListLayout", ThemeList)
+UIList.Padding = UDim.new(0,4)
+UIList.SortOrder = Enum.SortOrder.LayoutOrder
+
+local function rebuildThemeList()
+    ThemeList:ClearAllChildren()
+    UIList.Parent = ThemeList
+    for i,t in ipairs(THEMES) do
+        local b = Instance.new("TextButton")
+        b.Name = t.name
+        b.Size = UDim2.new(1,-8,0,22)
+        b.Text = string.format("%02d. %s", i, t.name)
+        b.Font = Enum.Font.SourceSansBold
+        b.TextSize = 14
+        b.ZIndex=61
+        b.BackgroundColor3 = t.bg2
+        b.TextColor3 = t.text
+        b.BorderColor3 = t.border
+        b.Parent = ThemeList
+        b.MouseButton1Click:Connect(function()
+            applyTheme(i)
+            ThemeList.Visible=false
+        end)
+    end
+end
+rebuildThemeList()
+
+ThemeBtn.MouseButton1Click:Connect(function()
+    local gp = ThemeBtn.AbsolutePosition
+    ThemeList.Position = UDim2.new(0, gp.X - BG.AbsolutePosition.X, 0, (Ribbon.AbsolutePosition.Y - BG.AbsolutePosition.Y) + 24)
+    ThemeList.Visible = not ThemeList.Visible
+end)
+
+-- Start with Obsidian
+pcall(function() applyTheme(1) end)
+
 
 local theme_index = 1
 
