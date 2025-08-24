@@ -1340,3 +1340,84 @@ Remotes.ChildAdded:Connect(styleListItem_RBTN)
 SetRemotes.ChildAdded:Connect(styleListItem_SBTN)
 
 applyTheme(1)
+
+
+
+-- === Theme-Safe Toggle Coloring Fix ===
+-- Ensures that when you toggle RemoteSpy / CryptStrings / Filters / per-remote Enabled,
+-- the colors always match the CURRENT theme (accent = Ribbon.BackgroundColor3).
+
+local RunService = game:GetService("RunService")
+
+local filterEOn = false
+local filterFOn = false
+
+-- Track current filter states by listening in (without replacing original handlers)
+if FilterE and FilterE.MouseButton1Down then
+    FilterE.MouseButton1Down:Connect(function()
+        filterEOn = not filterEOn
+    end)
+end
+if FilterF and FilterF.MouseButton1Down then
+    FilterF.MouseButton1Down:Connect(function()
+        filterFOn = not filterFOn
+    end)
+end
+
+local function accentColor()
+    return Ribbon and Ribbon.BackgroundColor3 or Color3.fromRGB(0,120,215)
+end
+local function dimColor()
+    return Color3.fromRGB(150,150,150)
+end
+
+local function applyAccentToButton(btn, isOn)
+    if not btn then return end
+    btn.BorderColor3 = isOn and accentColor() or Color3.fromRGB(80,80,80)
+    btn.TextColor3   = isOn and accentColor() or dimColor()
+end
+
+local function recolorFilters()
+    applyAccentToButton(FilterE, filterEOn)
+    applyAccentToButton(FilterF, filterFOn)
+end
+
+local function recolorTopButtons()
+    -- Use booleans already present in script
+    applyAccentToButton(EnableSpy, spy_enabled)
+    applyAccentToButton(CryptStrings, encrypt_string)
+    -- Static buttons: match accent
+    local acc = accentColor()
+    local light = Color3.fromRGB(235,235,235)
+    if ToClipboard then ToClipboard.BorderColor3 = acc ToClipboard.TextColor3 = light end
+    if Decompile   then Decompile.BorderColor3   = acc Decompile.TextColor3   = light end
+    if GetReturn   then GetReturn.BorderColor3   = acc GetReturn.TextColor3   = light end
+    if ClearList   then ClearList.BorderColor3   = acc ClearList.TextColor3   = light end
+    if Settings    then Settings.BorderColor3    = acc Settings.TextColor3    = light end
+    if Themes      then Themes.BorderColor3      = acc Themes.TextColor3      = light end
+end
+
+local function recolorSetRemotesItems()
+    local acc = accentColor()
+    for _,c in ipairs(SetRemotes:GetChildren()) do
+        local ok, _ = pcall(function()
+            if c:IsA("TextButton") and c:FindFirstChild("Enabled") then
+                local enabled = (c.Enabled.Text == "Enabled")
+                c.Enabled.BorderColor3 = enabled and acc or Color3.fromRGB(80,80,80)
+                c.Enabled.TextColor3   = enabled and acc or dimColor()
+            end
+        end)
+    end
+end
+
+-- Continuous light-touch sync to keep colors aligned with current theme/state
+RunService.Heartbeat:Connect(function()
+    recolorTopButtons()
+    recolorFilters()
+    recolorSetRemotesItems()
+end)
+
+-- Initialize filter states based on current color (best-effort when loading older scripts)
+filterEOn = (FilterE and (FilterE.TextColor3.r > 0.5 or FilterE.BorderColor3.r > 0.5)) or false
+filterFOn = (FilterF and (FilterF.TextColor3.r > 0.5 or FilterF.BorderColor3.r > 0.5)) or false
+-- === End Fix ===
