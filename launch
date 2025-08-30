@@ -1,9 +1,13 @@
-
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
 if game.CoreGui:FindFirstChild("RemoteSpy") then
     game.CoreGui["RemoteSpy"]:Destroy()
 end
 
+-- FrontEnd // UI
 
+-- Objects
 
 local RemoteSpy = Instance.new("ScreenGui")
 local BG = Instance.new("Frame")
@@ -54,6 +58,7 @@ local spy_enabled = true
 local lua_keywords = {"and", "break", "do", "else", "elseif", "end", "false", "for", "function", "goto", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while"}
 local global_env = {"game", "workspace", "script", "math", "string", "table", "print", "wait", "BrickColor", "Color3", "next", "pairs", "ipairs", "select", "unpack", "Instance", "Vector2", "Vector3", "CFrame", "Ray", "UDim2", "Enum", "assert", "error", "warn", "tick", "loadstring", "_G", "shared", "getfenv", "setfenv", "newproxy", "setmetatable", "getmetatable", "os", "debug", "pcall", "ypcall", "xpcall", "rawequal", "rawset", "rawget", "tonumber", "tostring", "type", "typeof", "_VERSION", "coroutine", "delay", "require", "spawn", "LoadLibrary", "settings", "stats", "time", "UserSettings", "version", "Axes", "ColorSequence", "Faces", "ColorSequenceKeypoint", "NumberRange", "NumberSequence", "NumberSequenceKeypoint", "gcinfo", "elapsedTime", "collectgarbage", "PhysicalProperties", "Rect", "Region3", "Region3int16", "UDim", "Vector2int16", "Vector3int16"}
 
+-- Properties
 
 RemoteSpy.Name = "RemoteSpy"
 RemoteSpy.Parent = game.CoreGui
@@ -619,6 +624,7 @@ Trigger.InputBegan:Connect(function(input)
  	end
 end)
 
+-- FrontEnd-Backend // UI Functions
 
 local HasSpecial = function(string)
 	return (string:match("%c") or string:match("%s") or string:match("%p")) ~= nil
@@ -961,6 +967,7 @@ local fix = function(string)
 	end
 end
 
+-- FrontEnd-Connections // UI Events
 
 Hide.MouseButton1Down:Connect(onclick_hide)
 Settings.MouseButton1Down:Connect(onclick_settings)
@@ -974,6 +981,7 @@ FilterF.MouseButton1Down:Connect(onclick_ffunctions)
 Search.Changed:Connect(filter_remotes)
 game:GetService("Players").LocalPlayer.Chatted:Connect(fix)
 
+-- Recursive Remotefill // UI-Backend
 
 Table_TS = function(T)
 	local M = {}
@@ -1013,6 +1021,7 @@ end
 
 fill(game)
 
+-- Backend // Remotespy Backend
 
 local game_meta = getrawmetatable(game)
 local game_namecall = game_meta.__namecall
@@ -1145,47 +1154,3 @@ local on_namecall = function(object, ...)
 end
 
 game_meta.__namecall = on_namecall
-local mainBlue = Color3.fromRGB(0, 120, 255)
-local darkBlue = Color3.fromRGB(0, 90, 200)
-local lightBlue = Color3.fromRGB(100, 170, 255)
-
-Ribbon.BackgroundColor3 = mainBlue
-Hide.BackgroundColor3 = darkBlue
-Title.BackgroundColor3 = darkBlue
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-FullScreen.BackgroundColor3 = darkBlue
-
-ToClipboard.BorderColor3 = mainBlue
-ToClipboard.TextColor3 = lightBlue
-Decompile.BorderColor3 = mainBlue
-Decompile.TextColor3 = lightBlue
-GetReturn.BorderColor3 = mainBlue
-GetReturn.TextColor3 = lightBlue
-ClearList.BorderColor3 = mainBlue
-ClearList.TextColor3 = lightBlue
-CryptStrings.BorderColor3 = mainBlue
-CryptStrings.TextColor3 = lightBlue
-EnableSpy.BorderColor3 = mainBlue
-EnableSpy.TextColor3 = lightBlue
-Settings.BorderColor3 = mainBlue
-Settings.TextColor3 = lightBlue
-
-RemoteName.BackgroundColor3 = mainBlue
-ID.BackgroundColor3 = darkBlue
-
-local ToggleSpy = Instance.new("TextButton")
-ToggleSpy.Name = "ToggleSpy"
-ToggleSpy.Parent = RemoteSpy
-ToggleSpy.Size = UDim2.new(0, 100, 0, 40)
-ToggleSpy.Position = UDim2.new(1, -110, 1, -50)
-ToggleSpy.BackgroundColor3 = mainBlue
-ToggleSpy.Text = "Spy ON/OFF"
-ToggleSpy.TextColor3 = Color3.fromRGB(255,255,255)
-ToggleSpy.Font = Enum.Font.SourceSansBold
-ToggleSpy.TextSize = 16
-ToggleSpy.Active = true
-ToggleSpy.Draggable = true
-
-ToggleSpy.MouseButton1Click:Connect(function()
-    BG.Visible = not BG.Visible
-end)
