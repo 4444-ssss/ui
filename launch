@@ -178,25 +178,29 @@ end
 
 
 local TweenService = game:GetService("TweenService")
-local Background = script.Parent:WaitForChild('Background')  -- Ensure we target the correct frame
+local Background = script.Parent:FindFirstChild('Background')
 
-local function blueGradientEffect()
-    local colors = {
-        Color3.fromRGB(0, 0, 255),    -- Blue (Start)
-        Color3.fromRGB(0, 0, 139),    -- Darker Blue (End)
-    }
-
-    while true do
-        local tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[1]})
-        tween:Play()
-        wait(5)
-        tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[2]})
-        tween:Play()
-        wait(5)
+if Background then
+    local function blackBlueEffect()
+        local colors = {
+            Color3.fromRGB(0, 0, 0),     -- Black (Start)
+            Color3.fromRGB(0, 0, 255),   -- Blue (End)
+        }
+        
+        while true do
+            local tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[1]})
+            tween:Play()
+            wait(5)
+            tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[2]})
+            tween:Play()
+            wait(5)
+        end
     end
-end
 
-blueGradientEffect()
+    blackBlueEffect()
+else
+    warn("Background object not found")
+end
 
 
 local CoreGui = SafeGetService('CoreGui')
