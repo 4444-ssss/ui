@@ -1,8 +1,8 @@
 -- https://v3rmillion.net/showthread.php?tid=1198556
--- https://github.com/78n/NoxSpy
+-- https://github.com/78n/NoxSpy V4
 
-if getgenv().NoxSpyExecuted and type(getgenv().NoxSpyShutdown) == "function" then
-    getgenv().NoxSpyShutdown()
+if getgenv().NoxSpy V4Executed and type(getgenv().NoxSpy V4Shutdown) == "function" then
+    getgenv().NoxSpy V4Shutdown()
 end
 
 local realconfigs = {
@@ -176,34 +176,7 @@ local function rawtostring(userdata)
 	return tostring(userdata)
 end
 
-
-local TweenService = game:GetService("TweenService")
-local Background = script.Parent:FindFirstChild('Background')
-
-if Background then
-    local function blackBlueEffect()
-        local colors = {
-            Color3.fromRGB(0, 0, 0),     -- Black (Start)
-            Color3.fromRGB(0, 0, 255),   -- Blue (End)
-        }
-        
-        while true do
-            local tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[1]})
-            tween:Play()
-            wait(5)
-            tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[2]})
-            tween:Play()
-            wait(5)
-        end
-    end
-
-    blackBlueEffect()
-else
-    warn("Background object not found")
-end
-
-
-local CoreGui = SafeGetService('CoreGui')
+local CoreGui = SafeGetService("CoreGui")
 local Players = SafeGetService("Players")
 local RunService = SafeGetService("RunService")
 local UserInputService = SafeGetService("UserInputService")
@@ -246,20 +219,20 @@ function ErrorPrompt(Message,state)
     end
 end
 
-local Highlight = (isfile and loadfile and isfile("Highlight.lua") and loadfile("Highlight.lua")()) or loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/NoxSpy/main/Highlight.lua"))()
+local Highlight = (isfile and loadfile and isfile("Highlight.lua") and loadfile("Highlight.lua")()) or loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/NoxSpy V4/main/Highlight.lua"))()
 
-local NoxSpy3 = Create("ScreenGui",{ResetOnSpawn = false})
+local NoxSpy V43 = Create("ScreenGui",{ResetOnSpawn = false})
 local Storage = Create("Folder",{})
-local Background = Create("Frame",{Parent = NoxSpy3,BackgroundColor3 = Color3.new(1, 1, 1),BackgroundTransparency = 1,Position = UDim2.new(0, 500, 0, 200),Size = UDim2.new(0, 450, 0, 268)})
-local LeftPanel = Create("Frame",{Parent = Background,BackgroundColor3 = Color3.fromRGB(53, 52, 55),BorderSizePixel = 0,Position = UDim2.new(0, 0, 0, 19),Size = UDim2.new(0, 131, 0, 249)})
+local Background = Create("Frame",{Parent = NoxSpy V43,BackgroundColor3 = Color3.new(1, 1, 1),BackgroundTransparency = 1,Position = UDim2.new(0, 500, 0, 200),Size = UDim2.new(0, 450, 0, 268)})
+local LeftPanel = Create("Frame",{Parent = Background,BackgroundColor3 = Color3.fromRGB(0, 0, 0),BorderSizePixel = 0,Position = UDim2.new(0, 0, 0, 19),Size = UDim2.new(0, 131, 0, 249)})
 local LogList = Create("ScrollingFrame",{Parent = LeftPanel,Active = true,BackgroundColor3 = Color3.new(1, 1, 1),BackgroundTransparency = 1,BorderSizePixel = 0,Position = UDim2.new(0, 0, 0, 9),Size = UDim2.new(0, 131, 0, 232),CanvasSize = UDim2.new(0, 0, 0, 0),ScrollBarThickness = 4})
 local UIListLayout = Create("UIListLayout",{Parent = LogList,HorizontalAlignment = Enum.HorizontalAlignment.Center,SortOrder = Enum.SortOrder.LayoutOrder})
-local RightPanel = Create("Frame",{Parent = Background,BackgroundColor3 = Color3.fromRGB(37, 36, 38),BorderSizePixel = 0,Position = UDim2.new(0, 131, 0, 19),Size = UDim2.new(0, 319, 0, 249)})
+local RightPanel = Create("Frame",{Parent = Background,BackgroundColor3 = Color3.fromRGB(0, 0, 0),BorderSizePixel = 0,Position = UDim2.new(0, 131, 0, 19),Size = UDim2.new(0, 319, 0, 249)})
 local CodeBox = Create("Frame",{Parent = RightPanel,BackgroundColor3 = Color3.new(0.0823529, 0.0745098, 0.0784314),BorderSizePixel = 0,Size = UDim2.new(0, 319, 0, 119)})
 local ScrollingFrame = Create("ScrollingFrame",{Parent = RightPanel,Active = true,BackgroundColor3 = Color3.new(1, 1, 1),BackgroundTransparency = 1,Position = UDim2.new(0, 0, 0.5, 0),Size = UDim2.new(1, 0, 0.5, -9),CanvasSize = UDim2.new(0, 0, 0, 0),ScrollBarThickness = 4})
 local UIGridLayout = Create("UIGridLayout",{Parent = ScrollingFrame,HorizontalAlignment = Enum.HorizontalAlignment.Center,SortOrder = Enum.SortOrder.LayoutOrder,CellPadding = UDim2.new(0, 0, 0, 0),CellSize = UDim2.new(0, 94, 0, 27)})
-local TopBar = Create("Frame",{Parent = Background,BackgroundColor3 = Color3.fromRGB(37, 35, 38),BorderSizePixel = 0,Size = UDim2.new(0, 450, 0, 19)})
-local Simple = Create("TextButton",{Parent = TopBar,BackgroundColor3 = Color3.new(1, 1, 1),AutoButtonColor = false,BackgroundTransparency = 1,Position = UDim2.new(0, 5, 0, 0),Size = UDim2.new(0, 57, 0, 18),Font = Enum.Font.SourceSansBold,Text =  "NoxSpy",TextColor3 = Color3.new(1, 1, 1),TextSize = 14,TextXAlignment = Enum.TextXAlignment.Left})
+local TopBar = Create("Frame",{Parent = Background,BackgroundColor3 = Color3.fromRGB(0, 0, 0),BorderSizePixel = 0,Size = UDim2.new(0, 450, 0, 19)})
+local Simple = Create("TextButton",{Parent = TopBar,BackgroundColor3 = Color3.new(1, 1, 1),AutoButtonColor = false,BackgroundTransparency = 1,Position = UDim2.new(0, 5, 0, 0),Size = UDim2.new(0, 57, 0, 18),Font = Enum.Font.SourceSansBold,Text =  "NoxSpy V4",TextColor3 = Color3.new(1, 1, 1),TextSize = 14,TextXAlignment = Enum.TextXAlignment.Left})
 local CloseButton = Create("TextButton",{Parent = TopBar,BackgroundColor3 = Color3.new(0.145098, 0.141176, 0.14902),BorderSizePixel = 0,Position = UDim2.new(1, -19, 0, 0),Size = UDim2.new(0, 19, 0, 19),Font = Enum.Font.SourceSans,Text = "",TextColor3 = Color3.new(0, 0, 0),TextSize = 14})
 local ImageLabel = Create("ImageLabel",{Parent = CloseButton,BackgroundColor3 = Color3.new(1, 1, 1),BackgroundTransparency = 1,Position = UDim2.new(0, 5, 0, 5),Size = UDim2.new(0, 9, 0, 9),Image = "http://www.roblox.com/asset/?id=5597086202"})
 local MaximizeButton = Create("TextButton",{Parent = TopBar,BackgroundColor3 = Color3.new(0.145098, 0.141176, 0.14902),BorderSizePixel = 0,Position = UDim2.new(1, -38, 0, 0),Size = UDim2.new(0, 19, 0, 19),Font = Enum.Font.SourceSans,Text = "",TextColor3 = Color3.new(0, 0, 0),TextSize = 14})
@@ -267,7 +240,7 @@ local ImageLabel_2 = Create("ImageLabel",{Parent = MaximizeButton,BackgroundColo
 local MinimizeButton = Create("TextButton",{Parent = TopBar,BackgroundColor3 = Color3.new(0.145098, 0.141176, 0.14902),BorderSizePixel = 0,Position = UDim2.new(1, -57, 0, 0),Size = UDim2.new(0, 19, 0, 19),Font = Enum.Font.SourceSans,Text = "",TextColor3 = Color3.new(0, 0, 0),TextSize = 14})
 local ImageLabel_3 = Create("ImageLabel",{Parent = MinimizeButton,BackgroundColor3 = Color3.new(1, 1, 1),BackgroundTransparency = 1,Position = UDim2.new(0, 5, 0, 5),Size = UDim2.new(0, 9, 0, 9),Image = "http://www.roblox.com/asset/?id=5597105827"})
 
-local ToolTip = Create("Frame",{Parent = NoxSpy3,BackgroundColor3 = Color3.fromRGB(26, 26, 26),BackgroundTransparency = 0.1,BorderColor3 = Color3.new(1, 1, 1),Size = UDim2.new(0, 200, 0, 50),ZIndex = 3,Visible = false})
+local ToolTip = Create("Frame",{Parent = NoxSpy V43,BackgroundColor3 = Color3.fromRGB(26, 26, 26),BackgroundTransparency = 0.1,BorderColor3 = Color3.new(1, 1, 1),Size = UDim2.new(0, 200, 0, 50),ZIndex = 3,Visible = false})
 local TextLabel = Create("TextLabel",{Parent = ToolTip,BackgroundColor3 = Color3.new(1, 1, 1),BackgroundTransparency = 1,Position = UDim2.new(0, 2, 0, 2),Size = UDim2.new(0, 196, 0, 46),ZIndex = 3,Font = Enum.Font.SourceSans,Text = "This is some slightly longer text.",TextColor3 = Color3.new(1, 1, 1),TextSize = 14,TextWrapped = true,TextXAlignment = Enum.TextXAlignment.Left,TextYAlignment = Enum.TextYAlignment.Top})
 
 -------------------------------------------------------------------------------
@@ -309,7 +282,7 @@ getgenv().SIMPLESPYCONFIG_MaxRemotes = 300
 local indent = 4
 local scheduled = {}
 local schedulerconnect
-local NoxSpy = {}
+local NoxSpy V4 = {}
 local topstr = ""
 local bottomstr = ""
 local remotesFadeIn
@@ -360,7 +333,7 @@ end
 
 xpcall(function()
     if isfile and readfile and isfolder and makefolder then
-        local cachedconfigs = isfile("NoxSpy//Settings.json") and jsond(readfile("NoxSpy//Settings.json"))
+        local cachedconfigs = isfile("NoxSpy V4//Settings.json") and jsond(readfile("NoxSpy V4//Settings.json"))
 
         if cachedconfigs then
             for i,v in next, realconfigs do
@@ -371,19 +344,19 @@ xpcall(function()
             realconfigs = cachedconfigs
         end
 
-        if not isfolder("NoxSpy") then
-            makefolder("NoxSpy")
+        if not isfolder("NoxSpy V4") then
+            makefolder("NoxSpy V4")
         end
-        if not isfolder("NoxSpy//Assets") then
-            makefolder("NoxSpy//Assets")
+        if not isfolder("NoxSpy V4//Assets") then
+            makefolder("NoxSpy V4//Assets")
         end
-        if not isfile("NoxSpy//Settings.json") then
-            writefile("NoxSpy//Settings.json",jsone(realconfigs))
+        if not isfile("NoxSpy V4//Settings.json") then
+            writefile("NoxSpy V4//Settings.json",jsone(realconfigs))
         end
 
         configsmetatable.__newindex = function(self,index,newindex)
             realconfigs[index] = newindex
-            writefile("NoxSpy//Settings.json",jsone(realconfigs))
+            writefile("NoxSpy V4//Settings.json",jsone(realconfigs))
         end
     else
         configsmetatable.__newindex = function(self,index,newindex)
@@ -433,7 +406,7 @@ function scaleToolTip()
     ToolTip.Size = UDim2.new(0, size.X + 4, 0, size.Y + 4)
 end
 
---- Executed when the toggle button (the NoxSpy logo) is hovered over
+--- Executed when the toggle button (the NoxSpy V4 logo) is hovered over
 function onToggleButtonHover()
     if not toggle then
         TweenService:Create(Simple, TweenInfo.new(0.5), {TextColor3 = Color3.fromRGB(252, 51, 51)}):Play()
@@ -454,7 +427,7 @@ end
 
 --- Executed when the X button is unhovered over
 function onXButtonUnhover()
-    TweenService:Create(CloseButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(37, 36, 38)}):Play()
+    TweenService:Create(CloseButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}):Play()
 end
 
 --- Toggles the remote spy method (when button clicked)
@@ -723,8 +696,8 @@ function isInDragRange(p)
     return relativeP.X <= topbarAS.X - CloseButton.AbsoluteSize.X * 3 and relativeP.X >= 0 and relativeP.Y <= topbarAS.Y and relativeP.Y >= 0 or false
 end
 
---- Called when mouse enters NoxSpy
-local customCursor = Create("ImageLabel",{Parent = NoxSpy3,Visible = false,Size = UDim2.fromOffset(200, 200),ZIndex = 1e9,BackgroundTransparency = 1,Image = "",Parent = NoxSpy3})
+--- Called when mouse enters NoxSpy V4
+local customCursor = Create("ImageLabel",{Parent = NoxSpy V43,Visible = false,Size = UDim2.fromOffset(200, 200),ZIndex = 1e9,BackgroundTransparency = 1,Image = "",Parent = NoxSpy V43})
 function mouseEntered()
     local con = connections["SIMPLESPY_CURSOR"]
     if con then
@@ -734,7 +707,7 @@ function mouseEntered()
     connections["SIMPLESPY_CURSOR"] = RunService.RenderStepped:Connect(function()
         UserInputService.MouseIconEnabled = not mouseInGui
         customCursor.Visible = mouseInGui
-        if mouseInGui and getgenv().NoxSpyExecuted then
+        if mouseInGui and getgenv().NoxSpy V4Executed then
             local mouseLocation = UserInputService:GetMouseLocation() - Vector2.new(0, 36)
             customCursor.Position = UDim2.fromOffset(mouseLocation.X - customCursor.AbsoluteSize.X / 2, mouseLocation.Y - customCursor.AbsoluteSize.Y / 2)
             local inRange, type = isInResizeRange(mouseLocation)
@@ -1346,8 +1319,8 @@ function t2s(t, l, p, n, vtv, i, pt, path, tables, tI)
     l += indent -- set indentation level
     for k, v in next, t do -- iterates over table
         size = size + 1 -- changes size for max limit
-        if size > (getgenv().NoxSpyMaxTableSize or 1000) then
-            s = s .. "\n" .. string.rep(" ", l) .. "-- MAXIMUM TABLE SIZE REACHED, CHANGE 'getgenv().NoxSpyMaxTableSize' TO ADJUST MAXIMUM SIZE "
+        if size > (getgenv().NoxSpy V4MaxTableSize or 1000) then
+            s = s .. "\n" .. string.rep(" ", l) .. "-- MAXIMUM TABLE SIZE REACHED, CHANGE 'getgenv().NoxSpy V4MaxTableSize' TO ADJUST MAXIMUM SIZE "
             break
         end
         if rawequal(k, t) then -- checks if the table being iterated over is being used as an index within itself (yay, lua)
@@ -1529,7 +1502,7 @@ function formatstr(s, indentation)
         indentation = 0
     end
     local handled, reachedMax = handlespecials(s, indentation)
-    return '"' .. handled .. '"' .. (reachedMax and " --[[ MAXIMUM STRING SIZE REACHED, CHANGE 'getgenv().NoxSpyMaxStringSize' TO ADJUST MAXIMUM SIZE ]]" or "")
+    return '"' .. handled .. '"' .. (reachedMax and " --[[ MAXIMUM STRING SIZE REACHED, CHANGE 'getgenv().NoxSpy V4MaxStringSize' TO ADJUST MAXIMUM SIZE ]]" or "")
 end
 
 --- Adds \'s to the text as a replacement to whitespace chars and other things because string.format can't yayeet
@@ -1595,13 +1568,13 @@ function handlespecials(s, indentation)
                 n += 1
             end
         end
-    until char == "" or i > (getgenv().NoxSpyMaxStringSize or 10000)
+    until char == "" or i > (getgenv().NoxSpy V4MaxStringSize or 10000)
     while not isFinished(coroutines) do
         RunService.Heartbeat:Wait()
     end
     clear(coroutines)
-    if i > (getgenv().NoxSpyMaxStringSize or 10000) then
-        s = string.sub(s, 0, getgenv().NoxSpyMaxStringSize or 10000)
+    if i > (getgenv().NoxSpy V4MaxStringSize or 10000) then
+        s = string.sub(s, 0, getgenv().NoxSpy V4MaxStringSize or 10000)
         return s, true
     end
     return s, false
@@ -1920,29 +1893,29 @@ local function shutdown()
     clear(logs)
     clear(remoteLogs)
     disablehooks()
-    NoxSpy3:Destroy()
+    NoxSpy V43:Destroy()
     Storage:Destroy()
     UserInputService.MouseIconEnabled = true
-    getgenv().NoxSpyExecuted = false
+    getgenv().NoxSpy V4Executed = false
 end
 
 -- main
-if not getgenv().NoxSpyExecuted then
+if not getgenv().NoxSpy V4Executed then
     local succeeded,err = pcall(function()
         if not RunService:IsClient() then
-            error("NoxSpy cannot run on the server!")
+            error("NoxSpy V4 cannot run on the server!")
         end
-        getgenv().NoxSpyShutdown = shutdown
+        getgenv().NoxSpy V4Shutdown = shutdown
         onToggleButtonClick()
         if not hookmetamethod then
             ErrorPrompt("Simple Spy V3 will not function to it's fullest capablity due to your executor not supporting hookmetamethod.",true)
         end
         codebox = Highlight.new(CodeBox)
         logthread(spawn(function()
-            local suc,err = pcall(game.HttpGet,game,"https://raw.githubusercontent.com/78n/NoxSpy/main/UpdateLog.lua")
+            local suc,err = pcall(game.HttpGet,game,"https://raw.githubusercontent.com/78n/NoxSpy V4/main/UpdateLog.lua")
             codebox:setRaw((suc and err) or "")
         end))
-        getgenv().NoxSpy = NoxSpy
+        getgenv().NoxSpy V4 = NoxSpy V4
         getgenv().getNil = function(name,class)
 			for _,v in next, getnilinstances() do
 				if v.ClassName == class and v.Name == name then
@@ -1970,13 +1943,13 @@ if not getgenv().NoxSpyExecuted then
         CloseButton.MouseButton1Click:Connect(shutdown)
         table.insert(connections, UserInputService.InputBegan:Connect(backgroundUserInput))
         connectResize()
-        NoxSpy3.Enabled = true
+        NoxSpy V43.Enabled = true
         logthread(spawn(function()
             delay(1,onToggleButtonUnhover)
         end))
         schedulerconnect = RunService.Heartbeat:Connect(taskscheduler)
         bringBackOnResize()
-        NoxSpy3.Parent = (gethui and gethui()) or (syn and syn.protect_gui and syn.protect_gui(NoxSpy3)) or CoreGui
+        NoxSpy V43.Parent = (gethui and gethui()) or (syn and syn.protect_gui and syn.protect_gui(NoxSpy V43)) or CoreGui
         logthread(spawn(function()
             local lp = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait() or Players.LocalPlayer
             generation = {
@@ -1988,18 +1961,18 @@ if not getgenv().NoxSpyExecuted then
         end))
     end)
     if succeeded then
-        getgenv().NoxSpyExecuted = true
+        getgenv().NoxSpy V4Executed = true
     else
         shutdown()
         ErrorPrompt("An error has occured:\n"..rawtostring(err))
         return
     end
 else
-    NoxSpy3:Destroy()
+    NoxSpy V43:Destroy()
     return
 end
 
-function NoxSpy:newButton(name, description, onClick)
+function NoxSpy V4:newButton(name, description, onClick)
     return newButton(name, description, onClick)
 end
 
@@ -2141,8 +2114,8 @@ function()
             codebox:setRaw("--[[Converting table to string please wait]]")
             selected.Function = v2v({functionInfo = info})
         end
-        codebox:setRaw("-- Calling function info\n-- Generated by the NoxSpy V3 serializer\n\n"..selected.Function)
-        TextLabel.Text = "Done! Function info generated by the NoxSpy V3 Serializer."
+        codebox:setRaw("-- Calling function info\n-- Generated by the NoxSpy V4 V3 serializer\n\n"..selected.Function)
+        TextLabel.Text = "Done! Function info generated by the NoxSpy V4 V3 Serializer."
     else
         TextLabel.Text = "Error! Selected function was not found."
     end
@@ -2169,7 +2142,7 @@ newButton(
 --- Excludes the selected.Log Remote from the RemoteSpy
 newButton(
     "Exclude (i)",
-    function() return "Click to exclude this Remote.\nExcluding a remote makes NoxSpy ignore it, but it will continue to be usable." end,
+    function() return "Click to exclude this Remote.\nExcluding a remote makes NoxSpy V4 ignore it, but it will continue to be usable." end,
     function()
         if selected then
             blacklist[OldDebugId(selected.Remote)] = true
@@ -2181,7 +2154,7 @@ newButton(
 --- Excludes all Remotes that share the same name as the selected.Log remote from the RemoteSpy
 newButton(
     "Exclude (n)",
-    function() return "Click to exclude all remotes with this name.\nExcluding a remote makes NoxSpy ignore it, but it will continue to be usable." end,
+    function() return "Click to exclude all remotes with this name.\nExcluding a remote makes NoxSpy V4 ignore it, but it will continue to be usable." end,
     function()
         if selected then
             blacklist[selected.Name] = true
@@ -2192,7 +2165,7 @@ newButton(
 
 --- clears blacklist
 newButton("Clr Blacklist",
-function() return "Click to clear the blacklist.\nExcluding a remote makes NoxSpy ignore it, but it will continue to be usable." end,
+function() return "Click to clear the blacklist.\nExcluding a remote makes NoxSpy V4 ignore it, but it will continue to be usable." end,
 function()
     blacklist = {}
     TextLabel.Text = "Blacklist cleared!"
@@ -2201,7 +2174,7 @@ end)
 --- Prevents the selected.Log Remote from firing the server (still logged)
 newButton(
     "Block (i)",
-    function() return "Click to stop this remote from firing.\nBlocking a remote won't remove it from NoxSpy logs, but it will not continue to fire the server." end,
+    function() return "Click to stop this remote from firing.\nBlocking a remote won't remove it from NoxSpy V4 logs, but it will not continue to fire the server." end,
     function()
         if selected then
             blocklist[OldDebugId(selected.Remote)] = true
@@ -2212,7 +2185,7 @@ newButton(
 
 --- Prevents all remotes from firing that share the same name as the selected.Log remote from the RemoteSpy (still logged)
 newButton("Block (n)",function()
-    return "Click to stop remotes with this name from firing.\nBlocking a remote won't remove it from NoxSpy logs, but it will not continue to fire the server." end,
+    return "Click to stop remotes with this name from firing.\nBlocking a remote won't remove it from NoxSpy V4 logs, but it will not continue to fire the server." end,
     function()
         if selected then
             blocklist[selected.Name] = true
@@ -2224,7 +2197,7 @@ newButton("Block (n)",function()
 --- clears blacklist
 newButton(
     "Clr Blocklist",
-    function() return "Click to stop blocking remotes.\nBlocking a remote won't remove it from NoxSpy logs, but it will not continue to fire the server." end,
+    function() return "Click to stop blocking remotes.\nBlocking a remote won't remove it from NoxSpy V4 logs, but it will not continue to fire the server." end,
     function()
         blocklist = {}
         TextLabel.Text = "Blocklist cleared!"
@@ -2341,15 +2314,15 @@ if configs.supersecretdevtoggle then
         return "Load's Simple Spy V2.2"
     end,
     function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/exxtremestuffs/NoxSpySource/master/NoxSpy.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/exxtremestuffs/NoxSpy V4Source/master/NoxSpy V4.lua"))()
     end)
     newButton("Load SSV3",function()
         return "Load's Simple Spy V3"
     end,
     function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/NoxSpy/main/NoxSpySource.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/NoxSpy V4/main/NoxSpy V4Source.lua"))()
     end)
-    local SuperSecretFolder = Create("Folder",{Parent = NoxSpy3})
+    local SuperSecretFolder = Create("Folder",{Parent = NoxSpy V43})
     newButton("SUPER SECRET BUTTON",function()
         return "You dont need a discription you already know what it does"
     end,
