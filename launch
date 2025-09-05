@@ -180,27 +180,23 @@ end
 local TweenService = game:GetService("TweenService")
 local Background = script.Parent:WaitForChild('Background')  -- Ensure we target the correct frame
 
-local function rainbowEffect()
+local function blueGradientEffect()
     local colors = {
-        Color3.fromRGB(255, 0, 0),     -- Red
-        Color3.fromRGB(255, 127, 0),   -- Orange
-        Color3.fromRGB(255, 255, 0),   -- Yellow
-        Color3.fromRGB(0, 255, 0),     -- Green
-        Color3.fromRGB(0, 0, 255),     -- Blue
-        Color3.fromRGB(75, 0, 130),    -- Indigo
-        Color3.fromRGB(238, 130, 238)  -- Violet
+        Color3.fromRGB(0, 0, 255),    -- Blue (Start)
+        Color3.fromRGB(0, 0, 139),    -- Darker Blue (End)
     }
 
-    local index = 1
     while true do
-        local tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[index]})
+        local tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[1]})
         tween:Play()
-        index = (index % #colors) + 1
+        wait(5)
+        tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[2]})
+        tween:Play()
         wait(5)
     end
 end
 
-rainbowEffect()
+blueGradientEffect()
 
 
 local CoreGui = SafeGetService('CoreGui')
