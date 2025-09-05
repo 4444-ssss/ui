@@ -666,7 +666,7 @@ local function comments_mask(s)
  local ret=""
  s:gsub("[^\r\n]+",function(c)
   local comm=false local i=0
-  c:gsub(".",function(n) i=i+1 if c:sub(i,i+1)=="--" then comm=true end if comm then ret=ret..n else ret=ret.."\32" end end)
+  c:gsub(".",function(n) i=i+1 if c:sub(i,i+1)=="
   ret=ret
  end)
  return ret
@@ -803,7 +803,7 @@ Decompile.MouseButton1Down:Connect(function()
  local ok,source=pcall(function() return decompile(g_caller) end)
  if not ok then dump_script("Failed to decompile...") return end
  if type(source)=="boolean" then dump_script("Failed to decompile...") return end
- dump_script("-- ".."game."..g_caller:GetFullName().."\n"..tostring(source))
+ dump_script("
 end)
 Step:Connect(function() while #namecall_dump>0 do log_remote(table.remove(namecall_dump,1)) end end)
 local function on_namecall(object,...) local method=tostring(getnamecallmethod()) local args={...} if object.Name~="CharacterSoundEvent" and method:match("Server") and spy_enabled==true then get_namecall_dump(getfenv(2).script,object,unpack(args)) end return game_namecall(object,...) end
@@ -899,26 +899,46 @@ local function _recolorAll(theme)
 end
 local currentThemeIndex=1
 local rainbowConn=nil
-local function _stopRainbow() if rainbowConn then rainbowConn:Disconnect() rainbowConn=nil end end
-local function applyThemeByName(name)
- local theme=THEMES[name] if not theme then return end
- if name~="Rainbow" then _stopRainbow() end
- _recolorAll(theme)
- if name=="Rainbow" then
-  local t0=tick()
-  _stopRainbow()
-  rainbowConn=game:GetService("RunService").Heartbeat:Connect(function()
-   local t=tick()-t0
-   local h=(t*0.15)%1
-   local accent=Color3.fromHSV(h,0.85,1)
-   local ribbon=accent
-   local rt={bg=theme.bg,bg2=theme.bg2,ribbon=ribbon,border=theme.border,text=theme.text,muted=theme.muted,accent=accent}
-   _recolorAll(rt)
-  end)
- end
- if _safe(ThemeBtn) then ThemeBtn.Text="THEME: "..name end
+
+local function _stopRainbow()
+    if rainbowConn then
+        rainbowConn:Disconnect()
+        rainbowConn=nil
+    end
 end
-local function nextTheme() currentThemeIndex=currentThemeIndex%#THEME_ORDER+1 applyThemeByName(THEME_ORDER[currentThemeIndex]) end
+
+local function applyThemeByName(name)
+    local theme=THEMES[name]
+    if not theme then return end
+    if name~="Rainbow" then
+        _stopRainbow()
+        _recolorAll(theme)
+    else
+        _stopRainbow()
+        local t0=tick()
+        rainbowConn=game:GetService("RunService").Heartbeat:Connect(function()
+            local t=tick()-t0
+            local h=(t*0.15)%1
+            local accent=Color3.fromHSV(h,0.85,1)
+            local ribbon=accent
+            local rt={bg=theme.bg,bg2=theme.bg2,ribbon=ribbon,border=theme.border,text=theme.text,muted=theme.muted,accent=accent}
+            _recolorAll(rt)
+        end)
+    end
+    if ThemeBtn then ThemeBtn.Text="THEME: "..name end
+end
+
+local function nextTheme()
+    currentThemeIndex=currentThemeIndex%#THEME_ORDER+1
+    applyThemeByName(THEME_ORDER[currentThemeIndex])
+end
+
+if ThemeBtn then
+    ThemeBtn.Text="THEME: "..THEME_ORDER[currentThemeIndex]
+    ThemeBtn.MouseButton1Down:Connect(nextTheme)
+end
+
+applyThemeByName(THEME_ORDER[currentThemeIndex]) end
 if _safe(ThemeBtn) then ThemeBtn.Text="THEME: "..THEME_ORDER[currentThemeIndex] ThemeBtn.MouseButton1Down:Connect(nextTheme) end
 applyThemeByName(THEME_ORDER[currentThemeIndex])
--- test
+
