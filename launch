@@ -178,22 +178,21 @@ end
 
 
 local TweenService = game:GetService("TweenService")
+local Background = script.Parent:WaitForChild('Background')  -- Ensure we target the correct frame
 
--- Function to create a subtle rainbow effect
 local function rainbowEffect()
     local colors = {
-        Color3.fromHSV(0, 1, 1),  -- Red
-        Color3.fromHSV(0.2, 1, 1), -- Orange
-        Color3.fromHSV(0.33, 1, 1), -- Yellow
-        Color3.fromHSV(0.5, 1, 1),  -- Green
-        Color3.fromHSV(0.67, 1, 1), -- Blue
-        Color3.fromHSV(0.83, 1, 1), -- Indigo
-        Color3.fromHSV(1, 1, 1) -- Violet
+        Color3.fromRGB(255, 0, 0),     -- Red
+        Color3.fromRGB(255, 127, 0),   -- Orange
+        Color3.fromRGB(255, 255, 0),   -- Yellow
+        Color3.fromRGB(0, 255, 0),     -- Green
+        Color3.fromRGB(0, 0, 255),     -- Blue
+        Color3.fromRGB(75, 0, 130),    -- Indigo
+        Color3.fromRGB(238, 130, 238)  -- Violet
     }
 
     local index = 1
     while true do
-        -- Smooth transition to the next color
         local tween = TweenService:Create(Background, TweenInfo.new(5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {BackgroundColor3 = colors[index]})
         tween:Play()
         index = (index % #colors) + 1
@@ -201,7 +200,6 @@ local function rainbowEffect()
     end
 end
 
--- Start the rainbow effect
 rainbowEffect()
 
 
